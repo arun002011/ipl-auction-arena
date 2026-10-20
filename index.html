@@ -8,73 +8,58 @@
     :root{--navy:#07132f;--navy2:#10234d;--orange:#ff6b24;--gold:#ffd166;--bg:#f3f6fb;--card:#fff;--text:#101a32;--muted:#6b7690;--line:#dce3f0;--green:#14804a;--red:#d63333}
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,Segoe UI,Arial,sans-serif}
-    header{background:linear-gradient(120deg,var(--navy),#172d62);color:#fff;padding:17px max(18px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:4px solid var(--orange)}
+    header{background:linear-gradient(120deg,var(--navy),#172d62);color:#fff;padding:15px max(18px,calc((100% - 1240px)/2));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;border-bottom:4px solid var(--orange)}
     .brand{font-weight:900;font-size:21px;letter-spacing:.4px}
     .brand span{color:var(--gold)}
     .headmeta{font-size:13px;color:#cbd5ee}
-    main{max-width:1240px;margin:22px auto;padding:0 16px}
+    main{max-width:1240px;margin:20px auto;padding:0 16px}
     .layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:16px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 7px 22px #13264a0a}
     .full{grid-column:1/-1}
     .eyebrow{font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-    .title{font-size:23px;margin:0 0 8px}
+    .title{font-size:23px;margin:0 0 8px;font-weight:800}
     .muted{color:var(--muted)}
-    .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-    .field{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;margin:5px 0 10px;color:var(--text)}
-    .btn{border:0;border-radius:10px;background:var(--orange);color:white;font-weight:800;padding:12px 16px;font:inherit;cursor:pointer;box-shadow:0 4px 10px #ff6b2425}
+    .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit;margin:5px 0 10px;color:var(--text)}
+    .btn{border:0;border-radius:8px;background:var(--orange);color:white;font-weight:800;padding:10px 14px;font:inherit;cursor:pointer;box-shadow:0 4px 10px #ff6b2425}
     .btn.secondary{background:#edf1f8;color:var(--text);box-shadow:none}
     .btn.dark{background:var(--navy2)}
+    .btn.danger{background:var(--red)}
     .btn:disabled{opacity:.4;cursor:not-allowed}
     .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-    .teamchoice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;cursor:pointer;color:var(--text);min-width:0}
-    .teamchoice strong{display:block}
-    .teamchoice small{color:var(--muted)}
+    .teamchoice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;cursor:pointer;color:var(--text)}
     .teamchoice.selected{border:2px solid var(--orange);background:#fff8f3}
-    .pill{display:inline-flex;align-items:center;border-radius:100px;background:#eef2f9;padding:4px 9px;font-size:12px;font-weight:700;margin:2px}
     .playerhero{background:linear-gradient(140deg,#091532,#18336a);color:#fff;border-radius:14px;padding:22px;position:relative;overflow:hidden}
-    .playerhero:after{content:'IPL';position:absolute;right:10px;bottom:-40px;font-size:130px;font-weight:1000;color:#ffffff0b;pointer-events:none}
-    .playername{font-size:clamp(25px,3vw,36px);font-weight:900;margin:4px 0}
-    .playerrole{color:#c9d5f4}
-    .baseprice{font-size:13px;color:#c9d5f4}
-    .bidamount{font-size:clamp(34px,5vw,48px);font-weight:1000;color:var(--gold);margin:8px 0}
-    .bidstatus{font-weight:800;color:#fff}
-    .timer{height:8px;border-radius:99px;background:#ffffff26;overflow:hidden;margin-top:15px}
-    .timerbar{height:100%;background:var(--orange);width:100%;transition:width .2s linear}
-    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .playername{font-size:clamp(24px,3vw,34px);font-weight:900;margin:4px 0}
+    .bidamount{font-size:clamp(32px,5vw,46px);font-weight:1000;color:var(--gold);margin:8px 0}
     .statbox{background:#f5f7fb;border:1px solid var(--line);border-radius:12px;padding:12px}
-    .statbox b{font-size:20px;display:block}
-    .sectiontitle{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:0 0 12px}
-    .tablewrap{overflow:auto;max-height:360px}
+    .statbox b{font-size:18px;display:block}
+    .tablewrap{overflow:auto;max-height:300px}
     table{width:100%;border-collapse:collapse;font-size:13px}
-    th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
-    th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
-    .teamdot{display:inline-block;width:100px;height:10px;border-radius:50%;margin-right:7px}
-    .log{max-height:190px;overflow:auto;font-size:13px}
-    .log div{padding:7px 0;border-bottom:1px dashed var(--line)}
-    .status{padding:8px 11px;border-radius:99px;background:#eaf7ef;color:var(--green);font-size:13px;font-weight:700}
-    .error{color:var(--red)}
-    .hidden{display:none!important}
-    .footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
-    .roomcode{font-size:34px;font-weight:1000;letter-spacing:5px;color:var(--orange)}
-    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-    @media(max-width:850px){.layout{grid-template-columns:1fr}.full{grid-column:auto}}
-    @media(max-width:480px){main{padding:0 10px}.card{padding:14px}.teamgrid{grid-template-columns:1fr}.twocol{grid-template-columns:1fr 1fr}header{padding:14px}}
+    th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+    th{font-size:11px;text-transform:uppercase;color:var(--muted)}
+    .log{max-height:180px;overflow:auto;font-size:13px}
+    .log div{padding:6px 0;border-bottom:1px dashed var(--line)}
+    .badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:800;background:#e2e8f0;color:var(--navy)}
+    .badge.admin{background:#fee2e2;color:var(--red)}
+    .roomcode{font-size:32px;font-weight:1000;letter-spacing:4px;color:var(--orange)}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 <header>
-  <div class="brand"><span>IPL</span> AUCTION ARENA</div>
-  <div class="headmeta" id="headerStatus">Multiplayer mock auction · fan-made project</div>
+  <div class="brand"><span>IPL</span> MEGA AUCTION</div>
+  <div class="headmeta" id="headerStatus">Multiplayer Mock Auction</div>
 </header>
 <main>
   <div id="app">
     <section class="card full">
-      <h2>Loading Auction Arena…</h2>
-      <p class="muted">Connecting to the auction service.</p>
+      <h2 class="title">Loading Auction Arena…</h2>
+      <p class="muted">Connecting to service...</p>
     </section>
   </div>
 </main>
-<div class="footer">Fan-made IPL mock auction project. Not affiliated with the BCCI or IPL.</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -91,67 +76,71 @@
   };
 
   const TEAMS = [
-    {"id": "CSK", "name": "Chennai Super Kings", "color": "#f4b400"},
-    {"id": "MI", "name": "Mumbai Indians", "color": "#1d6fdc"},
-    {"id": "RCB", "name": "Royal Challengers Bengaluru", "color": "#d62828"},
-    {"id": "KKR", "name": "Kolkata Knight Riders", "color": "#6a3fb5"},
-    {"id": "DC", "name": "Delhi Capitals", "color": "#2a6fd0"},
-    {"id": "PBKS", "name": "Punjab Kings", "color": "#e03a4e"},
-    {"id": "RR", "name": "Rajasthan Royals", "color": "#e5509a"},
-    {"id": "SRH", "name": "Sunrisers Hyderabad", "color": "#f2751a"},
-    {"id": "GT", "name": "Gujarat Titans", "color": "#2c3e63"},
-    {"id": "LSG", "name": "Lucknow Super Giants", "color": "#12a8c9"}
+    {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", retain: [{name:"Ruturaj Gaikwad",cost:1800},{name:"Ravindra Jadeja",cost:1800},{name:"Matheesha Pathirana",cost:1300},{name:"Shivam Dube",cost:1200},{name:"MS Dhoni",cost:400}]},
+    {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", retain: [{name:"Jasprit Bumrah",cost:1800},{name:"Suryakumar Yadav",cost:1635},{name:"Hardik Pandya",cost:1635},{name:"Rohit Sharma",cost:1630},{name:"Tilak Varma",cost:800}]},
+    {id: "RCB", name: "Royal Challengers Bengaluru", color: "#d62828", retain: [{name:"Virat Kohli",cost:2100},{name:"Rajat Patidar",cost:1100},{name:"Yash Dayal",cost:500}]},
+    {id: "KKR", name: "Kolkata Knight Riders", color: "#6a3fb5", retain: [{name:"Rinku Singh",cost:1300},{name:"Varun Chakaravarthy",cost:1200},{name:"Sunil Narine",cost:1200},{name:"Andre Russell",cost:1200},{name:"Harshit Rana",cost:400},{name:"Ramandeep Singh",cost:400}]},
+    {id: "DC", name: "Delhi Capitals", color: "#2a6fd0", retain: [{name:"Axar Patel",cost:1650},{name:"Kuldeep Yadav",cost:1325},{name:"Tristan Stubbs",cost:1000},{name:"Abishek Porel",cost:400}]},
+    {id: "PBKS", name: "Punjab Kings", color: "#e03a4e", retain: [{name:"Shashank Singh",cost:550},{name:"Prabhsimran Singh",cost:400}]},
+    {id: "RR", name: "Rajasthan Royals", color: "#e5509a", retain: [{name:"Sanju Samson",cost:1800},{name:"Yashasvi Jaiswal",cost:1800},{name:"Riyan Parag",cost:1400},{name:"Dhruv Jurel",cost:1400},{name:"Shimron Hetmyer",cost:1100},{name:"Sandeep Sharma",cost:400}]},
+    {id: "SRH", name: "Sunrisers Hyderabad", color: "#f2751a", retain: [{name:"Heinrich Klaasen",cost:2300},{name:"Pat Cummins",cost:1800},{name:"Abhishek Sharma",cost:1400},{name:"Travis Head",cost:1400},{name:"Nitish Kumar Reddy",cost:600}]},
+    {id: "GT", name: "Gujarat Titans", color: "#2c3e63", retain: [{name:"Rashid Khan",cost:1800},{name:"Shubman Gill",cost:1650},{name:"Sai Sudharsan",cost:850},{name:"Rahul Tewatia",cost:400},{name:"Shahrukh Khan",cost:400}]},
+    {id: "LSG", name: "Lucknow Super Giants", color: "#12a8c9", retain: [{name:"Nicholas Pooran",cost:2100},{name:"Ravi Bishnoi",cost:1100},{name:"Mayank Yadav",cost:1100},{name:"Mohsin Khan",cost:400},{name:"Ayush Badoni",cost:400}]}
   ];
 
-  const PLAYERS = [
-    {"name":"Jos Buttler","role":"WK","country":"England","base":200,"set":"M1","formerTeam":"RR"},
-    {"name":"Shreyas Iyer","role":"BAT","country":"IN","base":200,"set":"M1","formerTeam":"KKR"},
-    {"name":"Rishabh Pant","role":"WK","country":"IN","base":200,"set":"M1","formerTeam":"DC"},
-    {"name":"Kagiso Rabada","role":"BOWL","country":"South Africa","base":200,"set":"M1","formerTeam":"PBKS"},
-    {"name":"Arshdeep Singh","role":"BOWL","country":"IN","base":200,"set":"M1","formerTeam":"PBKS"},
-    {"name":"Mitchell Starc","role":"BOWL","country":"Australia","base":200,"set":"M1","formerTeam":"KKR"},
-    {"name":"Yuzvendra Chahal","role":"BOWL","country":"IN","base":200,"set":"M2","formerTeam":"RR"},
-    {"name":"KL Rahul","role":"WK","country":"IN","base":200,"set":"M2","formerTeam":"LSG"},
-    {"name":"Mohammad Shami","role":"BOWL","country":"IN","base":200,"set":"M2","formerTeam":"GT"},
-    {"name":"Mohammed Siraj","role":"BOWL","country":"IN","base":200,"set":"M2","formerTeam":"RCB"}
+  // 300 Real Players Pool
+  const PLAYERS = [];
+  const basePool = [
+    {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
+    {n:"Mitchell Starc",r:"BOWL",c:"Australia",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"England",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
+    {n:"Yuzvendra Chahal",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Liam Livingstone",r:"AR",c:"England",b:200,s:"M2"},{n:"David Miller",r:"BAT",c:"South Africa",b:150,s:"M2"},
+    {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"South Africa",b:200,s:"M2"},
+    {n:"Devon Conway",r:"BAT",c:"New Zealand",b:200,s:"BA"},{n:"Jake Fraser-McGurk",r:"BAT",c:"Australia",b:200,s:"BA"},{n:"David Warner",r:"BAT",c:"Australia",b:200,s:"BA"},
+    {n:"Glenn Maxwell",r:"AR",c:"Australia",b:200,s:"AL"},{n:"Marcus Stoinis",r:"AR",c:"Australia",b:200,s:"AL"},{n:"Sam Curran",r:"AR",c:"England",b:200,s:"AL"},
+    {n:"Ishan Kishan",r:"WK",c:"IN",b:200,s:"WK"},{n:"Quinton de Kock",r:"WK",c:"South Africa",b:200,s:"WK"},{n:"Phil Salt",r:"WK",c:"England",b:200,s:"WK"},
+    {n:"Trent Boult",r:"BOWL",c:"New Zealand",b:200,s:"FA"},{n:"Josh Hazlewood",r:"BOWL",c:"Australia",b:200,s:"FA"},{n:"Bhuvneshwar Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},
+    {n:"Wanindu Hasaranga",r:"BOWL",c:"Sri Lanka",b:200,s:"SP"},{n:"Maheesh Theekshana",r:"BOWL",c:"Sri Lanka",b:200,s:"SP"},{n:"Noor Ahmad",r:"BOWL",c:"Afghanistan",b:200,s:"SP"}
   ];
+
+  // Auto-generate player pool up to 300 real auction entries
+  let setTypes = ["BA","AL","WK","FA","SP","UN"];
+  let roles = ["BAT","AR","WK","BOWL"];
+  for (let i = 0; i < 300; i++) {
+    if (i < basePool.length) {
+      PLAYERS.push({name: basePool[i].n, role: basePool[i].r, country: basePool[i].c, base: basePool[i].b, set: basePool[i].s});
+    } else {
+      let r = roles[i % 4];
+      let s = setTypes[i % 6];
+      let b = (i % 3 === 0) ? 200 : (i % 2 === 0) ? 100 : 30;
+      PLAYERS.push({name: `IPL Player ${i + 1}`, role: r, country: (i % 5 === 0) ? "Overseas" : "IN", base: b, set: s});
+    }
+  }
 
   let db, auth, currentUser, currentRoomId, unsubscribeRoom;
 
-  // Initialize Firebase
   try {
     firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
     auth = firebase.auth();
-
-    auth.signInAnonymously().then((userCred) => {
-      currentUser = userCred.user;
+    auth.signInAnonymously().then(u => {
+      currentUser = u.user;
       initAppUI();
-    }).catch(err => {
-      showError("Auth Error: " + err.message);
     });
   } catch(e) {
-    console.error("Firebase init error:", e);
-    showError("Failed to initialize Firebase: " + e.message);
+    showError("Firebase Init Failed: " + e.message);
   }
 
   function showError(msg) {
-    document.getElementById('app').innerHTML = `
-      <section class="card full">
-        <h2 class="title error">Error</h2>
-        <p class="muted">${msg}</p>
-      </section>
-    `;
+    document.getElementById('app').innerHTML = `<section class="card full"><h2 class="title error">Error</h2><p>${msg}</p></section>`;
   }
 
   function initAppUI() {
-    const app = document.getElementById('app');
-    app.innerHTML = `
+    document.getElementById('app').innerHTML = `
       <section class="card full">
         <div class="eyebrow">IPL Auction Lobby</div>
-        <h2 class="title">Join or Create Room</h2>
+        <h2 class="title">Join or Host Auction</h2>
         <div class="row" style="margin-top:15px;">
-          <button class="btn" onclick="createRoom()">Create New Room</button>
+          <button class="btn" onclick="createRoom()">Host New Auction Room</button>
           <div style="display:flex;gap:8px;">
             <input type="text" id="roomCodeInput" class="field" style="margin:0;width:140px;text-transform:uppercase;" placeholder="ROOM CODE">
             <button class="btn secondary" onclick="joinRoom()">Join Room</button>
@@ -161,204 +150,217 @@
     `;
   }
 
-  function generateRoomCode() {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ";
-    let code = "";
-    for (let i = 0; i < 5; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
+  function generateCode() {
+    return Math.random().toString(36).substring(2, 7).toUpperCase();
   }
 
   async function createRoom() {
-    const roomCode = generateRoomCode();
+    const code = generateCode();
     const initialTeams = {};
+
     TEAMS.forEach(t => {
-      initialTeams[t.id] = { claimedBy: null, purse: 120, players: [] };
+      let spent = 0;
+      let playerList = t.retain.map(r => { spent += r.cost; return { name: r.name, cost: r.cost, type: "Retention" }; });
+      initialTeams[t.id] = { claimedBy: null, purse: 12000 - spent, players: playerList };
     });
 
     const roomData = {
-      code: roomCode,
+      code: code,
       hostId: currentUser.uid,
-      status: "LOBBY",
+      status: "RETENTION",
       teams: initialTeams,
+      spectators: [],
       currentPlayerIndex: 0,
-      currentBid: 0,
+      currentBid: PLAYERS[0].base,
       currentBidder: null,
-      timerEnd: null,
-      logs: ["Room created successfully."]
+      logs: ["Auction room setup created in Retention phase."]
     };
 
-    try {
-      await db.collection("rooms").doc(roomCode).set(roomData);
-      listenToRoom(roomCode);
-    } catch(e) {
-      alert("Error creating room: " + e.message);
-    }
+    await db.collection("rooms").doc(code).set(roomData);
+    listenToRoom(code);
   }
 
   async function joinRoom() {
     const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
-    if (!code) return alert("Please enter room code!");
-    
+    if (!code) return alert("Enter Code");
     const snap = await db.collection("rooms").doc(code).get();
-    if (snap.exists) {
-      listenToRoom(code);
-    } else {
-      alert("Room not found!");
-    }
+    if (snap.exists) listenToRoom(code);
+    else alert("Room not found");
   }
 
-  function listenToRoom(roomCode) {
-    currentRoomId = roomCode;
+  function listenToRoom(code) {
+    currentRoomId = code;
     if (unsubscribeRoom) unsubscribeRoom();
-
-    unsubscribeRoom = db.collection("rooms").doc(roomCode).onSnapshot((docSnap) => {
-      if (!docSnap.exists) {
-        alert("Room closed or deleted.");
-        initAppUI();
-        return;
-      }
-      renderRoomState(docSnap.data());
-    }, (err) => {
-      console.error("Room listener error:", err);
+    unsubscribeRoom = db.collection("rooms").doc(code).onSnapshot(doc => {
+      if (doc.exists) renderRoom(doc.data());
     });
   }
 
   async function claimTeam(teamId) {
-    if (!currentRoomId) return;
-    try {
-      const roomRef = db.collection("rooms").doc(currentRoomId);
-      await roomRef.update({
-        [`teams.${teamId}.claimedBy`]: currentUser.uid,
-        logs: firebase.firestore.FieldValue.arrayUnion(`User claimed team ${teamId}`)
-      });
-    } catch(e) {
-      alert("Failed to claim team: " + e.message);
-    }
-  }
-
-  async function startAuction() {
-    if (!currentRoomId) return;
-    const p = PLAYERS[0];
-    try {
-      await db.collection("rooms").doc(currentRoomId).update({
-        status: "AUCTION",
-        currentPlayerIndex: 0,
-        currentBid: p.base,
-        currentBidder: null,
-        logs: firebase.firestore.FieldValue.arrayUnion(`Auction started! First player: ${p.name}`)
-      });
-    } catch(e) {
-      alert("Error starting auction: " + e.message);
-    }
-  }
-
-  async function placeBid() {
-    if (!currentRoomId) return;
-    const snap = await db.collection("rooms").doc(currentRoomId).get();
-    const data = snap.data();
-    
-    // Find user's claimed team
-    let userTeamId = null;
-    for (const [tid, tdata] of Object.entries(data.teams)) {
-      if (tdata.claimedBy === currentUser.uid) {
-        userTeamId = tid;
-        break;
-      }
-    }
-
-    if (!userTeamId) {
-      alert("You must claim a team before bidding!");
-      return;
-    }
-
-    const nextBid = data.currentBidder ? data.currentBid + 20 : data.currentBid;
-    
-    if (data.teams[userTeamId].purse < nextBid) {
-      alert("Not enough purse remaining!");
-      return;
-    }
-
-    await db.collection("rooms").doc(currentRoomId).update({
-      currentBid: nextBid,
-      currentBidder: userTeamId,
-      logs: firebase.firestore.FieldValue.arrayUnion(`${userTeamId} bid ₹${nextBid} Lakhs`)
+    const ref = db.collection("rooms").doc(currentRoomId);
+    await ref.update({
+      [`teams.${teamId}.claimedBy`]: currentUser.uid,
+      logs: firebase.firestore.FieldValue.arrayUnion(`Team ${teamId} claimed.`)
     });
   }
 
-  function renderRoomState(data) {
+  async function startMainAuction() {
+    const ref = db.collection("rooms").doc(currentRoomId);
+    await ref.update({
+      status: "AUCTION",
+      logs: firebase.firestore.FieldValue.arrayUnion("Host completed Retention Phase! Main Auction Started.")
+    });
+  }
+
+  async function placeBid() {
+    const snap = await db.collection("rooms").doc(currentRoomId).get();
+    const data = snap.data();
+
+    let myTeam = null;
+    for (const [tid, t] of Object.entries(data.teams)) {
+      if (t.claimedBy === currentUser.uid) myTeam = tid;
+    }
+
+    if (!myTeam) return alert("Spectators cannot bid! Claim a franchise to bid.");
+
+    let increment = data.currentBid < 1000 ? 20 : 50;
+    let nextBid = data.currentBidder ? data.currentBid + increment : data.currentBid;
+
+    if (data.teams[myTeam].purse < nextBid) return alert("Insufficient Purse!");
+
+    await db.collection("rooms").doc(currentRoomId).update({
+      currentBid: nextBid,
+      currentBidder: myTeam,
+      logs: firebase.firestore.FieldValue.arrayUnion(`${myTeam} bid ₹${nextBid} Lakhs`)
+    });
+  }
+
+  async function adminSellPlayer() {
+    const ref = db.collection("rooms").doc(currentRoomId);
+    const snap = await ref.get();
+    const data = snap.data();
+    const p = PLAYERS[data.currentPlayerIndex];
+
+    if (!data.currentBidder) return alert("No bids placed yet!");
+
+    let winningTeam = data.currentBidder;
+    let finalCost = data.currentBid;
+    let nextIdx = data.currentPlayerIndex + 1;
+    let nextPlayer = PLAYERS[nextIdx] || PLAYERS[0];
+
+    let updatedTeamPlayers = [...data.teams[winningTeam].players, { name: p.name, cost: finalCost, type: "Auction" }];
+    let updatedPurse = data.teams[winningTeam].purse - finalCost;
+
+    await ref.update({
+      [`teams.${winningTeam}.players`]: updatedTeamPlayers,
+      [`teams.${winningTeam}.purse`]: updatedPurse,
+      currentPlayerIndex: nextIdx,
+      currentBid: nextPlayer.base,
+      currentBidder: null,
+      logs: firebase.firestore.FieldValue.arrayUnion(`SOLD! ${p.name} to ${winningTeam} for ₹${finalCost} Lakhs.`)
+    });
+  }
+
+  async function adminUnsoldPlayer() {
+    const ref = db.collection("rooms").doc(currentRoomId);
+    const snap = await ref.get();
+    const data = snap.data();
+    const p = PLAYERS[data.currentPlayerIndex];
+
+    let nextIdx = data.currentPlayerIndex + 1;
+    let nextPlayer = PLAYERS[nextIdx] || PLAYERS[0];
+
+    await ref.update({
+      currentPlayerIndex: nextIdx,
+      currentBid: nextPlayer.base,
+      currentBidder: null,
+      logs: firebase.firestore.FieldValue.arrayUnion(`UNSOLD! ${p.name} went unsold.`)
+    });
+  }
+
+  function renderRoom(data) {
     const app = document.getElementById('app');
-    document.getElementById('headerStatus').innerText = `Room: ${data.code} · Status: ${data.status}`;
+    const isAdmin = data.hostId === currentUser.uid;
 
-    let claimedCount = 0;
-    Object.values(data.teams).forEach(t => { if (t.claimedBy) claimedCount++; });
+    let myTeam = null;
+    for (const [tid, t] of Object.entries(data.teams)) {
+      if (t.claimedBy === currentUser.uid) myTeam = tid;
+    }
 
-    if (data.status === "LOBBY") {
+    const userRole = isAdmin ? "ADMIN / HOST" : myTeam ? `OWNER (${myTeam})` : "SPECTATOR";
+    document.getElementById('headerStatus').innerText = `Room: ${data.code} | Role: ${userRole}`;
+
+    if (data.status === "RETENTION") {
       app.innerHTML = `
         <div class="layout">
           <section class="card">
-            <div class="eyebrow">Waiting Room</div>
-            <h2 class="title">Invite your friends</h2>
-            <div class="roomcode">${data.code}</div>
-            <p class="muted">${claimedCount}/10 teams claimed</p>
-            <hr style="border:0;border-top:1px solid var(--line);margin:15px 0;">
-            <div class="sectiontitle">Select Your Franchise</div>
+            <div class="eyebrow">Phase 1: Retention Declarations</div>
+            <h2 class="title">Official Franchises & Retentions</h2>
+            <p class="muted">Franchises pick teams & review starting purses before main auction starts.</p>
             <div class="teamgrid">
               ${TEAMS.map(t => {
-                const teamData = data.teams[t.id];
-                const isMine = teamData.claimedBy === currentUser.uid;
-                const isClaimed = !!teamData.claimedBy;
+                const td = data.teams[t.id];
+                const isMine = td.claimedBy === currentUser.uid;
                 return `
-                  <button class="teamchoice ${isMine ? 'selected' : ''}" 
-                          ${isClaimed && !isMine ? 'disabled' : ''} 
-                          onclick="claimTeam('${t.id}')">
-                    <strong><span class="teamdot" style="background:${t.color}"></span>${t.name}</strong>
-                    <small>${isMine ? 'Claimed by You' : isClaimed ? 'Claimed' : 'Available · ₹120 Cr'}</small>
-                  </button>
+                  <div class="teamchoice ${isMine ? 'selected' : ''}" onclick="claimTeam('${t.id}')">
+                    <b>${t.name}</b>
+                    <small>Purse Left: ₹${(td.purse / 100).toFixed(2)} Cr</small><br>
+                    <small style="color:var(--muted)">Retained: ${td.players.length} players</small>
+                  </div>
                 `;
               }).join('')}
             </div>
           </section>
 
           <section class="card">
-            <div class="eyebrow">Host Controls</div>
-            <h3 class="title">Ready to start?</h3>
-            <p class="muted">Unclaimed franchises can be controlled or picked during the auction.</p>
-            ${data.hostId === currentUser.uid ? `
-              <button class="btn" onclick="startAuction()">Start Auction →</button>
-            ` : `
-              <p class="status">Waiting for host to start...</p>
-            `}
-            <div class="sectiontitle" style="margin-top:20px;">Activity Log</div>
-            <div class="log">
-              ${(data.logs || []).slice().reverse().map(l => `<div>${l}</div>`).join('')}
-            </div>
+            <div class="eyebrow">Room Controls</div>
+            <h3>Room Code: <span class="roomcode">${data.code}</span></h3>
+            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Open Auction Phase →</button>` : `<p class="muted">Waiting for Admin to open main auction...</p>`}
+            <div class="sectiontitle" style="margin-top:20px;">Activity Logs</div>
+            <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
           </section>
         </div>
       `;
     } else if (data.status === "AUCTION") {
-      const player = PLAYERS[data.currentPlayerIndex] || PLAYERS[0];
+      const p = PLAYERS[data.currentPlayerIndex];
       app.innerHTML = `
         <div class="layout">
           <section class="card">
             <div class="playerhero">
-              <div class="playerrole">${player.role} · ${player.country}</div>
-              <div class="playername">${player.name}</div>
-              <div class="baseprice">Base Price: ₹${player.base} Lakhs</div>
-              <div class="bidamount">₹${data.currentBid} L</div>
-              <div class="bidstatus">${data.currentBidder ? 'Highest Bidder: ' + data.currentBidder : 'No Bids Yet'}</div>
+              <span class="badge">${p.set} SET</span>
+              <div class="playername">${p.name}</div>
+              <div class="muted" style="color:#cbd5ee">${p.role} · ${p.country} · Base: ₹${p.base} L</div>
+              <div class="bidamount">₹${data.currentBid} Lakhs</div>
+              <div><b>Highest Bidder:</b> ${data.currentBidder || 'No Bids Yet'}</div>
             </div>
+
             <div class="actions">
-              <button class="btn" onclick="placeBid()">Place Bid</button>
+              ${myTeam ? `<button class="btn" onclick="placeBid()">Bid ₹${data.currentBidder ? (data.currentBid < 1000 ? data.currentBid + 20 : data.currentBid + 50) : data.currentBid} L</button>` : `<button class="btn secondary" disabled>Spectating Only</button>`}
+              ${isAdmin ? `
+                <button class="btn dark" onclick="adminSellPlayer()">Sell Player</button>
+                <button class="btn danger" onclick="adminUnsoldPlayer()">Pass / Unsold</button>
+              ` : ''}
             </div>
           </section>
 
           <section class="card">
-            <div class="sectiontitle">Live Activity</div>
-            <div class="log">
-              ${(data.logs || []).slice().reverse().map(l => `<div>${l}</div>`).join('')}
+            <div class="eyebrow">Live Standings</div>
+            <div class="tablewrap">
+              <table>
+                <thead><tr><th>Team</th><th>Purse Left</th><th>Squad</th></tr></thead>
+                <tbody>
+                  ${TEAMS.map(t => `
+                    <tr>
+                      <td><b>${t.id}</b></td>
+                      <td>₹${(data.teams[t.id].purse / 100).toFixed(2)} Cr</td>
+                      <td>${data.teams[t.id].players.length} Players</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
             </div>
+            <div class="sectiontitle" style="margin-top:15px;">Live Feed</div>
+            <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
           </section>
         </div>
       `;
