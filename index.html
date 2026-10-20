@@ -12,7 +12,7 @@
     .brand{font-weight:900;font-size:21px;letter-spacing:.4px}
     .brand span{color:var(--gold)}
     .headmeta{font-size:13px;color:#cbd5ee}
-    main{max-width:1240px;margin:20px auto;padding:0 16px}
+    main{max-width:1240px;margin:22px auto;padding:0 16px}
     .layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:16px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 7px 22px #13264a0a}
     .full{grid-column:1/-1}
@@ -20,36 +20,40 @@
     .title{font-size:23px;margin:0 0 8px;font-weight:800}
     .muted{color:var(--muted)}
     .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .field{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit;margin:5px 0 10px;color:var(--text)}
-    .btn{border:0;border-radius:8px;background:var(--orange);color:white;font-weight:800;padding:10px 14px;font:inherit;cursor:pointer;box-shadow:0 4px 10px #ff6b2425}
+    .field{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;margin:5px 0 12px;color:var(--text)}
+    .btn{border:0;border-radius:10px;background:var(--orange);color:white;font-weight:800;padding:11px 16px;font:inherit;cursor:pointer;box-shadow:0 4px 10px #ff6b2425}
     .btn.secondary{background:#edf1f8;color:var(--text);box-shadow:none}
     .btn.dark{background:var(--navy2)}
     .btn.danger{background:var(--red)}
     .btn:disabled{opacity:.4;cursor:not-allowed}
+    .featuregrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px 0}
+    .featurebox{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px}
+    .featurebox b{font-size:24px;display:block;color:var(--navy)}
+    .featurebox span{font-size:12px;color:var(--muted)}
     .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
     .teamchoice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;cursor:pointer;color:var(--text)}
     .teamchoice.selected{border:2px solid var(--orange);background:#fff8f3}
+    .retainitem{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
     .playerhero{background:linear-gradient(140deg,#091532,#18336a);color:#fff;border-radius:14px;padding:22px;position:relative;overflow:hidden}
     .playername{font-size:clamp(24px,3vw,34px);font-weight:900;margin:4px 0}
     .bidamount{font-size:clamp(32px,5vw,46px);font-weight:1000;color:var(--gold);margin:8px 0}
-    .statbox{background:#f5f7fb;border:1px solid var(--line);border-radius:12px;padding:12px}
-    .statbox b{font-size:18px;display:block}
-    .tablewrap{overflow:auto;max-height:300px}
+    .tablewrap{overflow:auto;max-height:360px}
     table{width:100%;border-collapse:collapse;font-size:13px}
-    th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+    th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
     th{font-size:11px;text-transform:uppercase;color:var(--muted)}
     .log{max-height:180px;overflow:auto;font-size:13px}
     .log div{padding:6px 0;border-bottom:1px dashed var(--line)}
+    .notice{font-size:13px;padding:12px;border-radius:10px;background:#fff7df;color:#6d4b00;margin-top:12px}
     .badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:800;background:#e2e8f0;color:var(--navy)}
-    .badge.admin{background:#fee2e2;color:var(--red)}
-    .roomcode{font-size:32px;font-weight:1000;letter-spacing:4px;color:var(--orange)}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .strength-bar{height:6px;background:#e2e8f0;border-radius:4px;overflow:hidden;margin-top:4px}
+    .strength-fill{height:100%;background:var(--green);width:0%}
     @media(max-width:850px){.layout{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 <header>
-  <div class="brand"><span>IPL</span> MEGA AUCTION</div>
+  <div class="brand"><span>IPL</span> AUCTION ARENA</div>
   <div class="headmeta" id="headerStatus">Multiplayer Mock Auction</div>
 </header>
 <main>
@@ -76,43 +80,34 @@
   };
 
   const TEAMS = [
-    {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", retain: [{name:"Ruturaj Gaikwad",cost:1800},{name:"Ravindra Jadeja",cost:1800},{name:"Matheesha Pathirana",cost:1300},{name:"Shivam Dube",cost:1200},{name:"MS Dhoni",cost:400}]},
-    {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", retain: [{name:"Jasprit Bumrah",cost:1800},{name:"Suryakumar Yadav",cost:1635},{name:"Hardik Pandya",cost:1635},{name:"Rohit Sharma",cost:1630},{name:"Tilak Varma",cost:800}]},
-    {id: "RCB", name: "Royal Challengers Bengaluru", color: "#d62828", retain: [{name:"Virat Kohli",cost:2100},{name:"Rajat Patidar",cost:1100},{name:"Yash Dayal",cost:500}]},
-    {id: "KKR", name: "Kolkata Knight Riders", color: "#6a3fb5", retain: [{name:"Rinku Singh",cost:1300},{name:"Varun Chakaravarthy",cost:1200},{name:"Sunil Narine",cost:1200},{name:"Andre Russell",cost:1200},{name:"Harshit Rana",cost:400},{name:"Ramandeep Singh",cost:400}]},
-    {id: "DC", name: "Delhi Capitals", color: "#2a6fd0", retain: [{name:"Axar Patel",cost:1650},{name:"Kuldeep Yadav",cost:1325},{name:"Tristan Stubbs",cost:1000},{name:"Abishek Porel",cost:400}]},
-    {id: "PBKS", name: "Punjab Kings", color: "#e03a4e", retain: [{name:"Shashank Singh",cost:550},{name:"Prabhsimran Singh",cost:400}]},
-    {id: "RR", name: "Rajasthan Royals", color: "#e5509a", retain: [{name:"Sanju Samson",cost:1800},{name:"Yashasvi Jaiswal",cost:1800},{name:"Riyan Parag",cost:1400},{name:"Dhruv Jurel",cost:1400},{name:"Shimron Hetmyer",cost:1100},{name:"Sandeep Sharma",cost:400}]},
-    {id: "SRH", name: "Sunrisers Hyderabad", color: "#f2751a", retain: [{name:"Heinrich Klaasen",cost:2300},{name:"Pat Cummins",cost:1800},{name:"Abhishek Sharma",cost:1400},{name:"Travis Head",cost:1400},{name:"Nitish Kumar Reddy",cost:600}]},
-    {id: "GT", name: "Gujarat Titans", color: "#2c3e63", retain: [{name:"Rashid Khan",cost:1800},{name:"Shubman Gill",cost:1650},{name:"Sai Sudharsan",cost:850},{name:"Rahul Tewatia",cost:400},{name:"Shahrukh Khan",cost:400}]},
-    {id: "LSG", name: "Lucknow Super Giants", color: "#12a8c9", retain: [{name:"Nicholas Pooran",cost:2100},{name:"Ravi Bishnoi",cost:1100},{name:"Mayank Yadav",cost:1100},{name:"Mohsin Khan",cost:400},{name:"Ayush Badoni",cost:400}]}
+    {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", pool: [{name:"Ruturaj Gaikwad",role:"BAT",country:"IN",cost:1800},{name:"Ravindra Jadeja",role:"AR",country:"IN",cost:1800},{name:"Matheesha Pathirana",role:"BOWL",country:"Overseas",cost:1300},{name:"Shivam Dube",role:"AR",country:"IN",cost:1200},{name:"MS Dhoni",role:"WK",country:"IN",cost:400}]},
+    {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", pool: [{name:"Jasprit Bumrah",role:"BOWL",country:"IN",cost:1800},{name:"Suryakumar Yadav",role:"BAT",country:"IN",cost:1635},{name:"Hardik Pandya",role:"AR",country:"IN",cost:1635},{name:"Rohit Sharma",role:"BAT",country:"IN",cost:1630},{name:"Tilak Varma",role:"BAT",country:"IN",cost:800}]},
+    {id: "RCB", name: "Royal Challengers Bengaluru", color: "#d62828", pool: [{name:"Virat Kohli",role:"BAT",country:"IN",cost:2100},{name:"Rajat Patidar",role:"BAT",country:"IN",cost:1100},{name:"Yash Dayal",role:"BOWL",country:"IN",cost:500}]},
+    {id: "KKR", name: "Kolkata Knight Riders", color: "#6a3fb5", pool: [{name:"Rinku Singh",role:"BAT",country:"IN",cost:1300},{name:"Varun Chakaravarthy",role:"BOWL",country:"IN",cost:1200},{name:"Sunil Narine",role:"AR",country:"Overseas",cost:1200},{name:"Andre Russell",role:"AR",country:"Overseas",cost:1200},{name:"Harshit Rana",role:"BOWL",country:"IN",cost:400},{name:"Ramandeep Singh",role:"AR",country:"IN",cost:400}]},
+    {id: "DC", name: "Delhi Capitals", color: "#2a6fd0", pool: [{name:"Axar Patel",role:"AR",country:"IN",cost:1650},{name:"Kuldeep Yadav",role:"BOWL",country:"IN",cost:1325},{name:"Tristan Stubbs",role:"WK",country:"Overseas",cost:1000},{name:"Abishek Porel",role:"WK",country:"IN",cost:400}]},
+    {id: "PBKS", name: "Punjab Kings", color: "#e03a4e", pool: [{name:"Shashank Singh",role:"BAT",country:"IN",cost:550},{name:"Prabhsimran Singh",role:"WK",country:"IN",cost:400}]},
+    {id: "RR", name: "Rajasthan Royals", color: "#e5509a", pool: [{name:"Sanju Samson",role:"WK",country:"IN",cost:1800},{name:"Yashasvi Jaiswal",role:"BAT",country:"IN",cost:1800},{name:"Riyan Parag",role:"AR",country:"IN",cost:1400},{name:"Dhruv Jurel",role:"WK",country:"IN",cost:1400},{name:"Shimron Hetmyer",role:"BAT",country:"Overseas",cost:1100},{name:"Sandeep Sharma",role:"BOWL",country:"IN",cost:400}]},
+    {id: "SRH", name: "Sunrisers Hyderabad", color: "#f2751a", pool: [{name:"Heinrich Klaasen",role:"WK",country:"Overseas",cost:2300},{name:"Pat Cummins",role:"AR",country:"Overseas",cost:1800},{name:"Abhishek Sharma",role:"BAT",country:"IN",cost:1400},{name:"Travis Head",role:"BAT",country:"Overseas",cost:1400},{name:"Nitish Kumar Reddy",role:"AR",country:"IN",cost:600}]},
+    {id: "GT", name: "Gujarat Titans", color: "#2c3e63", pool: [{name:"Rashid Khan",role:"BOWL",country:"Overseas",cost:1800},{name:"Shubman Gill",role:"BAT",country:"IN",cost:1650},{name:"Sai Sudharsan",role:"BAT",country:"IN",cost:850},{name:"Rahul Tewatia",role:"AR",country:"IN",cost:400},{name:"Shahrukh Khan",role:"BAT",country:"IN",cost:400}]},
+    {id: "LSG", name: "Lucknow Super Giants", color: "#12a8c9", pool: [{name:"Nicholas Pooran",role:"WK",country:"Overseas",cost:2100},{name:"Ravi Bishnoi",role:"BOWL",country:"IN",cost:1100},{name:"Mayank Yadav",role:"BOWL",country:"IN",cost:1100},{name:"Mohsin Khan",role:"BOWL",country:"IN",cost:400},{name:"Ayush Badoni",role:"BAT",country:"IN",cost:400}]}
   ];
 
-  // 300 Real Players Pool
   const PLAYERS = [];
   const basePool = [
     {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
-    {n:"Mitchell Starc",r:"BOWL",c:"Australia",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"England",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
-    {n:"Yuzvendra Chahal",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Liam Livingstone",r:"AR",c:"England",b:200,s:"M2"},{n:"David Miller",r:"BAT",c:"South Africa",b:150,s:"M2"},
-    {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"South Africa",b:200,s:"M2"},
-    {n:"Devon Conway",r:"BAT",c:"New Zealand",b:200,s:"BA"},{n:"Jake Fraser-McGurk",r:"BAT",c:"Australia",b:200,s:"BA"},{n:"David Warner",r:"BAT",c:"Australia",b:200,s:"BA"},
-    {n:"Glenn Maxwell",r:"AR",c:"Australia",b:200,s:"AL"},{n:"Marcus Stoinis",r:"AR",c:"Australia",b:200,s:"AL"},{n:"Sam Curran",r:"AR",c:"England",b:200,s:"AL"},
-    {n:"Ishan Kishan",r:"WK",c:"IN",b:200,s:"WK"},{n:"Quinton de Kock",r:"WK",c:"South Africa",b:200,s:"WK"},{n:"Phil Salt",r:"WK",c:"England",b:200,s:"WK"},
-    {n:"Trent Boult",r:"BOWL",c:"New Zealand",b:200,s:"FA"},{n:"Josh Hazlewood",r:"BOWL",c:"Australia",b:200,s:"FA"},{n:"Bhuvneshwar Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},
-    {n:"Wanindu Hasaranga",r:"BOWL",c:"Sri Lanka",b:200,s:"SP"},{n:"Maheesh Theekshana",r:"BOWL",c:"Sri Lanka",b:200,s:"SP"},{n:"Noor Ahmad",r:"BOWL",c:"Afghanistan",b:200,s:"SP"}
+    {n:"Mitchell Starc",r:"BOWL",c:"Overseas",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"Overseas",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
+    {n:"Yuzvendra Chahal",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Liam Livingstone",r:"AR",c:"Overseas",b:200,s:"M2"},{n:"David Miller",r:"BAT",c:"Overseas",b:150,s:"M2"},
+    {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"Overseas",b:200,s:"M2"}
   ];
 
-  // Auto-generate player pool up to 300 real auction entries
-  let setTypes = ["BA","AL","WK","FA","SP","UN"];
-  let roles = ["BAT","AR","WK","BOWL"];
   for (let i = 0; i < 300; i++) {
     if (i < basePool.length) {
       PLAYERS.push({name: basePool[i].n, role: basePool[i].r, country: basePool[i].c, base: basePool[i].b, set: basePool[i].s});
     } else {
-      let r = roles[i % 4];
-      let s = setTypes[i % 6];
+      let r = ["BAT","AR","WK","BOWL"][i % 4];
+      let s = ["BA","AL","WK","FA","SP","UN"][i % 6];
       let b = (i % 3 === 0) ? 200 : (i % 2 === 0) ? 100 : 30;
-      PLAYERS.push({name: `IPL Player ${i + 1}`, role: r, country: (i % 5 === 0) ? "Overseas" : "IN", base: b, set: s});
+      PLAYERS.push({name: `IPL Player ${i + 1}`, role: r, country: (i % 4 === 0) ? "Overseas" : "IN", base: b, set: s});
     }
   }
 
@@ -124,7 +119,7 @@
     auth = firebase.auth();
     auth.signInAnonymously().then(u => {
       currentUser = u.user;
-      initAppUI();
+      renderLobbyUI();
     });
   } catch(e) {
     showError("Firebase Init Failed: " + e.message);
@@ -134,46 +129,71 @@
     document.getElementById('app').innerHTML = `<section class="card full"><h2 class="title error">Error</h2><p>${msg}</p></section>`;
   }
 
-  function initAppUI() {
+  function renderLobbyUI() {
+    document.getElementById('headerStatus').innerText = "Connected · Guest player";
     document.getElementById('app').innerHTML = `
-      <section class="card full">
-        <div class="eyebrow">IPL Auction Lobby</div>
-        <h2 class="title">Join or Host Auction</h2>
-        <div class="row" style="margin-top:15px;">
-          <button class="btn" onclick="createRoom()">Host New Auction Room</button>
-          <div style="display:flex;gap:8px;">
-            <input type="text" id="roomCodeInput" class="field" style="margin:0;width:140px;text-transform:uppercase;" placeholder="ROOM CODE">
-            <button class="btn secondary" onclick="joinRoom()">Join Room</button>
+      <div class="layout">
+        <section class="card">
+          <div class="eyebrow">START PLAYING</div>
+          <h2 class="title">Create an auction room</h2>
+          <p class="muted">Host a private IPL-style auction and invite friends using a short room code.</p>
+          
+          <label style="font-weight:700;font-size:13px;">Your display name</label>
+          <input type="text" id="displayNameInput" class="field" value="User" placeholder="Enter your name">
+
+          <button class="btn" style="margin-top:5px;" onclick="createRoom()">+ Create Room</button>
+
+          <hr style="border:0;border-top:1px solid var(--line);margin:20px 0;">
+
+          <div class="eyebrow">HAVE A ROOM CODE?</div>
+          <label style="font-weight:700;font-size:13px;">Room code</label>
+          <input type="text" id="roomCodeInput" class="field" style="text-transform:uppercase;" placeholder="E.G. A7K2P">
+          <button class="btn dark" onclick="joinRoom()">Join Room</button>
+        </section>
+
+        <section class="card">
+          <div class="eyebrow">AUCTION FEATURES</div>
+          <h2 class="title">Build your winning squad</h2>
+
+          <div class="featuregrid">
+            <div class="featurebox"><b>10</b><span>IPL teams</span></div>
+            <div class="featurebox"><b>300</b><span>Seeded players</span></div>
+            <div class="featurebox"><b>₹120 Cr</b><span>Starting purse before retentions</span></div>
+            <div class="featurebox"><b>25</b><span>Squad maximum</span></div>
           </div>
-        </div>
-      </section>
+
+          <p class="muted" style="font-size:13px;">Choose a franchise or spectate. Teams have separate purses, squads, overseas limitations (Max 8), dynamic team strength ratings, and live bid updates.</p>
+
+          <div class="notice">
+            This is a fan-made mock auction. Player prices and the supplied player pool are for simulation, not official live auction data.
+          </div>
+        </section>
+      </div>
     `;
   }
 
-  function generateCode() {
-    return Math.random().toString(36).substring(2, 7).toUpperCase();
-  }
+  function generateCode() { return Math.random().toString(36).substring(2, 7).toUpperCase(); }
 
   async function createRoom() {
+    const userName = document.getElementById('displayNameInput').value.trim() || "Host";
     const code = generateCode();
     const initialTeams = {};
 
     TEAMS.forEach(t => {
-      let spent = 0;
-      let playerList = t.retain.map(r => { spent += r.cost; return { name: r.name, cost: r.cost, type: "Retention" }; });
-      initialTeams[t.id] = { claimedBy: null, purse: 12000 - spent, players: playerList };
+      // Retentions start as user configurable in Phase 1
+      initialTeams[t.id] = { claimedBy: null, userName: "", purse: 12000, players: [], retainedList: [] };
     });
 
     const roomData = {
       code: code,
       hostId: currentUser.uid,
+      hostName: userName,
       status: "RETENTION",
       teams: initialTeams,
-      spectators: [],
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: ["Auction room setup created in Retention phase."]
+      logs: ["Auction room created. Phase 1: Retention selection."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -182,7 +202,7 @@
 
   async function joinRoom() {
     const code = document.getElementById('roomCodeInput').value.trim().toUpperCase();
-    if (!code) return alert("Enter Code");
+    if (!code) return alert("Enter Room Code");
     const snap = await db.collection("rooms").doc(code).get();
     if (snap.exists) listenToRoom(code);
     else alert("Room not found");
@@ -197,10 +217,32 @@
   }
 
   async function claimTeam(teamId) {
+    const name = document.getElementById('displayNameInput')?.value || "User";
     const ref = db.collection("rooms").doc(currentRoomId);
     await ref.update({
       [`teams.${teamId}.claimedBy`]: currentUser.uid,
-      logs: firebase.firestore.FieldValue.arrayUnion(`Team ${teamId} claimed.`)
+      [`teams.${teamId}.userName`]: name,
+      logs: firebase.firestore.FieldValue.arrayUnion(`${name} claimed ${teamId}`)
+    });
+  }
+
+  async function toggleRetention(teamId, playerObj) {
+    const snap = await db.collection("rooms").doc(currentRoomId).get();
+    const team = snap.data().teams[teamId];
+    
+    let currentRetain = team.retainedList || [];
+    let exists = currentRetain.some(p => p.name === playerObj.name);
+
+    let updatedRetain = exists ? currentRetain.filter(p => p.name !== playerObj.name) : [...currentRetain, playerObj];
+    
+    // Recalculate Purse based on retentions
+    let spent = updatedRetain.reduce((acc, p) => acc + p.cost, 0);
+    let newPurse = 12000 - spent;
+
+    await db.collection("rooms").doc(currentRoomId).update({
+      [`teams.${teamId}.retainedList`]: updatedRetain,
+      [`teams.${teamId}.players`]: updatedRetain.map(r => ({ name: r.name, cost: r.cost, country: r.country, role: r.role, type: "Retention" })),
+      [`teams.${teamId}.purse`]: newPurse
     });
   }
 
@@ -208,7 +250,7 @@
     const ref = db.collection("rooms").doc(currentRoomId);
     await ref.update({
       status: "AUCTION",
-      logs: firebase.firestore.FieldValue.arrayUnion("Host completed Retention Phase! Main Auction Started.")
+      logs: firebase.firestore.FieldValue.arrayUnion("Retention Phase confirmed! Main Auction Started.")
     });
   }
 
@@ -221,12 +263,15 @@
       if (t.claimedBy === currentUser.uid) myTeam = tid;
     }
 
-    if (!myTeam) return alert("Spectators cannot bid! Claim a franchise to bid.");
+    if (!myTeam) return alert("Spectators cannot bid! Claim a team.");
+
+    let teamData = data.teams[myTeam];
+    if (teamData.players.length >= 25) return alert("Squad Limit Reached (Max 25)!");
 
     let increment = data.currentBid < 1000 ? 20 : 50;
     let nextBid = data.currentBidder ? data.currentBid + increment : data.currentBid;
 
-    if (data.teams[myTeam].purse < nextBid) return alert("Insufficient Purse!");
+    if (teamData.purse < nextBid) return alert("Insufficient Purse Remaining!");
 
     await db.collection("rooms").doc(currentRoomId).update({
       currentBid: nextBid,
@@ -241,18 +286,18 @@
     const data = snap.data();
     const p = PLAYERS[data.currentPlayerIndex];
 
-    if (!data.currentBidder) return alert("No bids placed yet!");
+    if (!data.currentBidder) return alert("No bids placed!");
 
     let winningTeam = data.currentBidder;
     let finalCost = data.currentBid;
     let nextIdx = data.currentPlayerIndex + 1;
     let nextPlayer = PLAYERS[nextIdx] || PLAYERS[0];
 
-    let updatedTeamPlayers = [...data.teams[winningTeam].players, { name: p.name, cost: finalCost, type: "Auction" }];
+    let updatedPlayers = [...data.teams[winningTeam].players, { name: p.name, cost: finalCost, country: p.country, role: p.role, type: "Auction" }];
     let updatedPurse = data.teams[winningTeam].purse - finalCost;
 
     await ref.update({
-      [`teams.${winningTeam}.players`]: updatedTeamPlayers,
+      [`teams.${winningTeam}.players`]: updatedPlayers,
       [`teams.${winningTeam}.purse`]: updatedPurse,
       currentPlayerIndex: nextIdx,
       currentBid: nextPlayer.base,
@@ -265,7 +310,6 @@
     const ref = db.collection("rooms").doc(currentRoomId);
     const snap = await ref.get();
     const data = snap.data();
-    const p = PLAYERS[data.currentPlayerIndex];
 
     let nextIdx = data.currentPlayerIndex + 1;
     let nextPlayer = PLAYERS[nextIdx] || PLAYERS[0];
@@ -274,8 +318,21 @@
       currentPlayerIndex: nextIdx,
       currentBid: nextPlayer.base,
       currentBidder: null,
-      logs: firebase.firestore.FieldValue.arrayUnion(`UNSOLD! ${p.name} went unsold.`)
+      logs: firebase.firestore.FieldValue.arrayUnion(`UNSOLD! ${PLAYERS[data.currentPlayerIndex].name} went unsold.`)
     });
+  }
+
+  // Calculate Team Strength Score (0 to 100)
+  function calculateTeamStrength(players) {
+    if (!players || players.length === 0) return 10;
+    let count = players.length;
+    let roles = { BAT: 0, BOWL: 0, AR: 0, WK: 0 };
+    players.forEach(p => { if (roles[p.role] !== undefined) roles[p.role]++; });
+
+    let balanceScore = Math.min(roles.BAT, 4) * 10 + Math.min(roles.BOWL, 4) * 10 + Math.min(roles.AR, 2) * 15 + Math.min(roles.WK, 1) * 20;
+    let sizeScore = Math.min(count / 18, 1) * 30;
+
+    return Math.min(Math.round(balanceScore * 0.7 + sizeScore), 100);
   }
 
   function renderRoom(data) {
@@ -294,18 +351,32 @@
       app.innerHTML = `
         <div class="layout">
           <section class="card">
-            <div class="eyebrow">Phase 1: Retention Declarations</div>
-            <h2 class="title">Official Franchises & Retentions</h2>
-            <p class="muted">Franchises pick teams & review starting purses before main auction starts.</p>
+            <div class="eyebrow">Phase 1: Custom Retentions</div>
+            <h2 class="title">Select Retentions by User Interest</h2>
+            <p class="muted">Check or uncheck player retentions to customize starting purses before the auction.</p>
+            
             <div class="teamgrid">
               ${TEAMS.map(t => {
                 const td = data.teams[t.id];
                 const isMine = td.claimedBy === currentUser.uid;
                 return `
-                  <div class="teamchoice ${isMine ? 'selected' : ''}" onclick="claimTeam('${t.id}')">
-                    <b>${t.name}</b>
-                    <small>Purse Left: ₹${(td.purse / 100).toFixed(2)} Cr</small><br>
-                    <small style="color:var(--muted)">Retained: ${td.players.length} players</small>
+                  <div class="teamchoice ${isMine ? 'selected' : ''}">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                      <b>${t.name}</b>${!td.claimedBy ? `<button class="btn secondary" style="padding:4px 8px;font-size:11px;" onclick="claimTeam('${t.id}')">Claim</button>` : `<small>${isMine ? 'You' : td.userName}</small>`}
+                    </div>
+                    <small>Purse Remaining: <b>₹${(td.purse / 100).toFixed(2)} Cr</b></small>
+                    
+                    <div style="margin-top:8px;">
+                      ${t.pool.map(p => {
+                        const isRetained = (td.retainedList || []).some(r => r.name === p.name);
+                        return `
+                          <div class="retainitem">
+                            <input type="checkbox" ${isRetained ? 'checked' : ''} ${!isMine ? 'disabled' : ''} onclick="toggleRetention('${t.id}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">
+                            <span style="font-size:12px;">${p.name} (₹${p.cost/100} Cr)</span>
+                          </div>
+                        `;
+                      }).join('')}
+                    </div>
                   </div>
                 `;
               }).join('')}
@@ -313,10 +384,11 @@
           </section>
 
           <section class="card">
-            <div class="eyebrow">Room Controls</div>
+            <div class="eyebrow">ROOM CONTROLS</div>
             <h3>Room Code: <span class="roomcode">${data.code}</span></h3>
-            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Open Auction Phase →</button>` : `<p class="muted">Waiting for Admin to open main auction...</p>`}
-            <div class="sectiontitle" style="margin-top:20px;">Activity Logs</div>
+            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Confirm Retentions & Start Auction →</button>` : `<p class="muted">Waiting for Admin to open main auction...</p>`}
+            
+            <div class="sectiontitle" style="margin-top:20px;">Activity Log</div>
             <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
           </section>
         </div>
@@ -329,7 +401,7 @@
             <div class="playerhero">
               <span class="badge">${p.set} SET</span>
               <div class="playername">${p.name}</div>
-              <div class="muted" style="color:#cbd5ee">${p.role} · ${p.country} · Base: ₹${p.base} L</div>
+              <div class="muted" style="color:#cbd5ee">${p.role} · ${p.country} · Base Price: ₹${p.base} L</div>
               <div class="bidamount">₹${data.currentBid} Lakhs</div>
               <div><b>Highest Bidder:</b> ${data.currentBidder || 'No Bids Yet'}</div>
             </div>
@@ -338,27 +410,46 @@
               ${myTeam ? `<button class="btn" onclick="placeBid()">Bid ₹${data.currentBidder ? (data.currentBid < 1000 ? data.currentBid + 20 : data.currentBid + 50) : data.currentBid} L</button>` : `<button class="btn secondary" disabled>Spectating Only</button>`}
               ${isAdmin ? `
                 <button class="btn dark" onclick="adminSellPlayer()">Sell Player</button>
-                <button class="btn danger" onclick="adminUnsoldPlayer()">Pass / Unsold</button>
+                <button class="btn danger" onclick="adminUnsoldPlayer()">Mark Unsold</button>
               ` : ''}
             </div>
           </section>
 
           <section class="card">
-            <div class="eyebrow">Live Standings</div>
+            <div class="eyebrow">Live Squad & Overseas Tracker</div>
             <div class="tablewrap">
               <table>
-                <thead><tr><th>Team</th><th>Purse Left</th><th>Squad</th></tr></thead>
+                <thead>
+                  <tr>
+                    <th>Team</th>
+                    <th>Purse Left</th>
+                    <th>Squad</th>
+                    <th>Overseas</th>
+                    <th>Strength</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  ${TEAMS.map(t => `
-                    <tr>
-                      <td><b>${t.id}</b></td>
-                      <td>₹${(data.teams[t.id].purse / 100).toFixed(2)} Cr</td>
-                      <td>${data.teams[t.id].players.length} Players</td>
-                    </tr>
-                  `).join('')}
+                  ${TEAMS.map(t => {
+                    const squad = data.teams[t.id].players || [];
+                    const overseasCount = squad.filter(sp => sp.country === "Overseas").length;
+                    const strength = calculateTeamStrength(squad);
+                    return `
+                      <tr>
+                        <td><b>${t.id}</b></td>
+                        <td>₹${(data.teams[t.id].purse / 100).toFixed(2)} Cr</td>
+                        <td>${squad.length}/25</td>
+                        <td><span style="color:${overseasCount >= 8 ? 'var(--red)' : 'var(--text)'}">${overseasCount}/8</span></td>
+                        <td>
+                          <b>${strength}%</b>
+                          <div class="strength-bar"><div class="strength-fill" style="width:${strength}%"></div></div>
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
                 </tbody>
               </table>
             </div>
+
             <div class="sectiontitle" style="margin-top:15px;">Live Feed</div>
             <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
           </section>
