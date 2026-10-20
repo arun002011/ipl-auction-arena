@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IPL 2026 Mega Auction Arena</title>
+  <title>IPL Mega Auction Arena</title>
   <style>
     :root{--navy:#07132f;--navy2:#10234d;--orange:#ff6b24;--gold:#ffd166;--bg:#f0f4f9;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--red:#dc2626}
     *{box-sizing:border-box}
@@ -56,7 +56,7 @@
 
     .slab-info-banner{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;font-size:12px;color:#1e40af;margin-bottom:20px;display:flex;align-items:center;gap:8px}
 
-    /* PLAYER RETENTION GRID (10 PLAYERS POOL) */
+    /* PLAYER RETENTION GRID */
     .core-players-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
     .core-player-card{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;position:relative;cursor:pointer;transition:all .2s ease;text-align:center}
     .core-player-card:hover{border-color:#cbd5e1;transform:translateY(-2px)}
@@ -71,7 +71,7 @@
     .sticky-bottom-bar .info{font-size:13px;font-weight:800}
     .sticky-bottom-bar .info b{color:var(--gold)}
 
-    /* ADMIN PORTAL CONTROLS */
+    /* ADMIN COMMAND PORTAL */
     .admin-portal-card{background:#0d182e;color:#fff;border:2px solid var(--orange);border-radius:16px;padding:18px;margin-top:16px}
     .admin-portal-card .admin-title{font-size:13px;font-weight:900;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
     .admin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
@@ -99,7 +99,7 @@
 </head>
 <body>
 <header>
-  <div class="brand"><span>IPL 2026</span> MEGA AUCTION</div>
+  <div class="brand"><span>IPL</span> MEGA AUCTION</div>
   <div class="headmeta" id="headerStatus">Multiplayer & AI Mock Arena</div>
 </header>
 <main>
@@ -139,8 +139,9 @@
     {id: "LSG", name: "Lucknow Super Giants", color: "#12a8c9", pool: [{name:"Nicholas Pooran",role:"WK",country:"Overseas"},{name:"Ravi Bishnoi",role:"BOWL"},{name:"Mayank Yadav",role:"BOWL"},{name:"Mohsin Khan",role:"BOWL",uncapped:true},{name:"Ayush Badoni",role:"BAT",uncapped:true},{name:"KL Rahul",role:"WK"},{name:"Marcus Stoinis",role:"AR",country:"Overseas"},{name:"Krunal Pandya",role:"AR"},{name:"Yash Thakur",role:"BOWL",uncapped:true},{name:"Quinton de Kock",role:"WK",country:"Overseas"}]}
   ];
 
-  const RETENTION_SLABS = [1800, 1400, 1100, 1800, 1400]; // In Lakhs
-  const UNCAPPED_PRICE = 400; // 4 Cr
+  // Official Descending Retention Price Slabs (in Lakhs)
+  const RETENTION_SLABS = [1800, 1400, 1100, 1800, 1400]; // ₹18 Cr, ₹14 Cr, ₹11 Cr, ₹18 Cr, ₹14 Cr
+  const UNCAPPED_PRICE = 400; // ₹4 Cr
 
   const realPlayersMasterList = [
     {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
@@ -198,8 +199,8 @@
       <div class="layout">
         <section class="card">
           <div class="eyebrow">START PLAYING</div>
-          <h2 class="title">Create IPL 2026 Room</h2>
-          <p class="muted">Host a private IPL auction with full Admin Controls. Play Solo against smart AI Bidders or invite friends using a room code.</p>
+          <h2 class="title">Create IPL Mega Room</h2>
+          <p class="muted">Host a private auction with official BCCI rules & Admin controls. Play Solo against AI or invite friends using a code.</p>
           
           <label style="font-weight:700;font-size:13px;">Your display name</label>
           <input type="text" id="displayNameInput" class="field" value="User" placeholder="Enter your name">
@@ -215,8 +216,8 @@
         </section>
 
         <section class="card">
-          <div class="eyebrow">CORE SQUAD & ADMIN PORTAL</div>
-          <h2 class="title">Conduct Real IPL Auctions</h2>
+          <div class="eyebrow">OFFICIAL BCCI RETENTION RULES</div>
+          <h2 class="title">Mega Auction Rules</h2>
 
           <div class="featuregrid">
             <div class="featurebox"><b>10</b><span>IPL teams</span></div>
@@ -225,10 +226,10 @@
             <div class="featurebox"><b>Max 6</b><span>Retention limit</span></div>
           </div>
 
-          <p class="muted" style="font-size:13px;">Expanded <b>10-player pools per franchise</b>. Select up to 6 retentions per team. Host/Admin gets full live auction controls to sell, pass, jump sets, pause, or adjust bids!</p>
+          <p class="muted" style="font-size:13px;">Select <b>up to 6 retentions</b> per team (Max 5 Capped, Max 2 Uncapped). Unselected retention slots convert directly into RTM cards!</p>
 
           <div class="notice">
-            Admin Portal active! Sell players, skip sets, pause timer, or jump to specific players instantly.
+            Host gets a full Admin Command Portal to sell, pass, pause timer, or jump players live.
           </div>
         </section>
       </div>
@@ -243,7 +244,7 @@
     const initialTeams = {};
 
     TEAMS.forEach(t => {
-      let defaultRetain = t.pool.slice(0, 3).map((p, idx) => ({ ...p, cost: p.uncapped ? 400 : RETENTION_SLABS[idx] }));
+      let defaultRetain = t.pool.slice(0, 3).map((p, idx) => ({ ...p, cost: p.uncapped ? UNCAPPED_PRICE : RETENTION_SLABS[idx] }));
       let spent = defaultRetain.reduce((acc, p) => acc + p.cost, 0);
       
       initialTeams[t.id] = { 
@@ -266,7 +267,7 @@
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: ["IPL 2026 Room created. Step 1: Select Your Franchise."]
+      logs: ["IPL Room created. Step 1: Select Your Franchise."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -302,10 +303,11 @@
       [`teams.${teamId}.claimedBy`]: currentUser.uid,
       [`teams.${teamId}.userName`]: name,
       status: "RETENTION",
-      logs: firebase.firestore.FieldValue.arrayUnion(`${name} claimed ${teamId} and entered Core Squad Retentions.`)
+      logs: firebase.firestore.FieldValue.arrayUnion(`${name} claimed ${teamId} and entered Retentions.`)
     });
   }
 
+  /* STRICT OFFICIAL RETENTION LOGIC ENFORCEMENT */
   async function toggleRetention(teamId, playerObj) {
     const snap = await db.collection("rooms").doc(currentRoomId).get();
     const team = snap.data().teams[teamId];
@@ -313,13 +315,27 @@
     let currentRetain = team.retainedList || [];
     let exists = currentRetain.some(p => p.name === playerObj.name);
 
-    if (!exists && currentRetain.length >= 6) {
-      alert("Core Squad Limit: Maximum 6 retentions allowed per franchise!");
-      return;
+    if (!exists) {
+      if (currentRetain.length >= 6) {
+        alert("BCCI Rule Violation: Maximum 6 total retentions allowed per franchise!");
+        return;
+      }
+      const currentCapped = currentRetain.filter(p => !p.uncapped).length;
+      const currentUncapped = currentRetain.filter(p => p.uncapped).length;
+
+      if (!playerObj.uncapped && currentCapped >= 5) {
+        alert("BCCI Rule Violation: Maximum 5 CAPPED retentions allowed!");
+        return;
+      }
+      if (playerObj.uncapped && currentUncapped >= 2) {
+        alert("BCCI Rule Violation: Maximum 2 UNCAPPED retentions allowed!");
+        return;
+      }
     }
 
     let updatedRetain = exists ? currentRetain.filter(p => p.name !== playerObj.name) : [...currentRetain, playerObj];
     
+    // Recalculate descending price slabs
     let cappedIdx = 0;
     let spent = 0;
     updatedRetain = updatedRetain.map((p) => {
@@ -352,7 +368,7 @@
     const ref = db.collection("rooms").doc(currentRoomId);
     await ref.update({
       status: "AUCTION",
-      logs: firebase.firestore.FieldValue.arrayUnion("Core Squad retentions finalized! Main Auction Started.")
+      logs: firebase.firestore.FieldValue.arrayUnion("Retentions finalized! Main Auction Started.")
     });
   }
 
@@ -372,12 +388,12 @@
     if (!targetTeam) return alert("Spectators cannot bid! Claim a team first.");
 
     let teamData = data.teams[targetTeam];
-    if (teamData.players.length >= 25) return;
+    if (teamData.players.length >= 25) return alert("Squad limit reached (25 players)!");
 
     let increment = data.currentBid < 1000 ? 20 : 50;
     let nextBid = data.currentBidder ? data.currentBid + increment : data.currentBid;
 
-    if (teamData.purse < nextBid) return;
+    if (teamData.purse < nextBid) return alert("Insufficient purse!");
 
     await db.collection("rooms").doc(currentRoomId).update({
       currentBid: nextBid,
@@ -419,14 +435,14 @@
     }, 2000);
   }
 
-  /* ADMIN COMMAND PORTAL FUNCTIONS */
+  /* ADMIN PORTAL FUNCTIONS */
   async function adminSellPlayer() {
     const ref = db.collection("rooms").doc(currentRoomId);
     const snap = await ref.get();
     const data = snap.data();
     const p = PLAYERS[data.currentPlayerIndex];
 
-    if (!data.currentBidder) return alert("No bids placed!");
+    if (!data.currentBidder) return alert("No bids placed yet!");
 
     let winningTeam = data.currentBidder;
     let finalCost = data.currentBid;
@@ -458,7 +474,7 @@
       currentPlayerIndex: nextIdx,
       currentBid: nextPlayer.base,
       currentBidder: null,
-      logs: firebase.firestore.FieldValue.arrayUnion(`UNSOLD! ${PLAYERS[data.currentPlayerIndex].name} passed unsold.`)
+      logs: firebase.firestore.FieldValue.arrayUnion(`UNSOLD! ${PLAYERS[data.currentPlayerIndex].name} marked unsold.`)
     });
   }
 
@@ -473,7 +489,7 @@
       currentPlayerIndex: targetIdx,
       currentBid: nextPlayer.base,
       currentBidder: null,
-      logs: firebase.firestore.FieldValue.arrayUnion(`ADMIN JUMP: Set active player to ${nextPlayer.name} (₹${nextPlayer.base} L).`)
+      logs: firebase.firestore.FieldValue.arrayUnion(`ADMIN JUMP: Set player to ${nextPlayer.name} (Base ₹${nextPlayer.base}L).`)
     });
   }
 
@@ -512,7 +528,7 @@
     document.getElementById('headerStatus').innerText = `Room: ${data.code} | Role: ${userRole}`;
 
     if (data.status === "TEAM_SELECT") {
-      /* STEP 2: SELECT FRANCHISE BADGE GRID */
+      /* STEP 2: FRANCHISE BADGE SELECTION (NO IMAGES) */
       app.innerHTML = `
         <section class="card full">
           <div class="eyebrow">STEP 1 OF 2</div>
@@ -540,7 +556,7 @@
         </section>
       `;
     } else if (data.status === "RETENTION") {
-      /* STEP 3: RETENTION DASHBOARD (10 PLAYERS POOL, MAX 6) */
+      /* STEP 3: MOCKAUCTION RETENTION DASHBOARD CONCEPT */
       const myTeamObj = TEAMS.find(t => t.id === myTeam) || TEAMS[0];
       const myTeamData = data.teams[myTeamObj.id] || {};
       const retainList = myTeamData.retainedList || [];
@@ -561,7 +577,7 @@
               <div>
                 <div class="eyebrow">${myTeamObj.name} (${myTeamObj.id})</div>
                 <h1 class="retention-title">Build Your <span>CORE SQUAD</span></h1>
-                <p class="muted">Select up to 6 players from your 10-player retention pool.</p>
+                <p class="muted">Select up to 6 players to retain from your 10-player retention pool.</p>
               </div>
 
               <div class="purse-floating-card">
@@ -619,7 +635,7 @@
         </div>
       `;
     } else if (data.status === "AUCTION") {
-      /* STEP 4: MAIN LIVE AUCTION ARENA WITH ADMIN PORTAL */
+      /* STEP 4: LIVE AUCTION ARENA WITH DEDICATED ADMIN PORTAL */
       const p = PLAYERS[data.currentPlayerIndex];
       const selectedInspectorTeam = document.getElementById('inspectorSelect')?.value || (myTeam || "CSK");
       const inspectorSquad = data.teams[selectedInspectorTeam]?.players || [];
@@ -650,7 +666,7 @@
                 </div>
 
                 <div style="margin-top:10px;">
-                  <label style="font-size:11px;font-weight:700;color:#cbd5ee;">SELECT ANY PLAYER TO CALL:</label>
+                  <label style="font-size:11px;font-weight:700;color:#cbd5ee;">CALL SPECIFIC PLAYER:</label>
                   <select id="adminJumpSelect" class="field" style="margin-top:4px;margin-bottom:0;background:#1e293b;color:#fff;border-color:#334155;">
                     ${PLAYERS.map((pl, idx) => `<option value="${idx}" ${idx === data.currentPlayerIndex ? 'selected' : ''}>[#${idx+1}] ${pl.name} (${pl.role} - ₹${pl.base}L)</option>`).join('')}
                   </select>
