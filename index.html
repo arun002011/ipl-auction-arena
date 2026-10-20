@@ -32,15 +32,22 @@
     .featurebox b{font-size:24px;display:block;color:var(--navy)}
     .featurebox span{font-size:12px;color:var(--muted)}
     
-    .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    .teamcard{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden;transition:border .2s ease}
-    .teamcard.selected{border-color:var(--orange);background:#fffcf9}
-    .teamcard-header{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px}
-    .teamcard-title{font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px}
-    .teamdot{width:12px;height:12px;border-radius:50%;display:inline-block}
-    .retain-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;padding-right:4px}
-    .retainitem{display:flex;align-items:center;justify-content:space-between;padding:8px;border:1px solid var(--line);border-radius:8px;background:#f8fafc;font-size:12px}
-    .retainitem.checked{background:#f0fdf4;border-color:#bbf7d0}
+    /* Authentic Retention Grid UI */
+    .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .teamcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;position:relative;overflow:hidden;box-shadow:0 4px 15px #00000008;transition:all .2s ease}
+    .teamcard.selected{border-color:var(--orange);background:#fffcf9;box-shadow:0 8px 25px #ff6b241a}
+    .teamcard-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+    .teamcard-title{font-weight:900;font-size:17px;display:flex;align-items:center;gap:8px}
+    .teamdot{width:14px;height:14px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--line)}
+    
+    .purse-tracker{display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:8px 12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--line)}
+    .purse-tracker b{color:var(--navy);font-size:14px}
+    
+    .retain-list{display:flex;flex-direction:column;gap:7px;max-height:240px;overflow-y:auto;padding-right:4px}
+    .retainitem{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;font-size:13px;transition:all .15s ease}
+    .retainitem:hover{border-color:#cbd5e1;background:#f1f5f9}
+    .retainitem.checked{background:#f0fdf4;border-color:#86efac}
+    .retainitem input[type="checkbox"]{width:16px;height:16px;accent-color:var(--orange);cursor:pointer}
 
     .playerhero{background:linear-gradient(140deg,#091532,#18336a);color:#fff;border-radius:16px;padding:24px;position:relative;overflow:hidden;box-shadow:0 12px 30px #09153230}
     .playername{font-size:clamp(26px,3.5vw,36px);font-weight:900;margin:6px 0}
@@ -90,7 +97,7 @@
     appId: "1:795621438551:web:4faeb0d0d98e6487d81f12"
   };
 
-  // IPL 2026 Official Franchise Squad Retention Pools
+  // Official Franchise Retention Pools
   const TEAMS = [
     {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", pool: [{name:"Ruturaj Gaikwad",role:"BAT",country:"IN"},{name:"Ravindra Jadeja",role:"AR",country:"IN"},{name:"Matheesha Pathirana",role:"BOWL",country:"Overseas"},{name:"Shivam Dube",role:"AR",country:"IN"},{name:"MS Dhoni",role:"WK",country:"IN",uncapped:true},{name:"Sameer Rizvi",role:"BAT",country:"IN",uncapped:true},{name:"Devon Conway",role:"BAT",country:"Overseas"},{name:"Rachin Ravindra",role:"AR",country:"Overseas"}]},
     {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", pool: [{name:"Jasprit Bumrah",role:"BOWL",country:"IN"},{name:"Suryakumar Yadav",role:"BAT",country:"IN"},{name:"Hardik Pandya",role:"AR",country:"IN"},{name:"Rohit Sharma",role:"BAT",country:"IN"},{name:"Tilak Varma",role:"BAT",country:"IN"},{name:"Naman Dhir",role:"AR",country:"IN",uncapped:true},{name:"Ishan Kishan",role:"WK",country:"IN"},{name:"Gerald Coetzee",role:"BOWL",country:"Overseas"}]},
@@ -106,7 +113,7 @@
 
   const RETENTION_SLABS = [1800, 1400, 1100, 1800, 1400, 400];
 
-  // REAL PLAYERS POOL (Full 300 Real Players List)
+  // REAL PLAYERS POOL (No Pakistan Players)
   const realPlayersMasterList = [
     {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
     {n:"Mitchell Starc",r:"BOWL",c:"Overseas",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"Overseas",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
@@ -114,40 +121,59 @@
     {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"Overseas",b:200,s:"M2"},
     {n:"David Warner",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Faf du Plessis",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Harry Brook",r:"BAT",c:"Overseas",b:200,s:"BA"},
     {n:"Devdutt Padikkal",r:"BAT",c:"IN",b:200,s:"BA"},{n:"Ajinkya Rahane",r:"BAT",c:"IN",b:150,s:"BA"},{n:"Prithvi Shaw",r:"BAT",c:"IN",b:75,s:"BA"},
+    {n:"Rovman Powell",r:"BAT",c:"Overseas",b:150,s:"BA"},{n:"Kane Williamson",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Steve Smith",r:"BAT",c:"Overseas",b:200,s:"BA"},
+    {n:"Rahul Tripathi",r:"BAT",c:"IN",b:75,s:"BA"},{n:"Manish Pandey",r:"BAT",c:"IN",b:75,s:"BA"},{n:"Finn Allen",r:"BAT",c:"Overseas",b:150,s:"BA"},
+    {n:"Aiden Markram",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Dewald Brevis",r:"BAT",c:"Overseas",b:75,s:"BA"},{n:"Pathum Nissanka",r:"BAT",c:"Overseas",b:100,s:"BA"},
     {n:"Marcus Stoinis",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Glenn Maxwell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Venkatesh Iyer",r:"AR",c:"IN",b:200,s:"AL"},
     {n:"Mitchell Marsh",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Sam Curran",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Washington Sundar",r:"AR",c:"IN",b:200,s:"AL"},
+    {n:"Krunal Pandya",r:"AR",c:"IN",b:200,s:"AL"},{n:"Daryl Mitchell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Marco Jansen",r:"AR",c:"Overseas",b:125,s:"AL"},
+    {n:"Moeen Ali",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Will Jacks",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Shardul Thakur",r:"AR",c:"IN",b:200,s:"AL"},
+    {n:"Rachin Ravindra",r:"AR",c:"Overseas",b:150,s:"AL"},{n:"Azmatullah Omarzai",r:"AR",c:"Overseas",b:75,s:"AL"},{n:"Sikandar Raza",r:"AR",c:"Overseas",b:75,s:"AL"},
+    {n:"Jason Holder",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Kyle Mayers",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Romario Shepherd",r:"AR",c:"Overseas",b:75,s:"AL"},
+    {n:"Tim David",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Deepak Hooda",r:"AR",c:"IN",b:75,s:"AL"},{n:"Mahipal Lomror",r:"AR",c:"IN",b:50,s:"AL"},
     {n:"Ishan Kishan",r:"WK",c:"IN",b:200,s:"WK"},{n:"Quinton de Kock",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Phil Salt",r:"WK",c:"Overseas",b:200,s:"WK"},
     {n:"Jonny Bairstow",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Rahmanullah Gurbaz",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Jitesh Sharma",r:"WK",c:"IN",b:100,s:"WK"},
+    {n:"Josh Inglis",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Shai Hope",r:"WK",c:"Overseas",b:75,s:"WK"},{n:"KS Bharat",r:"WK",c:"IN",b:75,s:"WK"},
+    {n:"Wriddhiman Saha",r:"WK",c:"IN",b:75,s:"WK"},{n:"Anuj Rawat",r:"WK",c:"IN",b:30,s:"WK"},{n:"Kumar Kushagra",r:"WK",c:"IN",b:20,s:"WK"},
     {n:"Bhuvneshwar Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Trent Boult",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Josh Hazlewood",r:"BOWL",c:"Overseas",b:200,s:"FA"},
     {n:"Deepak Chahar",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Avesh Khan",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Prasidh Krishna",r:"BOWL",c:"IN",b:200,s:"FA"},
+    {n:"Lockie Ferguson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Naveen-ul-Haq",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Gerald Coetzee",r:"BOWL",c:"Overseas",b:200,s:"FA"},
+    {n:"Spencer Johnson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Mustafizur Rahman",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Fazalhaq Farooqi",r:"BOWL",c:"Overseas",b:200,s:"FA"},
+    {n:"Alzarri Joseph",r:"BOWL",c:"Overseas",b:100,s:"FA"},{n:"Reece Topley",r:"BOWL",c:"Overseas",b:75,s:"FA"},{n:"Mukesh Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},
+    {n:"T Natarajan",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Khaleel Ahmed",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Akash Deep",r:"BOWL",c:"IN",b:100,s:"FA"},
     {n:"Wanindu Hasaranga",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Maheesh Theekshana",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Noor Ahmad",r:"BOWL",c:"Overseas",b:200,s:"SP"},
-    {n:"Rahul Chahar",r:"BOWL",c:"IN",b:100,s:"SP"},{n:"Adam Zampa",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Ashutosh Sharma",r:"BAT",c:"IN",b:30,s:"UN"},
-    {n:"Nehal Wadhera",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Suyash Sharma",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Musheer Khan",r:"AR",c:"IN",b:30,s:"UN"},
-    {n:"Vaibhav Suryavanshi",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Priyansh Arya",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Anshul Kamboj",r:"BOWL",c:"IN",b:30,s:"UN"},
-    {n:"Kumar Kushagra",r:"WK",c:"IN",b:20,s:"UN"},{n:"Yash Thakur",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Gerald Coetzee",r:"BOWL",c:"Overseas",b:200,s:"FA"},
-    {n:"Spencer Johnson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Rovman Powell",r:"BAT",c:"Overseas",b:150,s:"BA"},{n:"Kane Williamson",r:"BAT",c:"Overseas",b:200,s:"BA"},
-    {n:"Steve Smith",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Daryl Mitchell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Marco Jansen",r:"AR",c:"Overseas",b:125,s:"AL"},
-    {n:"Moeen Ali",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Lockie Ferguson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Naveen-ul-Haq",r:"BOWL",c:"Overseas",b:200,s:"FA"},
-    {n:"Fazalhaq Farooqi",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Tabraiz Shamsi",r:"BOWL",c:"Overseas",b:50,s:"SP"},{n:"Keshav Maharaj",r:"BOWL",c:"Overseas",b:50,s:"SP"},
-    {n:"Sikandar Raza",r:"AR",c:"Overseas",b:75,s:"AL"},{n:"Jason Holder",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Kyle Mayers",r:"AR",c:"Overseas",b:100,s:"AL"},
-    {n:"Romario Shepherd",r:"AR",c:"Overseas",b:75,s:"AL"},{n:"Tim David",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Alzarri Joseph",r:"BOWL",c:"Overseas",b:100,s:"FA"},{n:"Reece Topley",r:"BOWL",c:"Overseas",b:75,s:"FA"}
+    {n:"Rahul Chahar",r:"BOWL",c:"IN",b:100,s:"SP"},{n:"Adam Zampa",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Mujeeb ur Rahman",r:"BOWL",c:"Overseas",b:200,s:"SP"},
+    {n:"Tabraiz Shamsi",r:"BOWL",c:"Overseas",b:50,s:"SP"},{n:"Keshav Maharaj",r:"BOWL",c:"Overseas",b:50,s:"SP"},{n:"Piyush Chawla",r:"BOWL",c:"IN",b:50,s:"SP"},
+    {n:"Mayank Markande",r:"BOWL",c:"IN",b:75,s:"SP"},{n:"Sai Kishore",r:"BOWL",c:"IN",b:50,s:"SP"},{n:"Karn Sharma",r:"BOWL",c:"IN",b:50,s:"SP"},
+    {n:"Ashutosh Sharma",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Nehal Wadhera",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Suyash Sharma",r:"BOWL",c:"IN",b:30,s:"UN"},
+    {n:"Musheer Khan",r:"AR",c:"IN",b:30,s:"UN"},{n:"Vaibhav Suryavanshi",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Priyansh Arya",r:"BAT",c:"IN",b:30,s:"UN"},
+    {n:"Anshul Kamboj",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Yash Thakur",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Vijaykumar Vyshak",r:"BOWL",c:"IN",b:30,s:"UN"},
+    {n:"Sameer Rizvi",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Abdul Samad",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Rasikh Salam",r:"BOWL",c:"IN",b:30,s:"UN"}
   ];
 
-  // Complete 300 Real Players Array Generator
+  const supplementaryRealNames = [
+    "Matt Henry","Gus Atkinson","Xavier Bartlett","Nathan Ellis","Tanveer Sangha","Ollie Robinson","Brydon Carse","Matthew Potts","Josh Tongue","Jacob Bethell",
+    "Curtis Campher","Joshua Little","Paul Stirling","Harry Tector","Mark Adair","Brandon McMullen","George Munsey","Michael Leask","Fred Klaassen","Logan van Beek",
+    "Bas de Leede","Roelof van der Merwe","Blessing Muzarabani","Richard Ngarava","Brian Bennett","Clive Madande","Wiaan Mulder","Ryan Rickelton","Nandre Burger",
+    "Lungi Ngidi","Ottneil Baartman","Andile Phehlukwayo","Lhuan-dre Pretorius","Corbin Bosch","Matthew Breetzke","Lizaad Williams","Tony de Zorzi","David Bedingham",
+    "Pathum Nissanka","Charith Asalanka","Kamindu Mendis","Kusal Mendis","Dunith Wellalage","Matheesha Pathirana","Dilshan Madushanka","Nuwan Thushara","Sahan Arachchige",
+    "Dushmantha Chameera","Akila Dananjaya","Jeffrey Vandersay","Sadeera Samarawickrama","Wanindu Hasaranga","Asitha Fernando","Lahiru Kumara","Pawan Rathnayake",
+    "Ibrahim Zadran","Rahmanullah Gurbaz","Azmatullah Omarzai","Fazalhaq Farooqi","Noor Ahmad","Naveen-ul-Haq","Gulbadin Naib","Karim Janat","Mohammad Nabi",
+    "Sediqullah Atal","AM Ghazanfar","Nangeyalia Kharote","Qais Ahmad","Fareed Ahmad","Sharafuddin Ashraf","Ikram Alikhil","Riaz Hassan","Darwish Rasooli"
+  ];
+
   const PLAYERS = [];
   for (let i = 0; i < 300; i++) {
     if (i < realPlayersMasterList.length) {
       const p = realPlayersMasterList[i];
       PLAYERS.push({name: p.n, role: p.r, country: p.c, base: p.b, set: p.s});
     } else {
-      let firstNames = ["Rohan","Siddharth","Chetan","Varun","Aman","Dev","Nikhil","Jay","Yash","Karan","Alex","Ben","Chris","Daniel","Ethan","Finn","Gareth","Henry","Ian","Jack"];
-      let lastNames = ["Sharma","Verma","Singh","Patel","Kumar","Reddy","Nair","Deshmukh","Joshi","Rao","Smith","Jones","Williams","Taylor","Brown","Davies","Evans","Wilson","Thomas","Roberts"];
-      let fn = firstNames[i % firstNames.length];
-      let ln = lastNames[(i * 3) % lastNames.length];
+      let suppIdx = (i - realPlayersMasterList.length) % supplementaryRealNames.length;
+      let name = supplementaryRealNames[suppIdx];
       let r = ["BAT","AR","WK","BOWL"][i % 4];
       let s = ["BA","AL","WK","FA","SP","UN"][i % 6];
       let b = (i % 3 === 0) ? 200 : (i % 2 === 0) ? 100 : 30;
-      PLAYERS.push({name: `${fn} ${ln}`, role: r, country: (i % 4 === 0) ? "Overseas" : "IN", base: b, set: s});
+      PLAYERS.push({name: name, role: r, country: "Overseas", base: b, set: s});
     }
   }
 
@@ -203,10 +229,10 @@
             <div class="featurebox"><b>Max 6</b><span>Retention limit</span></div>
           </div>
 
-          <p class="muted" style="font-size:13px;">You can select <b>up to 6 retentions</b> per team at user risk. Unselected retention slots automatically become RTM (Right-To-Match) cards in the auction arena!</p>
+          <p class="muted" style="font-size:13px;">Select <b>up to 6 retentions</b> per team at user risk. Remaining unselected slots convert directly into RTM (Right-To-Match) cards in the auction arena!</p>
 
           <div class="notice">
-            Admin can inspect every team's squad live. Unclaimed franchises are controlled by AI bidders!
+            Admin can inspect every team's squad live. Unclaimed franchises are played by smart AI bidders!
           </div>
         </section>
       </div>
@@ -243,7 +269,7 @@
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: ["IPL 2026 Room created. Phase 1: Custom Retentions (Max 6)."]
+      logs: ["IPL 2026 Room created. Phase 1: Realistic Retentions (Max 6)."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -318,7 +344,7 @@
     const ref = db.collection("rooms").doc(currentRoomId);
     await ref.update({
       status: "AUCTION",
-      logs: firebase.firestore.FieldValue.arrayUnion("2026 Retention Phase confirmed! Main Auction Started.")
+      logs: firebase.firestore.FieldValue.arrayUnion("2026 Retention Phase locked! Main Auction Started.")
     });
   }
 
@@ -452,9 +478,9 @@
       app.innerHTML = `
         <div class="layout">
           <section class="card">
-            <div class="eyebrow">Phase 1: 2026 Custom Retentions</div>
-            <h2 class="title">Retentions (Select Max 6)</h2>
-            <p class="muted">Select up to 6 retentions for your team at user risk. Remaining slots convert to RTM cards!</p>
+            <div class="eyebrow">Phase 1: Official 2026 Retentions</div>
+            <h2 class="title">Franchise Retentions (Max 6)</h2>
+            <p class="muted">Toggle retentions for your team. Unselected slots convert to RTM cards!</p>
             
             <div class="teamgrid">
               ${TEAMS.map(t => {
@@ -466,9 +492,10 @@
                     <div class="teamcard-header">
                       <span class="teamcard-title"><span class="teamdot" style="background:${t.color}"></span>${t.name}</span>${!td.claimedBy ? `<button class="btn secondary" style="padding:4px 8px;font-size:11px;" onclick="claimTeam('${t.id}')">Claim Team</button>` : `<small>${isMine ? '<b>Your Team</b>' : td.userName}</small>`}
                     </div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;">
-                      <span>Purse Left: <b>₹${(td.purse / 100).toFixed(2)} Cr</b></span>
-                      <span>Selected: <b>${retainCount}/6</b> \vert{} RTMs: <b>${td.rtmCards || 0}</b></span>
+
+                    <div class="purse-tracker">
+                      <span>Remaining Purse: <b>₹${(td.purse / 100).toFixed(2)} Cr</b></span>
+                      <span>Retained: <b>${retainCount}/6</b> \vert{} RTMs: <b>${td.rtmCards || 0}</b></span>
                     </div>
 
                     <div class="retain-list">
@@ -476,11 +503,11 @@
                         const isRetained = (td.retainedList || []).some(r => r.name === p.name);
                         return `
                           <div class="retainitem ${isRetained ? 'checked' : ''}">
-                            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;width:100%;">
                               <input type="checkbox" ${isRetained ? 'checked' : ''} ${!isMine ? 'disabled' : ''} onclick="toggleRetention('${t.id}', ${JSON.stringify(p).replace(/"/g, '&quot;')})">
-                              <b>${p.name}</b> ${p.uncapped ? '<span class="badge">Uncapped</span>' : ''}
+                              <span style="flex:1;"><b>${p.name}</b> ${p.uncapped ? '<span class="badge">Uncapped</span>' : ''}</span>
+                              <span class="muted" style="font-size:11px;">${p.role}</span>
                             </label>
-                            <span>${p.role}</span>
                           </div>
                         `;
                       }).join('')}
@@ -494,7 +521,7 @@
           <section class="card">
             <div class="eyebrow">ROOM CONTROLS</div>
             <h3>Room Code: <span class="roomcode">${data.code}</span></h3>
-            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Lock Retentions & Start 2026 Auction →</button>` : `<p class="muted">Waiting for Admin to open main auction...</p>`}
+            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Confirm Retentions & Start 2026 Auction →</button>` : `<p class="muted">Waiting for Admin to open main auction...</p>`}
             
             <div class="sectiontitle" style="margin-top:20px;">Activity Feed</div>
             <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
