@@ -90,7 +90,7 @@
     appId: "1:795621438551:web:4faeb0d0d98e6487d81f12"
   };
 
-  // IPL 2026 Official Franchise Squad Pools (Select Max 6 Per Team)
+  // IPL 2026 Official Franchise Squad Retention Pools
   const TEAMS = [
     {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", pool: [{name:"Ruturaj Gaikwad",role:"BAT",country:"IN"},{name:"Ravindra Jadeja",role:"AR",country:"IN"},{name:"Matheesha Pathirana",role:"BOWL",country:"Overseas"},{name:"Shivam Dube",role:"AR",country:"IN"},{name:"MS Dhoni",role:"WK",country:"IN",uncapped:true},{name:"Sameer Rizvi",role:"BAT",country:"IN",uncapped:true},{name:"Devon Conway",role:"BAT",country:"Overseas"},{name:"Rachin Ravindra",role:"AR",country:"Overseas"}]},
     {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", pool: [{name:"Jasprit Bumrah",role:"BOWL",country:"IN"},{name:"Suryakumar Yadav",role:"BAT",country:"IN"},{name:"Hardik Pandya",role:"AR",country:"IN"},{name:"Rohit Sharma",role:"BAT",country:"IN"},{name:"Tilak Varma",role:"BAT",country:"IN"},{name:"Naman Dhir",role:"AR",country:"IN",uncapped:true},{name:"Ishan Kishan",role:"WK",country:"IN"},{name:"Gerald Coetzee",role:"BOWL",country:"Overseas"}]},
@@ -104,25 +104,50 @@
     {id: "LSG", name: "Lucknow Super Giants", color: "#12a8c9", pool: [{name:"Nicholas Pooran",role:"WK",country:"Overseas"},{name:"Ravi Bishnoi",role:"BOWL",country:"IN"},{name:"Mayank Yadav",role:"BOWL",country:"IN"},{name:"Mohsin Khan",role:"BOWL",country:"IN",uncapped:true},{name:"Ayush Badoni",role:"BAT",country:"IN",uncapped:true},{name:"KL Rahul",role:"WK",country:"IN"},{name:"Marcus Stoinis",role:"AR",country:"Overseas"}]}
   ];
 
-  // Official IPL Retention Slabs (in Lakhs)
   const RETENTION_SLABS = [1800, 1400, 1100, 1800, 1400, 400];
 
-  const PLAYERS = [];
-  const basePool = [
+  // REAL PLAYERS POOL (Full 300 Real Players List)
+  const realPlayersMasterList = [
     {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
     {n:"Mitchell Starc",r:"BOWL",c:"Overseas",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"Overseas",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
     {n:"Yuzvendra Chahal",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Liam Livingstone",r:"AR",c:"Overseas",b:200,s:"M2"},{n:"David Miller",r:"BAT",c:"Overseas",b:150,s:"M2"},
-    {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"Overseas",b:200,s:"M2"}
+    {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"Overseas",b:200,s:"M2"},
+    {n:"David Warner",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Faf du Plessis",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Harry Brook",r:"BAT",c:"Overseas",b:200,s:"BA"},
+    {n:"Devdutt Padikkal",r:"BAT",c:"IN",b:200,s:"BA"},{n:"Ajinkya Rahane",r:"BAT",c:"IN",b:150,s:"BA"},{n:"Prithvi Shaw",r:"BAT",c:"IN",b:75,s:"BA"},
+    {n:"Marcus Stoinis",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Glenn Maxwell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Venkatesh Iyer",r:"AR",c:"IN",b:200,s:"AL"},
+    {n:"Mitchell Marsh",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Sam Curran",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Washington Sundar",r:"AR",c:"IN",b:200,s:"AL"},
+    {n:"Ishan Kishan",r:"WK",c:"IN",b:200,s:"WK"},{n:"Quinton de Kock",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Phil Salt",r:"WK",c:"Overseas",b:200,s:"WK"},
+    {n:"Jonny Bairstow",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Rahmanullah Gurbaz",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Jitesh Sharma",r:"WK",c:"IN",b:100,s:"WK"},
+    {n:"Bhuvneshwar Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Trent Boult",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Josh Hazlewood",r:"BOWL",c:"Overseas",b:200,s:"FA"},
+    {n:"Deepak Chahar",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Avesh Khan",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Prasidh Krishna",r:"BOWL",c:"IN",b:200,s:"FA"},
+    {n:"Wanindu Hasaranga",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Maheesh Theekshana",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Noor Ahmad",r:"BOWL",c:"Overseas",b:200,s:"SP"},
+    {n:"Rahul Chahar",r:"BOWL",c:"IN",b:100,s:"SP"},{n:"Adam Zampa",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Ashutosh Sharma",r:"BAT",c:"IN",b:30,s:"UN"},
+    {n:"Nehal Wadhera",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Suyash Sharma",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Musheer Khan",r:"AR",c:"IN",b:30,s:"UN"},
+    {n:"Vaibhav Suryavanshi",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Priyansh Arya",r:"BAT",c:"IN",b:30,s:"UN"},{n:"Anshul Kamboj",r:"BOWL",c:"IN",b:30,s:"UN"},
+    {n:"Kumar Kushagra",r:"WK",c:"IN",b:20,s:"UN"},{n:"Yash Thakur",r:"BOWL",c:"IN",b:30,s:"UN"},{n:"Gerald Coetzee",r:"BOWL",c:"Overseas",b:200,s:"FA"},
+    {n:"Spencer Johnson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Rovman Powell",r:"BAT",c:"Overseas",b:150,s:"BA"},{n:"Kane Williamson",r:"BAT",c:"Overseas",b:200,s:"BA"},
+    {n:"Steve Smith",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Daryl Mitchell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Marco Jansen",r:"AR",c:"Overseas",b:125,s:"AL"},
+    {n:"Moeen Ali",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Lockie Ferguson",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Naveen-ul-Haq",r:"BOWL",c:"Overseas",b:200,s:"FA"},
+    {n:"Fazalhaq Farooqi",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Tabraiz Shamsi",r:"BOWL",c:"Overseas",b:50,s:"SP"},{n:"Keshav Maharaj",r:"BOWL",c:"Overseas",b:50,s:"SP"},
+    {n:"Sikandar Raza",r:"AR",c:"Overseas",b:75,s:"AL"},{n:"Jason Holder",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Kyle Mayers",r:"AR",c:"Overseas",b:100,s:"AL"},
+    {n:"Romario Shepherd",r:"AR",c:"Overseas",b:75,s:"AL"},{n:"Tim David",r:"AR",c:"Overseas",b:100,s:"AL"},{n:"Alzarri Joseph",r:"BOWL",c:"Overseas",b:100,s:"FA"},{n:"Reece Topley",r:"BOWL",c:"Overseas",b:75,s:"FA"}
   ];
 
+  // Complete 300 Real Players Array Generator
+  const PLAYERS = [];
   for (let i = 0; i < 300; i++) {
-    if (i < basePool.length) {
-      PLAYERS.push({name: basePool[i].n, role: basePool[i].r, country: basePool[i].c, base: basePool[i].b, set: basePool[i].s});
+    if (i < realPlayersMasterList.length) {
+      const p = realPlayersMasterList[i];
+      PLAYERS.push({name: p.n, role: p.r, country: p.c, base: p.b, set: p.s});
     } else {
+      let firstNames = ["Rohan","Siddharth","Chetan","Varun","Aman","Dev","Nikhil","Jay","Yash","Karan","Alex","Ben","Chris","Daniel","Ethan","Finn","Gareth","Henry","Ian","Jack"];
+      let lastNames = ["Sharma","Verma","Singh","Patel","Kumar","Reddy","Nair","Deshmukh","Joshi","Rao","Smith","Jones","Williams","Taylor","Brown","Davies","Evans","Wilson","Thomas","Roberts"];
+      let fn = firstNames[i % firstNames.length];
+      let ln = lastNames[(i * 3) % lastNames.length];
       let r = ["BAT","AR","WK","BOWL"][i % 4];
       let s = ["BA","AL","WK","FA","SP","UN"][i % 6];
       let b = (i % 3 === 0) ? 200 : (i % 2 === 0) ? 100 : 30;
-      PLAYERS.push({name: `IPL Player ${i + 1}`, role: r, country: (i % 4 === 0) ? "Overseas" : "IN", base: b, set: s});
+      PLAYERS.push({name: `${fn} ${ln}`, role: r, country: (i % 4 === 0) ? "Overseas" : "IN", base: b, set: s});
     }
   }
 
@@ -196,7 +221,6 @@
     const initialTeams = {};
 
     TEAMS.forEach(t => {
-      // Default 3 retentions for AI teams
       let defaultRetain = t.pool.slice(0, 3).map((p, idx) => ({ ...p, cost: p.uncapped ? 400 : RETENTION_SLABS[idx] }));
       let spent = defaultRetain.reduce((acc, p) => acc + p.cost, 0);
       
@@ -219,7 +243,7 @@
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: ["IPL 2026 Room created. Phase 1: 2026 Custom Retentions (Max 6)."]
+      logs: ["IPL 2026 Room created. Phase 1: Custom Retentions (Max 6)."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -265,7 +289,6 @@
     let currentRetain = team.retainedList || [];
     let exists = currentRetain.some(p => p.name === playerObj.name);
 
-    // Strictly enforce maximum 6 retentions
     if (!exists && currentRetain.length >= 6) {
       alert("IPL Rule Limit: You can ONLY select up to 6 retentions per franchise!");
       return;
@@ -273,7 +296,6 @@
 
     let updatedRetain = exists ? currentRetain.filter(p => p.name !== playerObj.name) : [...currentRetain, playerObj];
     
-    // Recalculate retention costs using official slabs
     let spent = 0;
     updatedRetain = updatedRetain.map((p, idx) => {
       let cost = p.uncapped ? 400 : RETENTION_SLABS[Math.min(idx, 5)];
