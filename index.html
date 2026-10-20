@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IPL Auction Simulator 2026 - MockAuction.in Style</title>
+  <title>IPL 2026 Mock Auction Simulator - MockAuction.in Style</title>
   <style>
     :root{--navy:#080e1e;--navy2:#111a2e;--orange:#ff6b24;--gold:#ffd166;--bg:#f1f5f9;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--green:#16a34a;--red:#dc2626}
     *{box-sizing:border-box}
@@ -31,42 +31,36 @@
     .btn.danger{background:var(--red)}
     .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
     
-    /* MockAuction Feature Badges */
-    .featuregrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-    .featurebox{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:center}
-    .featurebox b{font-size:22px;display:block;color:var(--navy);font-weight:900}
-    .featurebox span{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}
-    
-    /* Team & Retention Cards */
+    /* MockAuction.in Retention Board Layout */
     .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-    .teamcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;position:relative;overflow:hidden;box-shadow:0 4px 15px #00000008;transition:all .2s ease}
+    .teamcard{background:#fff;border:2px solid var(--line);border-radius:16px;padding:18px;position:relative;overflow:hidden;box-shadow:0 4px 15px #00000008;transition:all .2s ease}
     .teamcard.selected{border-color:var(--orange);background:#fffcf9;box-shadow:0 8px 25px #ff6b241a}
-    .teamcard-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:12px}
-    .teamcard-title{font-weight:900;font-size:17px;display:flex;align-items:center;gap:8px}
+    
+    .teamcard-header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--line);padding-bottom:12px;margin-bottom:12px}
+    .teamcard-title{font-weight:900;font-size:18px;display:flex;align-items:center;gap:10px}
     .teamdot{width:14px;height:14px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--line)}
     
-    .purse-tracker{display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:8px 12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--line)}
-    .purse-tracker b{color:var(--navy);font-size:14px}
+    /* MockAuction Retention Stats Bar */
+    .retention-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:12px;border:1px solid var(--line);text-align:center}
+    .retention-stats div b{display:block;font-size:15px;color:var(--navy)}
+    .retention-stats div span{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700}
     
-    .retain-list{display:flex;flex-direction:column;gap:7px;max-height:220px;overflow-y:auto;padding-right:4px}
-    .retainitem{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;font-size:13px;transition:all .15s ease}
+    /* Retention Player Selectors */
+    .retain-list{display:flex;flex-direction:column;gap:8px;max-height:250px;overflow-y:auto;padding-right:4px}
+    .retainitem{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;font-size:13px;transition:all .15s ease}
     .retainitem:hover{border-color:#cbd5e1;background:#f1f5f9}
     .retainitem.checked{background:#f0fdf4;border-color:#86efac}
-    .retainitem input[type="checkbox"]{width:16px;height:16px;accent-color:var(--orange);cursor:pointer}
+    .retainitem input[type="checkbox"]{width:18px;height:18px;accent-color:var(--orange);cursor:pointer}
 
-    /* Player Auction Card */
     .playerhero{background:linear-gradient(140deg,var(--navy),#1e3a8a);color:#fff;border-radius:16px;padding:24px;position:relative;overflow:hidden;box-shadow:0 12px 30px #080e1e35}
     .playerhero::after{content:'IPL 2026';position:absolute;right:-10px;bottom:-30px;font-size:100px;font-weight:1000;color:#ffffff08;pointer-events:none}
     .playername{font-size:clamp(26px,3.5vw,36px);font-weight:900;margin:6px 0}
     .bidamount{font-size:clamp(34px,5vw,48px);font-weight:1000;color:var(--gold);margin:10px 0}
     
-    /* Controls & RTM Panel */
-    .rtm-panel{background:#fffbeb;border:2px solid var(--gold);padding:14px;border-radius:12px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
     .tablewrap{overflow:auto;max-height:380px}
     table{width:100%;border-collapse:collapse;font-size:13px}
     th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
     th{font-size:11px;text-transform:uppercase;color:var(--muted);background:#f8fafc;position:sticky;top:0}
-    
     .log{max-height:190px;overflow:auto;font-size:13px}
     .log div{padding:6px 0;border-bottom:1px dashed var(--line)}
     .notice{font-size:13px;padding:12px;border-radius:10px;background:#fef3c7;color:#78350f;margin-top:12px;border:1px solid #fde68a}
@@ -76,14 +70,13 @@
     .strength-fill{height:100%;background:var(--green);width:0%}
     .roomcode{font-size:32px;font-weight:1000;letter-spacing:4px;color:var(--orange)}
     .squad-inspector{margin-top:15px;background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:12px}
-    
-    @media(max-width:850px){.layout{grid-template-columns:1fr}.teamgrid{grid-template-columns:1fr}.featuregrid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.teamgrid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 <header>
-  <div class="brand">MOCK<span>AUCTION</span>.IN <span class="brand-tag">SIMULATOR 2026</span></div>
-  <div class="headmeta" id="headerStatus">IPL Mega Auction Engine</div>
+  <div class="brand">MOCK<span>AUCTION</span>.IN <span class="brand-tag">RETENTION PHASE</span></div>
+  <div class="headmeta" id="headerStatus">IPL Mega Auction Simulator</div>
 </header>
 <main>
   <div id="app">
@@ -108,7 +101,7 @@
     appId: "1:795621438551:web:4faeb0d0d98e6487d81f12"
   };
 
-  // Official Franchise Retention Pools
+  // Franchise Pools for MockAuction.in Retentions
   const TEAMS = [
     {id: "CSK", name: "Chennai Super Kings", color: "#f4b400", pool: [{name:"Ruturaj Gaikwad",role:"BAT",country:"IN"},{name:"Ravindra Jadeja",role:"AR",country:"IN"},{name:"Matheesha Pathirana",role:"BOWL",country:"Overseas"},{name:"Shivam Dube",role:"AR",country:"IN"},{name:"MS Dhoni",role:"WK",country:"IN",uncapped:true},{name:"Sameer Rizvi",role:"BAT",country:"IN",uncapped:true},{name:"Devon Conway",role:"BAT",country:"Overseas"},{name:"Rachin Ravindra",role:"AR",country:"Overseas"}]},
     {id: "MI", name: "Mumbai Indians", color: "#1d6fdc", pool: [{name:"Jasprit Bumrah",role:"BOWL",country:"IN"},{name:"Suryakumar Yadav",role:"BAT",country:"IN"},{name:"Hardik Pandya",role:"AR",country:"IN"},{name:"Rohit Sharma",role:"BAT",country:"IN"},{name:"Tilak Varma",role:"BAT",country:"IN"},{name:"Naman Dhir",role:"AR",country:"IN",uncapped:true},{name:"Ishan Kishan",role:"WK",country:"IN"},{name:"Gerald Coetzee",role:"BOWL",country:"Overseas"}]},
@@ -124,29 +117,17 @@
 
   const RETENTION_SLABS = [1800, 1400, 1100, 1800, 1400, 400];
 
-  // REAL PLAYERS POOL (Strictly No Pakistan Players)
+  // REAL PLAYERS POOL (No Pakistan Players)
   const realPlayersMasterList = [
     {n:"Rishabh Pant",r:"WK",c:"IN",b:200,s:"M1"},{n:"Shreyas Iyer",r:"BAT",c:"IN",b:200,s:"M1"},{n:"KL Rahul",r:"WK",c:"IN",b:200,s:"M1"},
     {n:"Mitchell Starc",r:"BOWL",c:"Overseas",b:200,s:"M1"},{n:"Jos Buttler",r:"WK",c:"Overseas",b:200,s:"M1"},{n:"Arshdeep Singh",r:"BOWL",c:"IN",b:200,s:"M1"},
     {n:"Yuzvendra Chahal",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Liam Livingstone",r:"AR",c:"Overseas",b:200,s:"M2"},{n:"David Miller",r:"BAT",c:"Overseas",b:150,s:"M2"},
     {n:"Mohammed Siraj",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Mohammad Shami",r:"BOWL",c:"IN",b:200,s:"M2"},{n:"Kagiso Rabada",r:"BOWL",c:"Overseas",b:200,s:"M2"},
     {n:"David Warner",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Faf du Plessis",r:"BAT",c:"Overseas",b:200,s:"BA"},{n:"Harry Brook",r:"BAT",c:"Overseas",b:200,s:"BA"},
-    {n:"Devdutt Padikkal",r:"BAT",c:"IN",b:200,s:"BA"},{n:"Ajinkya Rahane",r:"BAT",c:"IN",b:150,s:"BA"},{n:"Prithvi Shaw",r:"BAT",c:"IN",b:75,s:"BA"},
     {n:"Marcus Stoinis",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Glenn Maxwell",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Venkatesh Iyer",r:"AR",c:"IN",b:200,s:"AL"},
-    {n:"Mitchell Marsh",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Sam Curran",r:"AR",c:"Overseas",b:200,s:"AL"},{n:"Washington Sundar",r:"AR",c:"IN",b:200,s:"AL"},
     {n:"Ishan Kishan",r:"WK",c:"IN",b:200,s:"WK"},{n:"Quinton de Kock",r:"WK",c:"Overseas",b:200,s:"WK"},{n:"Phil Salt",r:"WK",c:"Overseas",b:200,s:"WK"},
     {n:"Bhuvneshwar Kumar",r:"BOWL",c:"IN",b:200,s:"FA"},{n:"Trent Boult",r:"BOWL",c:"Overseas",b:200,s:"FA"},{n:"Josh Hazlewood",r:"BOWL",c:"Overseas",b:200,s:"FA"},
     {n:"Wanindu Hasaranga",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Maheesh Theekshana",r:"BOWL",c:"Overseas",b:200,s:"SP"},{n:"Noor Ahmad",r:"BOWL",c:"Overseas",b:200,s:"SP"}
-  ];
-
-  const supplementaryRealNames = [
-    "Matt Henry","Gus Atkinson","Xavier Bartlett","Nathan Ellis","Tanveer Sangha","Ollie Robinson","Brydon Carse","Matthew Potts","Josh Tongue","Jacob Bethell",
-    "Curtis Campher","Joshua Little","Paul Stirling","Harry Tector","Mark Adair","Brandon McMullen","George Munsey","Michael Leask","Fred Klaassen","Logan van Beek",
-    "Bas de Leede","Roelof van der Merwe","Blessing Muzarabani","Richard Ngarava","Brian Bennett","Clive Madande","Wiaan Mulder","Ryan Rickelton","Nandre Burger",
-    "Lungi Ngidi","Ottneil Baartman","Andile Phehlukwayo","Lhuan-dre Pretorius","Corbin Bosch","Matthew Breetzke","Lizaad Williams","Tony de Zorzi","David Bedingham",
-    "Pathum Nissanka","Charith Asalanka","Kamindu Mendis","Kusal Mendis","Dunith Wellalage","Matheesha Pathirana","Dilshan Madushanka","Nuwan Thushara","Sahan Arachchige",
-    "Dushmantha Chameera","Akila Dananjaya","Jeffrey Vandersay","Sadeera Samarawickrama","Wanindu Hasaranga","Asitha Fernando","Lahiru Kumara","Pawan Rathnayake",
-    "Ibrahim Zadran","Rahmanullah Gurbaz","Azmatullah Omarzai","Fazalhaq Farooqi","Noor Ahmad","Naveen-ul-Haq","Gulbadin Naib","Karim Janat","Mohammad Nabi"
   ];
 
   const PLAYERS = [];
@@ -155,8 +136,8 @@
       const p = realPlayersMasterList[i];
       PLAYERS.push({name: p.n, role: p.r, country: p.c, base: p.b, set: p.s});
     } else {
-      let suppIdx = (i - realPlayersMasterList.length) % supplementaryRealNames.length;
-      let name = supplementaryRealNames[suppIdx];
+      let names = ["Matt Henry","Gus Atkinson","Xavier Bartlett","Nathan Ellis","Tanveer Sangha","Ollie Robinson","Brydon Carse","Joshua Little","Paul Stirling","Harry Tector","Logan van Beek","Bas de Leede","Blessing Muzarabani","Nandre Burger","Lungi Ngidi","Tony de Zorzi","Pathum Nissanka","Charith Asalanka","Kamindu Mendis","Dunith Wellalage","Ibrahim Zadran","Azmatullah Omarzai","Noor Ahmad"];
+      let name = names[i % names.length];
       let r = ["BAT","AR","WK","BOWL"][i % 4];
       let s = ["BA","AL","WK","FA","SP","UN"][i % 6];
       let b = (i % 3 === 0) ? 200 : (i % 2 === 0) ? 100 : 30;
@@ -188,41 +169,34 @@
     document.getElementById('app').innerHTML = `
       <div class="layout">
         <section class="card">
-          <div class="eyebrow">SELECT PLAY MODE</div>
-          <h2 class="title">IPL 2026 Auction Simulator</h2>
-          <p class="muted">Experience realistic bidding algorithms, team strategies, and purse dynamics inspired by MockAuction.in.</p>
+          <div class="eyebrow">MOCKAUCTION.IN ENGINE</div>
+          <h2 class="title">Create Auction Room</h2>
+          <p class="muted">Experience realistic bidding algorithms, retention dynamics, and RTM cards.</p>
           
-          <label style="font-weight:700;font-size:13px;">Your Franchise Owner Name</label>
-          <input type="text" id="displayNameInput" class="field" value="User" placeholder="Enter display name">
+          <label style="font-weight:700;font-size:13px;">Owner Name</label>
+          <input type="text" id="displayNameInput" class="field" value="User" placeholder="Enter owner name">
 
           <div style="display:flex;gap:10px;margin-top:10px;">
-            <button class="btn" style="flex:1;" onclick="createRoom('SOLO')">🎮 Play Solo vs AI</button>
+            <button class="btn" style="flex:1;" onclick="createRoom('SOLO')">🎮 Solo vs AI</button>
             <button class="btn dark" style="flex:1;" onclick="createRoom('MULTI')">👥 Host Multiplayer</button>
           </div>
 
           <hr style="border:0;border-top:1px solid var(--line);margin:20px 0;">
 
-          <div class="eyebrow">JOIN EXISTING AUCTION</div>
+          <div class="eyebrow">JOIN ROOM</div>
           <label style="font-weight:700;font-size:13px;">Room code</label>
           <input type="text" id="roomCodeInput" class="field" style="text-transform:uppercase;" placeholder="E.G. MOCK1">
           <button class="btn secondary" style="width:100%;" onclick="joinRoom()">Join Room</button>
         </section>
 
         <section class="card">
-          <div class="eyebrow">SIMULATOR ENGINE</div>
-          <h2 class="title">MockAuction.in Features</h2>
+          <div class="eyebrow">SIMULATOR FEATURES</div>
+          <h2 class="title">Realistic Mega Auction</h2>
 
-          <div class="featuregrid">
-            <div class="featurebox"><b>10</b><span>Franchises</span></div>
-            <div class="featurebox"><b>300</b><span>Seeded Pool</span></div>
-            <div class="featurebox"><b>₹120 Cr</b><span>Purse Cap</span></div>
-            <div class="featurebox"><b>RTM</b><span>Cards Active</span></div>
-          </div>
-
-          <p class="muted" style="font-size:13px;">Intelligent AI simulates realistic bidding wars for unclaimed teams. Unused retention slots give you Right-To-Match (RTM) cards during live bidding!</p>
+          <p class="muted" style="font-size:13px;">Manage <b>10 IPL Franchises</b>, customize 1-6 retentions, calculate dynamic starting purses, and use RTM (Right-To-Match) cards in live bidding.</p>
 
           <div class="notice">
-            Admin can inspect full team rosters live, skip sets/players, and view real-time auction analytics.
+            Admin can inspect every team's squad live. Unclaimed franchises are controlled by AI bidders!
           </div>
         </section>
       </div>
@@ -260,7 +234,7 @@
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: [`Room created in ${mode} mode. Phase 1: Retentions & RTM Setup.`]
+      logs: ["MockAuction.in Room created. Phase 1: Retentions & RTMs."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -307,7 +281,7 @@
     let exists = currentRetain.some(p => p.name === playerObj.name);
 
     if (!exists && currentRetain.length >= 6) {
-      alert("IPL Rule Limit: Maximum 6 retentions allowed!");
+      alert("MockAuction.in Rule: Max 6 retentions per team!");
       return;
     }
 
@@ -335,7 +309,7 @@
     const ref = db.collection("rooms").doc(currentRoomId);
     await ref.update({
       status: "AUCTION",
-      logs: firebase.firestore.FieldValue.arrayUnion("Retention Phase locked! Main Auction Started.")
+      logs: firebase.firestore.FieldValue.arrayUnion("Retention Phase confirmed! Main Auction Started.")
     });
   }
 
@@ -469,9 +443,9 @@
       app.innerHTML = `
         <div class="layout">
           <section class="card">
-            <div class="eyebrow">PHASE 1: RETENTIONS & RTM CARDS</div>
-            <h2 class="title">Official Franchises Retentions</h2>
-            <p class="muted">Check or uncheck player retentions (Max 6). Remaining slots turn into RTM cards!</p>
+            <div class="eyebrow">MOCKAUCTION.IN RETENTION BOARD</div>
+            <h2 class="title">Franchise Retentions & RTM Setup</h2>
+            <p class="muted">Check or uncheck player retentions (Max 6). Remaining slots automatically generate RTM cards!</p>
             
             <div class="teamgrid">
               ${TEAMS.map(t => {
@@ -484,9 +458,10 @@
                       <span class="teamcard-title"><span class="teamdot" style="background:${t.color}"></span>${t.name}</span>${!td.claimedBy ? `<button class="btn secondary" style="padding:4px 8px;font-size:11px;" onclick="claimTeam('${t.id}')">Claim Team</button>` : `<small>${isMine ? '<b>Your Team</b>' : td.userName}</small>`}
                     </div>
 
-                    <div class="purse-tracker">
-                      <span>Purse Left: <b>₹${(td.purse / 100).toFixed(2)} Cr</b></span>
-                      <span>Retained: <b>${retainCount}/6</b> \vert{} RTMs: <b>${td.rtmCards || 0}</b></span>
+                    <div class="retention-stats">
+                      <div><b>₹${(td.purse / 100).toFixed(2)} Cr</b><span>Purse Left</span></div>
+                      <div><b>${retainCount}/6</b><span>Retained</span></div>
+                      <div><b>${td.rtmCards || 0}</b><span>RTM Cards</span></div>
                     </div>
 
                     <div class="retain-list">
@@ -512,7 +487,7 @@
           <section class="card">
             <div class="eyebrow">ROOM CONTROLS</div>
             <h3>Room Code: <span class="roomcode">${data.code}</span></h3>
-            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Lock Retentions & Start Auction →</button>` : `<p class="muted">Waiting for Host to lock retentions...</p>`}
+            ${isAdmin ? `<button class="btn" onclick="startMainAuction()">Confirm Retentions & Start Auction →</button>` : `<p class="muted">Waiting for Host to lock retentions...</p>`}
             
             <div class="sectiontitle" style="margin-top:20px;">Activity Log</div>
             <div class="log">${(data.logs||[]).slice().reverse().map(l=>`<div>${l}</div>`).join('')}</div>
