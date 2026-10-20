@@ -33,7 +33,7 @@
     .teamgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
     .teamchoice{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:left;cursor:pointer;color:var(--text)}
     .teamchoice.selected{border:2px solid var(--orange);background:#fff8f3}
-    .retainitem{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+    .retainitem{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
     .playerhero{background:linear-gradient(140deg,#091532,#18336a);color:#fff;border-radius:14px;padding:22px;position:relative;overflow:hidden}
     .playername{font-size:clamp(24px,3vw,34px);font-weight:900;margin:4px 0}
     .bidamount{font-size:clamp(32px,5vw,46px);font-weight:1000;color:var(--gold);margin:8px 0}
@@ -54,7 +54,7 @@
 <body>
 <header>
   <div class="brand"><span>IPL</span> AUCTION ARENA</div>
-  <div class="headmeta" id="headerStatus">Multiplayer Mock Auction</div>
+  <div class="headmeta" id="headerStatus">Multiplayer & AI Mock Auction</div>
 </header>
 <main>
   <div id="app">
@@ -112,6 +112,7 @@
   }
 
   let db, auth, currentUser, currentRoomId, unsubscribeRoom;
+  let aiTimer = null;
 
   try {
     firebase.initializeApp(firebaseConfig);
@@ -136,7 +137,7 @@
         <section class="card">
           <div class="eyebrow">START PLAYING</div>
           <h2 class="title">Create an auction room</h2>
-          <p class="muted">Host a private IPL-style auction and invite friends using a short room code.</p>
+          <p class="muted">Host a private IPL-style auction. Play Solo against smart AI Bidders or invite friends using a room code.</p>
           
           <label style="font-weight:700;font-size:13px;">Your display name</label>
           <input type="text" id="displayNameInput" class="field" value="User" placeholder="Enter your name">
@@ -162,10 +163,10 @@
             <div class="featurebox"><b>25</b><span>Squad maximum</span></div>
           </div>
 
-          <p class="muted" style="font-size:13px;">Choose a franchise or spectate. Teams have separate purses, squads, overseas limitations (Max 8), dynamic team strength ratings, and live bid updates.</p>
+          <p class="muted" style="font-size:13px;">Choose a franchise or spectate. Unclaimed franchises are automatically driven by AI Bidders for realistic solo play.</p>
 
           <div class="notice">
-            This is a fan-made mock auction. Player prices and the supplied player pool are for simulation, not official live auction data.
+            This is a fan-made mock auction with realistic AI decision capabilities.
           </div>
         </section>
       </div>
@@ -180,8 +181,16 @@
     const initialTeams = {};
 
     TEAMS.forEach(t => {
-      // Retentions start as user configurable in Phase 1
-      initialTeams[t.id] = { claimedBy: null, userName: "", purse: 12000, players: [], retainedList: [] };
+      // Default initial retentions
+      let defaultRetain = t.pool.slice(0, 3);
+      let spent = defaultRetain.reduce((acc, p) => acc + p.cost, 0);
+      initialTeams[t.id] = { 
+        claimedBy: null, 
+        userName: "AI Franchise", 
+        purse: 12000 - spent, 
+        players: defaultRetain.map(r => ({ name: r.name, cost: r.cost, country: r.country, role: r.role, type: "Retention" })), 
+        retainedList: defaultRetain 
+      };
     });
 
     const roomData = {
@@ -193,7 +202,7 @@
       currentPlayerIndex: 0,
       currentBid: PLAYERS[0].base,
       currentBidder: null,
-      logs: ["Auction room created. Phase 1: Retention selection."]
+      logs: ["Auction room created. Phase 1: Custom Retentions."]
     };
 
     await db.collection("rooms").doc(code).set(roomData);
@@ -212,7 +221,13 @@
     currentRoomId = code;
     if (unsubscribeRoom) unsubscribeRoom();
     unsubscribeRoom = db.collection("rooms").doc(code).onSnapshot(doc => {
-      if (doc.exists) renderRoom(doc.data());
+      if (doc.exists) {
+        const roomData = doc.data();
+        renderRoom(roomData);
+        if (roomData.status === "AUCTION" && roomData.hostId === currentUser.uid) {
+          triggerAILogic(roomData);
+        }
+      }
     });
   }
 
@@ -234,11 +249,13 @@
     let exists = currentRetain.some(p => p.name === playerObj.name);
 
     let updatedRetain = exists ? currentRetain.filter(p => p.name !== playerObj.name) : [...currentRetain, playerObj];
-    
-    // Recalculate Purse based on retentions
     let spent = updatedRetain.reduce((acc, p) => acc + p.cost, 0);
     let newPurse = 12000 - spent;
 
+    await refUpdateTeamRetention(teamId, updatedRetain, newPurse);
+  }
+
+  async function refUpdateTeamRetention(teamId, updatedRetain, newPurse) {
     await db.collection("rooms").doc(currentRoomId).update({
       [`teams.${teamId}.retainedList`]: updatedRetain,
       [`teams.${teamId}.players`]: updatedRetain.map(r => ({ name: r.name, cost: r.cost, country: r.country, role: r.role, type: "Retention" })),
@@ -254,30 +271,70 @@
     });
   }
 
-  async function placeBid() {
+  async function placeBid(overrideTeam = null) {
     const snap = await db.collection("rooms").doc(currentRoomId).get();
     const data = snap.data();
 
-    let myTeam = null;
-    for (const [tid, t] of Object.entries(data.teams)) {
-      if (t.claimedBy === currentUser.uid) myTeam = tid;
+    let targetTeam = overrideTeam;
+    if (!targetTeam) {
+      for (const [tid, t] of Object.entries(data.teams)) {
+        if (t.claimedBy === currentUser.uid) targetTeam = tid;
+      }
     }
 
-    if (!myTeam) return alert("Spectators cannot bid! Claim a team.");
+    if (!targetTeam) return alert("Spectators cannot bid! Claim a team.");
 
-    let teamData = data.teams[myTeam];
-    if (teamData.players.length >= 25) return alert("Squad Limit Reached (Max 25)!");
+    let teamData = data.teams[targetTeam];
+    if (teamData.players.length >= 25) return;
 
     let increment = data.currentBid < 1000 ? 20 : 50;
     let nextBid = data.currentBidder ? data.currentBid + increment : data.currentBid;
 
-    if (teamData.purse < nextBid) return alert("Insufficient Purse Remaining!");
+    if (teamData.purse < nextBid) return;
 
     await db.collection("rooms").doc(currentRoomId).update({
       currentBid: nextBid,
-      currentBidder: myTeam,
-      logs: firebase.firestore.FieldValue.arrayUnion(`${myTeam} bid ₹${nextBid} Lakhs`)
+      currentBidder: targetTeam,
+      logs: firebase.firestore.FieldValue.arrayUnion(`${targetTeam} bid ₹${nextBid} Lakhs`)
     });
+  }
+
+  // Realistic AI decision logic executed by host
+  function triggerAILogic(data) {
+    clearTimeout(aiTimer);
+    aiTimer = setTimeout(async () => {
+      const p = PLAYERS[data.currentPlayerIndex];
+      if (!p) return;
+
+      const increment = data.currentBid < 1000 ? 20 : 50;
+      const nextBid = data.currentBidder ? data.currentBid + increment : data.currentBid;
+
+      // Find eligible AI candidates
+      let eligibleAIs = [];
+      Object.entries(data.teams).forEach(([tid, t]) => {
+        // AI owns unclaimed teams or teams assigned as AI Franchise
+        if (!t.claimedBy && tid !== data.currentBidder) {
+          const squad = t.players || [];
+          const overseasCount = squad.filter(sp => sp.country === "Overseas").length;
+
+          if (squad.length < 25 && t.purse >= nextBid) {
+            if (p.country !== "Overseas" || overseasCount < 8) {
+              // AI valuation limit (2.5x to 4x base price)
+              let maxValuation = Math.max(p.base * 3, 600);
+              if (nextBid <= maxValuation) {
+                eligibleAIs.push(tid);
+              }
+            }
+          }
+        }
+      });
+
+      if (eligibleAIs.length > 0) {
+        // Randomly choose an eligible AI bidder
+        let chosenAI = eligibleAIs[Math.floor(Math.random() * eligibleAIs.length)];
+        await placeBid(chosenAI);
+      }
+    }, 2200);
   }
 
   async function adminSellPlayer() {
@@ -322,15 +379,13 @@
     });
   }
 
-  // Calculate Team Strength Score (0 to 100)
   function calculateTeamStrength(players) {
     if (!players || players.length === 0) return 10;
-    let count = players.length;
     let roles = { BAT: 0, BOWL: 0, AR: 0, WK: 0 };
     players.forEach(p => { if (roles[p.role] !== undefined) roles[p.role]++; });
 
     let balanceScore = Math.min(roles.BAT, 4) * 10 + Math.min(roles.BOWL, 4) * 10 + Math.min(roles.AR, 2) * 15 + Math.min(roles.WK, 1) * 20;
-    let sizeScore = Math.min(count / 18, 1) * 30;
+    let sizeScore = Math.min(players.length / 18, 1) * 30;
 
     return Math.min(Math.round(balanceScore * 0.7 + sizeScore), 100);
   }
@@ -351,9 +406,9 @@
       app.innerHTML = `
         <div class="layout">
           <section class="card">
-            <div class="eyebrow">Phase 1: Custom Retentions</div>
-            <h2 class="title">Select Retentions by User Interest</h2>
-            <p class="muted">Check or uncheck player retentions to customize starting purses before the auction.</p>
+            <div class="eyebrow">Phase 1: Retentions</div>
+            <h2 class="title">Select Franchises & Custom Retentions</h2>
+            <p class="muted">Claim your favorite franchise. Unclaimed teams will be played by AI.</p>
             
             <div class="teamgrid">
               ${TEAMS.map(t => {
@@ -403,7 +458,7 @@
               <div class="playername">${p.name}</div>
               <div class="muted" style="color:#cbd5ee">${p.role} · ${p.country} · Base Price: ₹${p.base} L</div>
               <div class="bidamount">₹${data.currentBid} Lakhs</div>
-              <div><b>Highest Bidder:</b> ${data.currentBidder || 'No Bids Yet'}</div>
+              <div><b>Highest Bidder:</b> ${data.currentBidder ? (data.teams[data.currentBidder].claimedBy ? data.currentBidder + " (User)" : data.currentBidder + " (AI)") : 'No Bids Yet'}</div>
             </div>
 
             <div class="actions">
@@ -422,6 +477,7 @@
                 <thead>
                   <tr>
                     <th>Team</th>
+                    <th>Type</th>
                     <th>Purse Left</th>
                     <th>Squad</th>
                     <th>Overseas</th>
@@ -430,13 +486,15 @@
                 </thead>
                 <tbody>
                   ${TEAMS.map(t => {
-                    const squad = data.teams[t.id].players || [];
+                    const teamObj = data.teams[t.id];
+                    const squad = teamObj.players || [];
                     const overseasCount = squad.filter(sp => sp.country === "Overseas").length;
                     const strength = calculateTeamStrength(squad);
                     return `
                       <tr>
                         <td><b>${t.id}</b></td>
-                        <td>₹${(data.teams[t.id].purse / 100).toFixed(2)} Cr</td>
+                        <td><small>${teamObj.claimedBy ? 'User' : 'AI'}</small></td>
+                        <td>₹${(teamObj.purse / 100).toFixed(2)} Cr</td>
                         <td>${squad.length}/25</td>
                         <td><span style="color:${overseasCount >= 8 ? 'var(--red)' : 'var(--text)'}">${overseasCount}/8</span></td>
                         <td>
