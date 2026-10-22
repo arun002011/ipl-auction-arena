@@ -874,59 +874,7 @@
             }
         }
 
-        async function claimTeam(id) {
-            if (!room || room.phase !== 'lobby') return;
-            try {
-                const ref = db.collection('rooms').doc(roomCode);
-                const teamRef = ref.collection('teams').doc(id);
-
-                await db.runTransaction(async tx => {
-                    const r = (await tx.get(ref)).data();
-                    const t = (await tx.get(teamRef)).data();
-                    if (r.phase !== 'lobby') throw Error('Auction started');
-                    if (t.ownerUid && t.ownerUid !== user.uid) throw Error('Team taken');
-
-                    const all = await tx.get(ref.collection('teams'));
-                    all.forEach(d => {
-                        if (d.data().ownerUid === user.uid && d.id !== id) {
-                            tx.update(ref.collection('teams').doc(d.id), { ownerUid: null, ownerName: 'AI' });
-                        }
-                    });
-
-                    tx.update(teamRef, { ownerUid: user.uid, ownerName: nameInput() });
-                    tx.update(ref, { log: firebase.firestore.FieldValue.arrayUnion(`${nameInput()} selected ${teamById(id).name}.`) });
-                });
-            } catch (e) {
-                showToast(e.message, 'error');
-            }
-        }
-
-        async function becomeSpectator() {
-            if (myTeam) {
-                try {
-                    await db.collection('rooms').doc(roomCode).collection('teams').doc(myTeam).update({ ownerUid: null, ownerName: 'AI' });
-                } catch(e) {}
-            }
-            myTeam = null;
-            renderStep2Teams();
-        }
-
-        async function confirmTeamSelection() {
-            if (!isHost) {
-                showToast('Team confirmed! Waiting for host to launch retentions.', 'success');
-                return;
-            }
-            try {
-                await db.collection('rooms').doc(roomCode).update({
-                    phase: 'retention',
-                    bidState: 'retention',
-                    log: firebase.firestore.FieldValue.arrayUnion('Retention phase opened.')
-                });
-            } catch (e) {
-                showToast(e.message, 'error');
-            }
-        }
-
+        async function claimTeam(id)
         /* ==================== STEP 3: RETENTION ==================== */
         function renderStep3Retention() {
             if (isHost) document.getElementById('host-launch-auction-container').classList.remove('hidden');
