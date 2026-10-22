@@ -874,7 +874,101 @@
             }
         }
 
-        async function claimTeam(id)
+        // ... existing code above ...
+
+function leaveSession() {
+    clearRoomListeners();
+    document.getElementById('header-room-status').textContent = '● Connecting to Firebase...';
+    setStep(1);
+}
+
+/* ==================== REPLACE THIS FUNCTION BELOW ==================== */
+      async function becomeSpectator() {
+            if (myTeam) {
+                try {
+                    await db.collection('rooms').doc(roomCode).collection('teams').doc(myTeam).update({ ownerUid: null, ownerName: 'AI' });
+                } catch(e) {}
+            }
+            myTeam = null;
+            renderStep2Teams();
+        }
+
+async function claimTeam(id) {
+    if (!room || room.phase !== 'lobby') {
+        showToast('You can only select a team during the lobby phase.', 'warning');
+        return;
+    }
+
+    // Fix 1: Ensure user and display name are valid non-undefined strings
+    if (!user || !user.uid) {
+        showToast('Authentication pending. Please try again in a moment.', 'error');
+        return;
+    }
+
+    const displayName = (nameInput() || 'Team Owner').trim();
+
+    try {
+        const roomRef = db.collection('rooms').doc(roomCode);
+        const targetTeamRef = roomRef.collection('teams').doc(id);
+
+        await db.runTransaction(async (tx) => {
+            // STEP 1: Perform ALL Reads First
+            const roomSnap = await tx.get(roomRef);
+            if (!roomSnap.exists) throw new Error('Room does not exist.');
+            
+            const roomData = roomSnap.data();
+            if (roomData.phase !== 'lobby') throw new Error('The auction lobby has already closed.');
+
+            const targetTeamSnap = await tx.get(targetTeamRef);
+            if (!targetTeamSnap.exists) throw new Error('Selected team does not exist.');
+            
+            const targetTeamData = targetTeamSnap.data();
+            if (targetTeamData.ownerUid && targetTeamData.ownerUid !== user.uid) {
+                throw new Error('This franchise has already been claimed by another participant.');
+            }
+
+            // Get all teams to check if user already owns another team
+            const allTeamsSnap = await tx.get(roomRef.collection('teams'));
+            let previousTeamId = null;
+
+            allTeamsSnap.forEach((doc) => {
+                const data = doc.data();
+                if (data.ownerUid === user.uid && doc.id !== id) {
+                    previousTeamId = doc.id;
+                }
+            });
+
+            // STEP 2: Perform ALL Writes After Reads
+            if (previousTeamId) {
+                const prevTeamRef = roomRef.collection('teams').doc(previousTeamId);
+                tx.update(prevTeamRef, { 
+                    ownerUid: null, 
+                    ownerName: 'AI' 
+                });
+            }
+
+            // Fix 2: Explicitly guarantee clean primitive types (no undefined values)
+            tx.update(targetTeamRef, { 
+                ownerUid: user.uid, 
+                ownerName: String(displayName) 
+            });
+
+            tx.update(roomRef, { 
+                log: firebase.firestore.FieldValue.arrayUnion(`${displayName} claimed ${teamById(id).name}.`) 
+            });
+        });
+
+        showToast(`Successfully claimed ${teamById(id).name}!`, 'success');
+    } catch (e) {
+        console.error('claimTeam error:', e);
+        showToast(e.message || 'Failed to claim team.', 'error');
+    }
+}
+
+/* ==================== CONTINUE WITH CODE BELOW ==================== */
+
+async function becomeSpectator() {
+    // ... rest of your script ...
         /* ==================== STEP 3: RETENTION ==================== */
         function renderStep3Retention() {
             if (isHost) document.getElementById('host-launch-auction-container').classList.remove('hidden');
