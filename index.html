@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
@@ -12,13 +12,14 @@
             theme: {
                 extend: {
                     colors: {
-                        deepNavy: '#070A12',
-                        cardDark: '#0F1626',
-                        glassDark: 'rgba(15, 22, 38, 0.75)',
-                        borderGlow: '#1E2B45',
+                        deepNavy: '#F1F5F9',
+                        cardDark: '#FFFFFF',
+                        glassDark: 'rgba(255, 255, 255, 0.85)',
+                        borderGlow: '#E2E8F0',
+                        ink: '#0F172A',
                         goldGlow: '#F59E0B',
                         goldHover: '#D97706',
-                        cyanNeon: '#06B6D4',
+                        cyanNeon: '#0E7490',
                         accentBlue: '#2563EB'
                     },
                     fontFamily: {
@@ -36,59 +37,61 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        :root { color-scheme: light; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #131C31 0%, #070A12 70%);
-            color: #F3F4F6;
+            background:
+                radial-gradient(900px 420px at 85% -5%, rgba(245, 158, 11, 0.14), transparent 60%),
+                radial-gradient(800px 400px at 5% 0%, rgba(6, 182, 212, 0.10), transparent 60%),
+                linear-gradient(180deg, #FFFBF2 0%, #F4F7FB 55%, #EEF2F8 100%);
+            background-attachment: fixed;
+            color: #0F172A;
             min-height: 100vh;
         }
 
         .glass-panel {
-            background: rgba(15, 22, 38, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -16px rgba(15, 23, 42, 0.16);
         }
+        .glass-panel.shadow-2xl, .glass-panel.shadow-xl { box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 16px 40px -18px rgba(15, 23, 42, 0.20) !important; }
+        header.glass-panel { box-shadow: 0 1px 0 rgba(15, 23, 42, 0.05), 0 8px 24px -16px rgba(15, 23, 42, 0.18) !important; background: rgba(255, 255, 255, 0.92); }
 
         .glass-panel-gold {
-            background: rgba(245, 158, 11, 0.05);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 158, 11, 0.25);
+            background: linear-gradient(180deg, #FFF7E0 0%, #FFFDF5 100%);
+            border: 1px solid rgba(245, 158, 11, 0.45);
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #070A12;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1E2B45;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #F59E0B;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #F1F5F9; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #F59E0B; }
 
-        .stamp-animation {
-            animation: stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
+        .stamp-animation { animation: stamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes stamp {
-            0% {
-                opacity: 0;
-                transform: scale(3) rotate(-15deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) rotate(-10deg);
-            }
+            0% { opacity: 0; transform: scale(3) rotate(-15deg); }
+            100% { opacity: 1; transform: scale(1) rotate(-10deg); }
         }
 
-        .glow-gold-shadow {
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+        .glow-gold-shadow { box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.12), 0 18px 44px -18px rgba(245, 158, 11, 0.45) !important; }
+
+        /* polish: inputs, buttons, cards */
+        input[type="text"], input[type="number"], select {
+            background: #FFFFFF !important;
+            color: #0F172A !important;
+            transition: border-color .15s, box-shadow .15s;
         }
+        input::placeholder { color: #94A3B8; }
+        input:focus, select:focus { box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.22); }
+        #part-code-input:focus { box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.20); }
+        button { transition: transform .12s ease, box-shadow .15s ease, background-color .15s ease; }
+        button:not(:disabled):active { transform: scale(0.98); }
+        #franchise-selection-grid button:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 14px 28px -14px rgba(15, 23, 42, 0.30); }
+        table thead { background: #F8FAFC !important; }
+        table tbody tr:hover { background: rgba(245, 158, 11, 0.06); }
+        code { background: #F1F5F9; padding: 1px 6px; border-radius: 6px; }
     </style>
 </head>
 <body class="flex flex-col justify-between overflow-x-hidden selection:bg-amber-500 selection:text-black">
@@ -102,10 +105,10 @@
                         IPL
                     </div>
                     <div>
-                        <h1 class="text-base font-extrabold tracking-wide text-white flex items-center gap-2">
-                            PREMIER AUCTION <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded border border-amber-500/30">2026 MEGA</span>
+                        <h1 class="text-base font-extrabold tracking-wide text-ink flex items-center gap-2">
+                            PREMIER AUCTION <span class="text-[10px] bg-amber-500/20 text-amber-700 px-2 py-0.5 rounded border border-amber-500/30">2026 MEGA</span>
                         </h1>
-                        <p class="text-[11px] text-gray-400" id="header-room-status">● Connecting to Firebase...</p>
+                        <p class="text-[11px] text-slate-500" id="header-room-status">● Connecting to Firebase...</p>
                     </div>
                 </div>
 
@@ -114,20 +117,20 @@
                     <div id="step-pill-1" class="px-3 py-1.5 rounded-lg bg-amber-500 text-black font-bold flex items-center gap-1.5 shadow">
                         <span>1</span> Room
                     </div>
-                    <i class="fa-solid fa-chevron-right text-gray-600 text-[10px]"></i>
-                    <div id="step-pill-2" class="px-3 py-1.5 rounded-lg bg-cardDark text-gray-400 border border-borderGlow flex items-center gap-1.5">
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    <div id="step-pill-2" class="px-3 py-1.5 rounded-lg bg-cardDark text-slate-500 border border-borderGlow flex items-center gap-1.5">
                         <span>2</span> Team Selection
                     </div>
-                    <i class="fa-solid fa-chevron-right text-gray-600 text-[10px]"></i>
-                    <div id="step-pill-3" class="px-3 py-1.5 rounded-lg bg-cardDark text-gray-400 border border-borderGlow flex items-center gap-1.5">
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    <div id="step-pill-3" class="px-3 py-1.5 rounded-lg bg-cardDark text-slate-500 border border-borderGlow flex items-center gap-1.5">
                         <span>3</span> Retentions
                     </div>
-                    <i class="fa-solid fa-chevron-right text-gray-600 text-[10px]"></i>
-                    <div id="step-pill-4" class="px-3 py-1.5 rounded-lg bg-cardDark text-gray-400 border border-borderGlow flex items-center gap-1.5">
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    <div id="step-pill-4" class="px-3 py-1.5 rounded-lg bg-cardDark text-slate-500 border border-borderGlow flex items-center gap-1.5">
                         <span>4</span> Live Auction
                     </div>
-                    <i class="fa-solid fa-chevron-right text-gray-600 text-[10px]"></i>
-                    <div id="step-pill-5" class="px-3 py-1.5 rounded-lg bg-cardDark text-gray-400 border border-borderGlow flex items-center gap-1.5">
+                    <i class="fa-solid fa-chevron-right text-slate-400 text-[10px]"></i>
+                    <div id="step-pill-5" class="px-3 py-1.5 rounded-lg bg-cardDark text-slate-500 border border-borderGlow flex items-center gap-1.5">
                         <span>5</span> Winner Leaderboard
                     </div>
                 </div>
@@ -136,7 +139,7 @@
                     <span id="role-badge" class="hidden px-2.5 py-1 bg-cyan-500/10 text-cyanNeon border border-cyan-500/30 text-xs font-bold rounded-lg">
                         -
                     </span>
-                    <button onclick="leaveSession()" class="px-3 py-1.5 text-xs font-semibold text-red-400 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition">
+                    <button onclick="leaveSession()" class="px-3 py-1.5 text-xs font-semibold text-red-600 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition">
                         <i class="fa-solid fa-power-off mr-1"></i> Exit Session
                     </button>
                 </div>
@@ -149,36 +152,36 @@
 
         <!-- ERROR CONFIG MODAL -->
         <div id="error-config-card" class="hidden max-w-2xl mx-auto glass-panel p-8 rounded-3xl border border-red-500/30 text-center space-y-4">
-            <div class="w-16 h-16 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-2xl mx-auto">
+            <div class="w-16 h-16 rounded-full bg-red-500/20 text-red-600 flex items-center justify-center text-2xl mx-auto">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h2 class="text-2xl font-black text-white">Firebase Configuration Required</h2>
-            <p id="error-msg" class="text-xs text-red-400 font-mono bg-deepNavy p-3 rounded-xl border border-borderGlow"></p>
-            <p class="text-xs text-gray-400">Please provide valid Firebase credentials inside the <code>firebaseConfig</code> script block in this file to enable multiplayer backend real-time syncing.</p>
+            <h2 class="text-2xl font-black text-ink">Firebase Configuration Required</h2>
+            <p id="error-msg" class="text-xs text-red-600 font-mono bg-deepNavy p-3 rounded-xl border border-borderGlow"></p>
+            <p class="text-xs text-slate-500">Please provide valid Firebase credentials inside the <code>firebaseConfig</code> script block in this file to enable multiplayer backend real-time syncing.</p>
             <button onclick="location.reload()" class="px-6 py-2.5 bg-amber-500 text-black font-extrabold text-xs rounded-xl hover:bg-amber-600 transition">Try Again</button>
         </div>
 
         <!-- STEP 1: ROOM CREATION & JOINING -->
         <section id="step-1-room" class="space-y-8 max-w-4xl mx-auto">
             <div class="text-center space-y-3">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">IPL 2026 Auction Arena</h2>
-                <p class="text-sm text-gray-400 max-w-lg mx-auto">Create a room as Host or join an existing session with live Firebase sync.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">IPL 2026 Auction Arena</h2>
+                <p class="text-sm text-slate-500 max-w-lg mx-auto">Create a room as Host or join an existing session with live Firebase sync.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Host Box -->
                 <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-borderGlow hover:border-amber-500/50 transition-all shadow-2xl flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center text-xl mb-5">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-700 border border-amber-500/20 flex items-center justify-center text-xl mb-5">
                             <i class="fa-solid fa-crown"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-1">Create Room (Host)</h3>
-                        <p class="text-xs text-gray-400 mb-6">Initialize multiplayer room with live Firebase updates.</p>
+                        <h3 class="text-xl font-bold text-ink mb-1">Create Room (Host)</h3>
+                        <p class="text-xs text-slate-500 mb-6">Initialize multiplayer room with live Firebase updates.</p>
 
                         <div class="space-y-4 text-xs">
                             <div>
-                                <label class="block text-gray-300 font-semibold mb-1">Host Display Name</label>
-                                <input type="text" id="host-name-input" value="Auction Master" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-white focus:outline-none focus:border-amber-500">
+                                <label class="block text-slate-600 font-semibold mb-1">Host Display Name</label>
+                                <input type="text" id="host-name-input" value="Auction Master" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-ink focus:outline-none focus:border-amber-500">
                             </div>
                         </div>
                     </div>
@@ -194,17 +197,17 @@
                         <div class="w-12 h-12 rounded-2xl bg-cyanNeon/10 text-cyanNeon border border-cyanNeon/20 flex items-center justify-center text-xl mb-5">
                             <i class="fa-solid fa-users"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-1">Join Room (Participant)</h3>
-                        <p class="text-xs text-gray-400 mb-6">Enter code provided by host to claim a franchise.</p>
+                        <h3 class="text-xl font-bold text-ink mb-1">Join Room (Participant)</h3>
+                        <p class="text-xs text-slate-500 mb-6">Enter code provided by host to claim a franchise.</p>
 
                         <div class="space-y-4 text-xs">
                             <div>
-                                <label class="block text-gray-300 font-semibold mb-1">Participant Name</label>
-                                <input type="text" id="part-name-input" placeholder="Enter your name" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-white focus:outline-none focus:border-cyanNeon">
+                                <label class="block text-slate-600 font-semibold mb-1">Participant Name</label>
+                                <input type="text" id="part-name-input" placeholder="Enter your name" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-ink focus:outline-none focus:border-cyanNeon">
                             </div>
                             <div>
-                                <label class="block text-gray-300 font-semibold mb-1">Room Code</label>
-                                <input type="text" id="part-code-input" placeholder="e.g. A7K2P" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-white font-mono text-center tracking-widest text-base focus:outline-none focus:border-cyanNeon uppercase">
+                                <label class="block text-slate-600 font-semibold mb-1">Room Code</label>
+                                <input type="text" id="part-code-input" placeholder="e.g. A7K2P" class="w-full bg-deepNavy border border-borderGlow rounded-xl p-3 text-ink font-mono text-center tracking-widest text-base focus:outline-none focus:border-cyanNeon uppercase">
                             </div>
                         </div>
                     </div>
@@ -218,10 +221,10 @@
             <!-- Connected Players Lobby Box -->
             <div id="room-lobby-box" class="hidden glass-panel p-6 rounded-2xl border border-borderGlow space-y-4">
                 <div class="flex items-center justify-between border-b border-borderGlow pb-3">
-                    <h4 class="text-sm font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-wifi text-emerald-400 animate-pulse"></i> Live Room Lobby
+                    <h4 class="text-sm font-bold text-ink flex items-center gap-2">
+                        <i class="fa-solid fa-wifi text-emerald-700 animate-pulse"></i> Live Room Lobby
                     </h4>
-                    <span id="room-code-badge" class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-400 font-mono text-xs font-bold rounded-lg">CODE: ------</span>
+                    <span id="room-code-badge" class="px-3 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-700 font-mono text-xs font-bold rounded-lg">CODE: ------</span>
                 </div>
 
                 <div id="connected-participants-list" class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
@@ -238,8 +241,8 @@
         <!-- STEP 2: TEAM SELECTION -->
         <section id="step-2-teams" class="hidden space-y-6 max-w-5xl mx-auto">
             <div class="text-center space-y-2">
-                <h2 class="text-2xl font-black text-white">Select Your IPL Franchise</h2>
-                <p class="text-xs text-gray-400">Choose an available team to manage for retentions & live bidding.</p>
+                <h2 class="text-2xl font-black text-ink">Select Your IPL Franchise</h2>
+                <p class="text-xs text-slate-500">Choose an available team to manage for retentions & live bidding.</p>
             </div>
 
             <div id="franchise-selection-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
@@ -247,12 +250,12 @@
 
             <div class="flex items-center justify-between glass-panel p-4 rounded-2xl border border-borderGlow mt-6">
                 <div class="text-xs">
-                    <span class="text-gray-400">Your Choice:</span>
-                    <strong id="selected-team-text" class="text-amber-400 ml-1">None Selected</strong>
+                    <span class="text-slate-500">Your Choice:</span>
+                    <strong id="selected-team-text" class="text-amber-700 ml-1">None Selected</strong>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="becomeSpectator()" class="px-4 py-2.5 bg-cardDark border border-borderGlow text-gray-300 font-bold text-xs rounded-xl hover:bg-deepNavy transition">Spectate</button>
-                    <button id="btn-confirm-team" onclick="confirmTeamSelection()" disabled class="px-6 py-2.5 bg-gray-700 text-gray-400 font-bold text-xs rounded-xl transition cursor-not-allowed">
+                    <button onclick="becomeSpectator()" class="px-4 py-2.5 bg-cardDark border border-borderGlow text-slate-600 font-bold text-xs rounded-xl hover:bg-deepNavy transition">Spectate</button>
+                    <button id="btn-confirm-team" onclick="confirmTeamSelection()" disabled class="px-6 py-2.5 bg-slate-200 text-slate-500 font-bold text-xs rounded-xl transition cursor-not-allowed">
                         Confirm Team Choice
                     </button>
                 </div>
@@ -263,32 +266,32 @@
         <section id="step-3-retention" class="hidden space-y-6 max-w-6xl mx-auto">
             <div class="glass-panel p-6 rounded-2xl border border-borderGlow flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-xl font-black text-white flex items-center gap-2">
-                        <i class="fa-solid fa-shield-cat text-amber-400"></i> Squad Retention Phase (2026 Rules)
+                    <h2 class="text-xl font-black text-ink flex items-center gap-2">
+                        <i class="fa-solid fa-shield-cat text-amber-700"></i> Squad Retention Phase (2026 Rules)
                     </h2>
-                    <p class="text-xs text-gray-400 mt-1">Retain up to 6 players from your official squad. Max 5 capped and 2 uncapped candidates.</p>
+                    <p class="text-xs text-slate-500 mt-1">Retain up to 6 players from your official squad. Max 5 capped and 2 uncapped candidates.</p>
                 </div>
 
                 <div class="flex items-center gap-4 text-xs bg-deepNavy p-3 rounded-xl border border-borderGlow">
                     <div>
-                        <p class="text-gray-400">Starting Purse</p>
-                        <p id="retention-starting-purse" class="font-extrabold text-amber-400">₹120.00 Cr</p>
+                        <p class="text-slate-500">Starting Purse</p>
+                        <p id="retention-starting-purse" class="font-extrabold text-amber-700">₹120.00 Cr</p>
                     </div>
                     <div class="border-l border-borderGlow pl-4">
-                        <p class="text-gray-400">Deducted</p>
-                        <p id="retention-deducted-amount" class="font-extrabold text-red-400">₹0.00 Cr</p>
+                        <p class="text-slate-500">Deducted</p>
+                        <p id="retention-deducted-amount" class="font-extrabold text-red-600">₹0.00 Cr</p>
                     </div>
                     <div class="border-l border-borderGlow pl-4">
-                        <p class="text-gray-400">Purse Left</p>
-                        <p id="retention-remaining-purse" class="font-extrabold text-emerald-400">₹120.00 Cr</p>
+                        <p class="text-slate-500">Purse Left</p>
+                        <p id="retention-remaining-purse" class="font-extrabold text-emerald-700">₹120.00 Cr</p>
                     </div>
                 </div>
             </div>
 
             <div class="bg-cardDark/60 border border-borderGlow rounded-2xl p-5">
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-sm font-bold text-white" id="retention-team-title">Official 2026 Squad Players</h3>
-                    <span id="retention-count-badge" class="text-xs font-semibold px-2.5 py-1 bg-amber-500/20 text-amber-400 rounded-lg">0 / 6 Retained</span>
+                    <h3 class="text-sm font-bold text-ink" id="retention-team-title">Official 2026 Squad Players</h3>
+                    <span id="retention-count-badge" class="text-xs font-semibold px-2.5 py-1 bg-amber-500/20 text-amber-700 rounded-lg">0 / 6 Retained</span>
                 </div>
 
                 <div id="retention-squad-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -296,7 +299,7 @@
             </div>
 
             <div class="flex justify-between items-center pt-2">
-                <button onclick="saveRetentionChoices()" class="px-6 py-2.5 bg-cardDark border border-borderGlow text-amber-400 font-bold text-xs rounded-xl hover:bg-deepNavy transition">
+                <button onclick="saveRetentionChoices()" class="px-6 py-2.5 bg-cardDark border border-borderGlow text-amber-700 font-bold text-xs rounded-xl hover:bg-deepNavy transition">
                     Save Retention Selections
                 </button>
                 <div id="host-launch-auction-container" class="hidden">
@@ -315,16 +318,16 @@
                     <button onclick="switchAuctionSubTab('live')" id="subtab-live" class="px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-black shadow">
                         <i class="fa-solid fa-gavel mr-1"></i> Live Arena
                     </button>
-                    <button onclick="switchAuctionSubTab('squad')" id="subtab-squad" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white">
+                    <button onclick="switchAuctionSubTab('squad')" id="subtab-squad" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-ink hover:bg-slate-100">
                         <i class="fa-solid fa-user-shield mr-1"></i> Squad Viewer
                     </button>
-                    <button onclick="switchAuctionSubTab('matrix')" id="subtab-matrix" class="px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white">
+                    <button onclick="switchAuctionSubTab('matrix')" id="subtab-matrix" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-ink hover:bg-slate-100">
                         <i class="fa-solid fa-table-cells mr-1"></i> All Teams Summary
                     </button>
                 </div>
 
                 <div id="host-master-controls" class="hidden flex items-center gap-2">
-                    <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">
+                    <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-700 bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20">
                         <i class="fa-solid fa-crown mr-1"></i> Host Controls
                     </span>
                     <button onclick="finishAuctionAndCalculateWinner()" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-black font-black text-xs rounded-lg shadow">
@@ -341,7 +344,7 @@
                     <div class="glass-panel border border-borderGlow rounded-3xl p-6 relative overflow-hidden shadow-2xl glow-gold-shadow">
                         
                         <div id="auction-stamp" class="hidden absolute top-10 right-6 z-20 pointer-events-none">
-                            <div id="auction-stamp-text" class="px-6 py-2 border-4 border-emerald-500 text-emerald-400 font-black text-3xl uppercase tracking-widest rounded-xl bg-deepNavy/90 backdrop-blur stamp-animation shadow-2xl">
+                            <div id="auction-stamp-text" class="px-6 py-2 border-4 border-emerald-500 text-emerald-700 font-black text-3xl uppercase tracking-widest rounded-xl bg-deepNavy/90 backdrop-blur stamp-animation shadow-2xl">
                                 SOLD
                             </div>
                         </div>
@@ -350,21 +353,21 @@
                             <span id="player-role-badge" class="px-3 py-1 bg-cyanNeon/10 text-cyanNeon border border-cyanNeon/30 rounded-full text-[10px] font-bold uppercase tracking-wider">
                                 BATSMAN
                             </span>
-                            <span id="player-origin-badge" class="text-xs font-semibold text-gray-400">
+                            <span id="player-origin-badge" class="text-xs font-semibold text-slate-500">
                                 India
                             </span>
                         </div>
 
                         <div class="flex items-center gap-4 mb-5">
-                            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-cardDark to-deepNavy border-2 border-amber-500/40 flex items-center justify-center text-4xl text-amber-400 shadow-inner">
+                            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-cardDark to-deepNavy border-2 border-amber-500/40 flex items-center justify-center text-4xl text-amber-700 shadow-inner">
                                 <i id="player-icon-avatar" class="fa-solid fa-user-ninja"></i>
                             </div>
                             <div class="flex-1">
-                                <span id="player-set-tag" class="text-[10px] font-extrabold uppercase text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Set 1</span>
-                                <h3 id="player-name" class="text-2xl font-black text-white mt-1">Loading...</h3>
-                                <p id="player-subinfo" class="text-xs text-gray-400">-</p>
-                                <div class="mt-2 text-xs font-bold text-gray-300">
-                                    Base Price: <span id="player-base-price" class="text-amber-400">₹2.00 Cr</span>
+                                <span id="player-set-tag" class="text-[10px] font-extrabold uppercase text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Set 1</span>
+                                <h3 id="player-name" class="text-2xl font-black text-ink mt-1">Loading...</h3>
+                                <p id="player-subinfo" class="text-xs text-slate-500">-</p>
+                                <div class="mt-2 text-xs font-bold text-slate-600">
+                                    Base Price: <span id="player-base-price" class="text-amber-700">₹2.00 Cr</span>
                                 </div>
                             </div>
                         </div>
@@ -376,11 +379,11 @@
                                     <i class="fa-solid fa-clock"></i>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-400 font-medium">Bidding Timer</p>
-                                    <p id="auction-phase-status" class="text-xs font-bold text-amber-400">Bidding Live</p>
+                                    <p class="text-xs text-slate-500 font-medium">Bidding Timer</p>
+                                    <p id="auction-phase-status" class="text-xs font-bold text-amber-700">Bidding Live</p>
                                 </div>
                             </div>
-                            <div id="auction-timer-num" class="text-3xl font-black font-mono text-red-400">
+                            <div id="auction-timer-num" class="text-3xl font-black font-mono text-red-600">
                                 12s
                             </div>
                         </div>
@@ -393,11 +396,11 @@
                     <div class="glass-panel border border-borderGlow rounded-3xl p-6 shadow-2xl space-y-5">
                         
                         <div class="bg-gradient-to-r from-deepNavy via-cardDark to-deepNavy border border-amber-500/30 rounded-2xl p-5 text-center">
-                            <p class="text-[10px] uppercase font-bold tracking-widest text-gray-400">Current Highest Offer</p>
-                            <p id="live-bid-amount" class="text-4xl sm:text-5xl font-black text-amber-400 my-1 tracking-tight">₹0.00 Cr</p>
+                            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Current Highest Offer</p>
+                            <p id="live-bid-amount" class="text-4xl sm:text-5xl font-black text-amber-700 my-1 tracking-tight">₹0.00 Cr</p>
                             
-                            <div id="highest-bidder-pill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-borderGlow text-white text-xs font-bold mt-1">
-                                <span id="highest-bidder-logo" class="w-4 h-4 rounded-full bg-gray-600 flex items-center justify-center text-[9px] font-black">?</span>
+                            <div id="highest-bidder-pill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-borderGlow text-ink text-xs font-bold mt-1">
+                                <span id="highest-bidder-logo" class="w-4 h-4 rounded-full bg-slate-300 flex items-center justify-center text-[9px] font-black">?</span>
                                 <span id="highest-bidder-name">No Bids Placed</span>
                             </div>
                         </div>
@@ -405,10 +408,10 @@
                         <!-- Dynamic RTM Interactive Box -->
                         <div id="rtm-interactive-panel" class="hidden p-4 rounded-2xl border-2 border-amber-500 bg-amber-500/10 space-y-3">
                             <div class="flex items-center justify-between">
-                                <h4 class="text-xs font-black text-amber-400 uppercase tracking-wider"><i class="fa-solid fa-handshake mr-1.5"></i> Right to Match (RTM) Triggered</h4>
+                                <h4 class="text-xs font-black text-amber-700 uppercase tracking-wider"><i class="fa-solid fa-handshake mr-1.5"></i> Right to Match (RTM) Triggered</h4>
                                 <span id="rtm-badge" class="text-[10px] bg-amber-500 text-black px-2 py-0.5 rounded font-bold">RTM ACTION</span>
                             </div>
-                            <p id="rtm-panel-desc" class="text-xs text-gray-300">Former franchise decision required.</p>
+                            <p id="rtm-panel-desc" class="text-xs text-slate-600">Former franchise decision required.</p>
                             <div id="rtm-action-btns" class="flex gap-2">
                             </div>
                         </div>
@@ -418,15 +421,15 @@
                             <button id="btn-place-bid" onclick="placeBid()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-black text-base rounded-2xl transition shadow-xl shadow-amber-500/20 disabled:opacity-40 disabled:cursor-not-allowed">
                                 Place Bid (<span id="next-bid-amount-text">₹0.00 Cr</span>)
                             </button>
-                            <p id="bid-subtext" class="text-center text-[11px] text-gray-400">My Team Purse: <span id="my-purse-display" class="text-amber-400 font-bold">₹0.00 Cr</span></p>
+                            <p id="bid-subtext" class="text-center text-[11px] text-slate-500">My Team Purse: <span id="my-purse-display" class="text-amber-700 font-bold">₹0.00 Cr</span></p>
                         </div>
 
                         <!-- Host Action Panel -->
                         <div id="host-action-panel" class="hidden pt-4 border-t border-borderGlow flex items-center justify-between gap-2">
-                            <button onclick="hostSkip()" class="px-4 py-2 bg-deepNavy border border-borderGlow text-gray-300 text-xs font-bold rounded-xl hover:bg-cardDark transition">
+                            <button onclick="hostSkip()" class="px-4 py-2 bg-deepNavy border border-borderGlow text-slate-600 text-xs font-bold rounded-xl hover:bg-cardDark transition">
                                 Skip / Force Unsold
                             </button>
-                            <button onclick="resetRoom()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold rounded-xl hover:bg-red-500/30 transition">
+                            <button onclick="resetRoom()" class="px-4 py-2 bg-red-500/20 text-red-600 border border-red-500/30 text-xs font-bold rounded-xl hover:bg-red-500/30 transition">
                                 Reset Room
                             </button>
                         </div>
@@ -434,8 +437,8 @@
 
                     <!-- Bidding Activity Log -->
                     <div class="glass-panel border border-borderGlow rounded-2xl p-4 shadow-xl">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 flex items-center justify-between">
-                            <span><i class="fa-solid fa-clock-rotate-left text-amber-400 mr-1.5"></i> Bidding Activity Log</span>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center justify-between">
+                            <span><i class="fa-solid fa-clock-rotate-left text-amber-700 mr-1.5"></i> Bidding Activity Log</span>
                         </h4>
                         
                         <div id="auction-bid-history-log" class="h-28 overflow-y-auto space-y-1.5 pr-1 text-xs">
@@ -450,10 +453,10 @@
             <div id="auction-subview-squad" class="hidden space-y-4">
                 <div class="glass-panel p-5 rounded-2xl border border-borderGlow flex items-center justify-between">
                     <div>
-                        <h3 class="text-base font-extrabold text-white" id="my-squad-team-name">My Squad Breakdown</h3>
-                        <p class="text-xs text-gray-400">View acquired players, retentions, and budget health.</p>
+                        <h3 class="text-base font-extrabold text-ink" id="my-squad-team-name">My Squad Breakdown</h3>
+                        <p class="text-xs text-slate-500">View acquired players, retentions, and budget health.</p>
                     </div>
-                    <select id="squadSelect" onchange="viewTeam=this.value;renderSquadView()" class="bg-deepNavy border border-borderGlow rounded-xl p-2 text-xs text-white">
+                    <select id="squadSelect" onchange="viewTeam=this.value;renderSquadView()" class="bg-deepNavy border border-borderGlow rounded-xl p-2 text-xs text-ink">
                     </select>
                 </div>
 
@@ -464,10 +467,10 @@
             <!-- ALL TEAMS MATRIX SUB TAB -->
             <div id="auction-subview-matrix" class="hidden space-y-4">
                 <div class="glass-panel border border-borderGlow rounded-2xl p-5">
-                    <h3 class="text-sm font-bold text-white mb-4">All Franchises Live Dashboard</h3>
+                    <h3 class="text-sm font-bold text-ink mb-4">All Franchises Live Dashboard</h3>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs text-gray-300">
-                            <thead class="bg-deepNavy text-gray-400 uppercase font-bold border-b border-borderGlow">
+                        <table class="w-full text-left text-xs text-slate-600">
+                            <thead class="bg-deepNavy text-slate-500 uppercase font-bold border-b border-borderGlow">
                                 <tr>
                                     <th class="p-3">Team</th>
                                     <th class="p-3">Manager</th>
@@ -489,24 +492,24 @@
         <!-- STEP 5: FINAL LEADERBOARD -->
         <section id="step-5-leaderboard" class="hidden space-y-8 max-w-5xl mx-auto">
             <div class="text-center space-y-3">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-400 rounded-full text-xs font-bold uppercase tracking-widest">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-500/20 border border-amber-500/40 text-amber-700 rounded-full text-xs font-bold uppercase tracking-widest">
                     <i class="fa-solid fa-trophy"></i> Auction Grand Finale
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-black text-white">Squad Rating Leaderboard</h2>
-                <p class="text-xs text-gray-400 max-w-md mx-auto">Calculated using Squad Strength Engine (Batting, Bowling, Balance, Overseas Limit & Purse Efficiency).</p>
+                <h2 class="text-3xl sm:text-4xl font-black text-ink">Squad Rating Leaderboard</h2>
+                <p class="text-xs text-slate-500 max-w-md mx-auto">Calculated using Squad Strength Engine (Batting, Bowling, Balance, Overseas Limit & Purse Efficiency).</p>
             </div>
 
             <div id="winner-hero-card" class="glass-panel-gold border-2 border-amber-500 p-8 rounded-3xl text-center shadow-2xl relative overflow-hidden glow-gold-shadow">
             </div>
 
             <div class="glass-panel border border-borderGlow rounded-2xl p-6 shadow-xl space-y-4">
-                <h3 class="text-sm font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-list-ol text-amber-400"></i> Overall Franchise Rankings & Awards
+                <h3 class="text-sm font-bold text-ink flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-amber-700"></i> Overall Franchise Rankings & Awards
                 </h3>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs text-gray-300">
-                        <thead class="bg-deepNavy text-gray-400 uppercase font-bold border-b border-borderGlow">
+                    <table class="w-full text-left text-xs text-slate-600">
+                        <thead class="bg-deepNavy text-slate-500 uppercase font-bold border-b border-borderGlow">
                             <tr>
                                 <th class="p-3">Rank</th>
                                 <th class="p-3">Franchise</th>
@@ -675,9 +678,9 @@
                     if (i === currentStep) {
                         pill.className = "px-3 py-1.5 rounded-lg bg-amber-500 text-black font-bold flex items-center gap-1.5 shadow";
                     } else if (i < currentStep) {
-                        pill.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5";
+                        pill.className = "px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-700 border border-emerald-500/30 flex items-center gap-1.5";
                     } else {
-                        pill.className = "px-3 py-1.5 rounded-lg bg-cardDark text-gray-400 border border-borderGlow flex items-center gap-1.5";
+                        pill.className = "px-3 py-1.5 rounded-lg bg-cardDark text-slate-500 border border-borderGlow flex items-center gap-1.5";
                     }
                 }
             }
@@ -815,8 +818,8 @@
                     const item = document.createElement('div');
                     item.className = "p-2.5 bg-deepNavy border border-borderGlow rounded-xl flex items-center justify-between";
                     item.innerHTML = `
-                        <span class="font-bold text-white truncate"><i class="fa-solid fa-circle text-[8px] mr-1.5" style="color:${t.color}"></i>${t.id}</span>
-                        <span class="text-[9px] font-extrabold px-2 py-0.5 rounded ${d.ownerUid ? 'bg-amber-500/20 text-amber-400' : 'bg-gray-700 text-gray-400'}">${d.ownerName || 'AI'}</span>
+                        <span class="font-bold text-ink truncate"><i class="fa-solid fa-circle text-[8px] mr-1.5" style="color:${t.color}"></i>${t.id}</span>
+                        <span class="text-[9px] font-extrabold px-2 py-0.5 rounded ${d.ownerUid ? 'bg-amber-500/20 text-amber-700' : 'bg-slate-200 text-slate-500'}">${d.ownerName || 'AI'}</span>
                     `;
                     list.appendChild(item);
                 });
@@ -851,7 +854,7 @@
 
                 card.className = `p-4 rounded-2xl border flex flex-col items-center justify-between gap-3 transition-all ${
                     isMine ? 'bg-amber-500/20 border-amber-500 scale-105 shadow-xl glow-gold-shadow' :
-                    (owned ? 'bg-deepNavy/40 border-borderGlow opacity-40 cursor-not-allowed' : 'bg-cardDark border-borderGlow hover:border-gray-500')
+                    (owned ? 'bg-deepNavy/40 border-borderGlow opacity-40 cursor-not-allowed' : 'bg-cardDark border-borderGlow hover:border-amber-400')
                 }`;
 
                 card.innerHTML = `
@@ -859,8 +862,8 @@
                         ${t.id}
                     </div>
                     <div class="text-center">
-                        <h4 class="font-extrabold text-white text-xs">${t.name}</h4>
-                        <p class="text-[10px] text-gray-400 mt-0.5">${owned ? (d.ownerName) : 'Available'}</p>
+                        <h4 class="font-extrabold text-ink text-xs">${t.name}</h4>
+                        <p class="text-[10px] text-slate-500 mt-0.5">${owned ? (d.ownerName) : 'Available'}</p>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -975,15 +978,15 @@
 
                 card.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-cardDark border border-borderGlow text-amber-400 flex items-center justify-center font-bold">
+                        <div class="w-10 h-10 rounded-lg bg-cardDark border border-borderGlow text-amber-700 flex items-center justify-center font-bold">
                             ${p.role}
                         </div>
                         <div>
-                            <h4 class="font-extrabold text-white text-xs">${p.name}</h4>
-                            <p class="text-[10px] text-gray-400">${p.country === 'IN' ? 'India' : p.country} · ${isUncappedRetention(p) ? 'Uncapped' : 'Capped'}</p>
+                            <h4 class="font-extrabold text-ink text-xs">${p.name}</h4>
+                            <p class="text-[10px] text-slate-500">${p.country === 'IN' ? 'India' : p.country} · ${isUncappedRetention(p) ? 'Uncapped' : 'Capped'}</p>
                         </div>
                     </div>
-                    <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-amber-400">
+                    <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-amber-700">
                         <input type="checkbox" name="retpick" value="${i}" ${selected ? 'checked' : ''} onchange="onRetentionToggle(this)" class="accent-amber-500 w-4 h-4"> Retain
                     </label>
                 `;
@@ -1081,7 +1084,7 @@
                     btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-amber-500 text-black shadow";
                 } else {
                     v.classList.add('hidden');
-                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white";
+                    btn.className = "px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-ink hover:bg-slate-100";
                 }
             });
 
@@ -1119,7 +1122,7 @@
                 logo.textContent = leader.id;
                 name.textContent = leader.name;
             } else {
-                logo.style.backgroundColor = '#4B5563';
+                logo.style.backgroundColor = '#CBD5E1';
                 logo.textContent = '?';
                 name.textContent = 'No Bids Placed';
             }
@@ -1141,16 +1144,16 @@
                 document.getElementById('rtm-panel-desc').textContent = `${myTeam} can match ${money(room.currentBid)} for ${p.name}.`;
                 document.getElementById('rtm-action-btns').innerHTML = `
                     <button onclick="rtmAction('accept')" class="px-4 py-2 bg-amber-500 text-black font-extrabold text-xs rounded-xl">Use RTM</button>
-                    <button onclick="rtmAction('decline')" class="px-4 py-2 bg-cardDark border border-borderGlow text-gray-300 font-bold text-xs rounded-xl">Decline</button>
+                    <button onclick="rtmAction('decline')" class="px-4 py-2 bg-cardDark border border-borderGlow text-slate-600 font-bold text-xs rounded-xl">Decline</button>
                 `;
             } else if (room.bidState === 'rtm_raise' && myTeam === room.leaderTeam) {
                 rtmPanel.classList.remove('hidden');
                 normPanel.classList.add('hidden');
                 document.getElementById('rtm-panel-desc').textContent = `RTM Activated! Raise your bid or pass.`;
                 document.getElementById('rtm-action-btns').innerHTML = `
-                    <input id="rtmRaiseAmount" type="number" min="${room.currentBid + 5}" step="5" value="${room.currentBid + inc(room.currentBid)}" class="bg-deepNavy border border-borderGlow rounded-xl px-3 py-1.5 text-xs text-white">
+                    <input id="rtmRaiseAmount" type="number" min="${room.currentBid + 5}" step="5" value="${room.currentBid + inc(room.currentBid)}" class="bg-deepNavy border border-borderGlow rounded-xl px-3 py-1.5 text-xs text-ink">
                     <button onclick="rtmAction('raise')" class="px-4 py-2 bg-amber-500 text-black font-extrabold text-xs rounded-xl">Raise Bid</button>
-                    <button onclick="rtmAction('pass')" class="px-4 py-2 bg-cardDark border border-borderGlow text-gray-300 font-bold text-xs rounded-xl">Pass</button>
+                    <button onclick="rtmAction('pass')" class="px-4 py-2 bg-cardDark border border-borderGlow text-slate-600 font-bold text-xs rounded-xl">Pass</button>
                 `;
             } else if (room.bidState === 'rtm_final' && myTeam === room.rtmTeam) {
                 rtmPanel.classList.remove('hidden');
@@ -1158,7 +1161,7 @@
                 document.getElementById('rtm-panel-desc').textContent = `Final RTM decision: Match ${money(room.currentBid)} to sign ${p.name}.`;
                 document.getElementById('rtm-action-btns').innerHTML = `
                     <button onclick="rtmAction('match')" class="px-4 py-2 bg-amber-500 text-black font-extrabold text-xs rounded-xl">Match & Buy</button>
-                    <button onclick="rtmAction('decline')" class="px-4 py-2 bg-cardDark border border-borderGlow text-gray-300 font-bold text-xs rounded-xl">Decline</button>
+                    <button onclick="rtmAction('decline')" class="px-4 py-2 bg-cardDark border border-borderGlow text-slate-600 font-bold text-xs rounded-xl">Decline</button>
                 `;
             } else {
                 rtmPanel.classList.add('hidden');
@@ -1356,15 +1359,15 @@
 
             container.innerHTML = `
                 <div class="p-4 bg-deepNavy border-b border-borderGlow flex justify-between items-center">
-                    <span class="font-bold text-white text-xs">${teamById(targetId).name} (${d.squad.length} Players)</span>
-                    <span class="font-extrabold text-amber-400 text-xs">Purse Left: ${money(d.purse)}</span>
+                    <span class="font-bold text-ink text-xs">${teamById(targetId).name} (${d.squad.length} Players)</span>
+                    <span class="font-extrabold text-amber-700 text-xs">Purse Left: ${money(d.purse)}</span>
                 </div>
-                <table class="w-full text-left text-xs text-gray-300">
-                    <thead class="bg-deepNavy text-gray-400 uppercase font-bold border-b border-borderGlow">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-deepNavy text-slate-500 uppercase font-bold border-b border-borderGlow">
                         <tr><th class="p-3">Player</th><th class="p-3">Role</th><th class="p-3">Price</th></tr>
                     </thead>
                     <tbody class="divide-y divide-borderGlow/60">
-                        ${(d.squad || []).map(p => `<tr><td class="p-3 font-bold text-white">${p.name} ${p.retained ? '<span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded ml-1">Retained</span>' : ''}</td><td class="p-3">${p.role}</td><td class="p-3 font-extrabold text-amber-400">${money(p.price)}</td></tr>`).join('') || '<tr><td colspan="3" class="p-3 text-center text-gray-500">No players acquired yet.</td></tr>'}
+                        ${(d.squad || []).map(p => `<tr><td class="p-3 font-bold text-ink">${p.name} ${p.retained ? '<span class="text-[9px] bg-amber-500/20 text-amber-700 px-1.5 py-0.5 rounded ml-1">Retained</span>' : ''}</td><td class="p-3">${p.role}</td><td class="p-3 font-extrabold text-amber-700">${money(p.price)}</td></tr>`).join('') || '<tr><td colspan="3" class="p-3 text-center text-slate-400">No players acquired yet.</td></tr>'}
                     </tbody>
                 </table>
             `;
@@ -1376,9 +1379,9 @@
                 const d = teamsState[t.id] || createInitialTeam(0);
                 return `
                     <tr>
-                        <td class="p-3 font-bold text-white flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${t.color}"></span>${t.name}</td>
-                        <td class="p-3 text-gray-400">${d.ownerName || 'AI'}</td>
-                        <td class="p-3 font-extrabold text-amber-400">${money(d.purse)}</td>
+                        <td class="p-3 font-bold text-ink flex items-center gap-2"><span class="w-3 h-3 rounded-full" style="background:${t.color}"></span>${t.name}</td>
+                        <td class="p-3 text-slate-500">${d.ownerName || 'AI'}</td>
+                        <td class="p-3 font-extrabold text-amber-700">${money(d.purse)}</td>
                         <td class="p-3">${d.squad.length} / 25</td>
                         <td class="p-3">${overseasCount(d)} / 8</td>
                         <td class="p-3 font-bold text-cyanNeon">${d.rtm || 0} Cards</td>
@@ -1408,23 +1411,23 @@
                 <div class="w-16 h-16 rounded-2xl bg-amber-500 text-black font-black text-2xl flex items-center justify-center mx-auto mb-3 shadow-xl">
                     1st
                 </div>
-                <h3 class="text-3xl font-black text-white">${winner.team.name}</h3>
-                <p class="text-xs text-amber-400 font-bold uppercase tracking-widest mt-1">🏆 Champion Franchise · Score: ${winner.score}/100</p>
-                <p class="text-xs text-gray-400 mt-3 max-w-sm mx-auto">Manager: ${winner.data.ownerName || 'AI'} | Remaining Purse: ${money(winner.data.purse)}</p>
+                <h3 class="text-3xl font-black text-ink">${winner.team.name}</h3>
+                <p class="text-xs text-amber-700 font-bold uppercase tracking-widest mt-1">🏆 Champion Franchise · Score: ${winner.score}/100</p>
+                <p class="text-xs text-slate-500 mt-3 max-w-sm mx-auto">Manager: ${winner.data.ownerName || 'AI'} | Remaining Purse: ${money(winner.data.purse)}</p>
             `;
 
             const tbody = document.getElementById('leaderboard-tbody');
             tbody.innerHTML = ranked.map((item, idx) => `
                 <tr>
-                    <td class="p-3 font-extrabold text-amber-400">#${idx + 1}</td>
-                    <td class="p-3 font-bold text-white flex items-center gap-2">
+                    <td class="p-3 font-extrabold text-amber-700">#${idx + 1}</td>
+                    <td class="p-3 font-bold text-ink flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full" style="background:${item.team.color}"></span>
                         ${item.team.name}
                     </td>
-                    <td class="p-3 font-black text-emerald-400">${item.score} / 100</td>
+                    <td class="p-3 font-black text-emerald-700">${item.score} / 100</td>
                     <td class="p-3">${item.data.squad.length} Players</td>
-                    <td class="p-3 font-bold text-amber-400">${money(item.data.purse)}</td>
-                    <td class="p-3"><span class="px-2.5 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold rounded-lg">${idx === 0 ? 'Top Championship XI' : 'Strong Competitor'}</span></td>
+                    <td class="p-3 font-bold text-amber-700">${money(item.data.purse)}</td>
+                    <td class="p-3"><span class="px-2.5 py-1 bg-amber-500/10 text-amber-700 border border-amber-500/20 text-[10px] font-bold rounded-lg">${idx === 0 ? 'Top Championship XI' : 'Strong Competitor'}</span></td>
                 </tr>
             `).join('');
 
@@ -1436,9 +1439,9 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
 
-            let bgClass = "bg-cardDark border-amber-500 text-amber-400";
-            if (type === 'error') bgClass = "bg-red-950 border-red-500 text-red-300";
-            if (type === 'success') bgClass = "bg-emerald-950 border-emerald-500 text-emerald-300";
+            let bgClass = "bg-cardDark border-amber-500 text-amber-700";
+            if (type === 'error') bgClass = "bg-red-50 border-red-500 text-red-700";
+            if (type === 'success') bgClass = "bg-emerald-50 border-emerald-500 text-emerald-700";
 
             toast.className = `px-4 py-3 rounded-xl border ${bgClass} text-xs font-bold shadow-2xl transition-all duration-300 transform translate-y-2 pointer-events-auto flex items-center gap-2`;
             toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${message}`;
