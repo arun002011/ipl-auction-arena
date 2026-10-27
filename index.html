@@ -91,6 +91,22 @@
         #franchise-selection-grid button:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 14px 28px -14px rgba(15, 23, 42, 0.30); }
         table thead { background: #F8FAFC !important; }
         table tbody tr:hover { background: rgba(245, 158, 11, 0.06); }
+        /* LED scoreboard */
+        .led-board {
+            background: radial-gradient(120% 140% at 50% 0%, #1b2438 0%, #0b101c 70%);
+            border: 1px solid #263450;
+            box-shadow: inset 0 0 0 3px #0b101c, inset 0 0 28px rgba(245,158,11,.10), 0 14px 30px -16px rgba(15,23,42,.55);
+            position: relative; overflow: hidden;
+        }
+        .led-board::after { content:""; position:absolute; inset:0; pointer-events:none;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px); }
+        .led-digits { font-family: 'Courier New', ui-monospace, monospace; color:#FBBF24; text-shadow: 0 0 12px rgba(251,191,36,.65); letter-spacing:.02em; }
+        .bid-flash { animation: bidflash .6s ease-out; }
+        @keyframes bidflash { 0%{ transform:scale(1.12); text-shadow:0 0 28px rgba(251,191,36,1);} 100%{ transform:scale(1);} }
+        .call-pulse { animation: callpulse .9s ease-in-out infinite; }
+        @keyframes callpulse { 50% { opacity:.55; } }
+        .jersey { position:relative; clip-path: polygon(18% 0, 38% 0, 50% 12%, 62% 0, 82% 0, 100% 22%, 86% 38%, 86% 100%, 14% 100%, 14% 38%, 0 22%); }
+        .player-photo { background: linear-gradient(160deg, var(--tc,#F59E0B) 0%, #0F172A 130%); }
         code { background: #F1F5F9; padding: 1px 6px; border-radius: 6px; }
     </style>
 </head>
@@ -359,8 +375,12 @@
                         </div>
 
                         <div class="flex items-center gap-4 mb-5">
-                            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-cardDark to-deepNavy border-2 border-amber-500/40 flex items-center justify-center text-4xl text-amber-700 shadow-inner">
-                                <i id="player-icon-avatar" class="fa-solid fa-user-ninja"></i>
+                            <div class="relative shrink-0">
+                                <div id="player-photo" class="player-photo w-24 h-24 sm:w-28 sm:h-28 rounded-2xl border-2 border-white shadow-lg flex flex-col items-center justify-center text-white overflow-hidden">
+                                    <span id="player-initials" class="text-3xl font-black tracking-tight drop-shadow">--</span>
+                                    <span id="player-jersey-no" class="text-[10px] font-bold opacity-80 tracking-widest mt-0.5">IPL 2026</span>
+                                </div>
+                                <span id="player-flag" class="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-white border border-borderGlow shadow flex items-center justify-center text-base">🏏</span>
                             </div>
                             <div class="flex-1">
                                 <span id="player-set-tag" class="text-[10px] font-extrabold uppercase text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Set 1</span>
@@ -369,6 +389,7 @@
                                 <div class="mt-2 text-xs font-bold text-slate-600">
                                     Base Price: <span id="player-base-price" class="text-amber-700">₹2.00 Cr</span>
                                 </div>
+                                <div id="player-former-chip" class="mt-2 inline-flex items-center gap-1.5 text-[10px] font-bold text-slate-600 bg-slate-100 border border-borderGlow rounded-full px-2 py-0.5"></div>
                             </div>
                         </div>
 
@@ -387,6 +408,7 @@
                                 12s
                             </div>
                         </div>
+                        <div class="h-1.5 bg-slate-200 rounded-full mt-3 overflow-hidden"><div id="timer-bar" class="h-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 rounded-full transition-all duration-200" style="width:100%"></div></div>
                     </div>
                 </div>
 
@@ -395,11 +417,12 @@
                     
                     <div class="glass-panel border border-borderGlow rounded-3xl p-6 shadow-2xl space-y-5">
                         
-                        <div class="bg-gradient-to-r from-deepNavy via-cardDark to-deepNavy border border-amber-500/30 rounded-2xl p-5 text-center">
-                            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Current Highest Offer</p>
-                            <p id="live-bid-amount" class="text-4xl sm:text-5xl font-black text-amber-700 my-1 tracking-tight">₹0.00 Cr</p>
+                        <div class="led-board rounded-2xl p-5 text-center">
+                            <p class="text-[10px] uppercase font-bold tracking-[0.25em] text-slate-400 relative z-10"><span class="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse mr-1.5 align-middle"></span>Current Highest Offer</p>
+                            <p id="live-bid-amount" class="led-digits text-4xl sm:text-6xl font-black my-2 relative z-10">₹0.00 Cr</p>
+                            <p id="auctioneer-call" class="relative z-10 text-[11px] font-extrabold uppercase tracking-[0.3em] text-slate-400 h-4">Opening bid</p>
                             
-                            <div id="highest-bidder-pill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-borderGlow text-ink text-xs font-bold mt-1">
+                            <div id="highest-bidder-pill" class="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs font-bold mt-3">
                                 <span id="highest-bidder-logo" class="w-4 h-4 rounded-full bg-slate-300 flex items-center justify-center text-[9px] font-black">?</span>
                                 <span id="highest-bidder-name">No Bids Placed</span>
                             </div>
@@ -605,6 +628,28 @@
         let teamsState = {}, myTeam = null, isHost = false;
         let unsubRoom = null, unsubTeams = null, tick = null, processing = false, lastAiAt = 0;
         let currentStep = 1, viewTeam = 'CSK';
+        let lastResultStamp;
+        const FLAGS = { 'IN': '🇮🇳', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'South Africa': '🇿🇦', 'Australia': '🇦🇺', 'Sri Lanka': '🇱🇰', 'West Indies': '🏝️', 'Afghanistan': '🇦🇫', 'New Zealand': '🇳🇿' };
+
+        /* Small synthesized sounds (no audio files needed) */
+        let audioCtx = null;
+        function playSound(kind) {
+            try {
+                audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+                const t0 = audioCtx.currentTime;
+                const tone = (freq, start, dur, type = 'sine', vol = 0.08) => {
+                    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+                    o.type = type; o.frequency.setValueAtTime(freq, t0 + start);
+                    g.gain.setValueAtTime(vol, t0 + start);
+                    g.gain.exponentialRampToValueAtTime(0.0001, t0 + start + dur);
+                    o.connect(g); g.connect(audioCtx.destination);
+                    o.start(t0 + start); o.stop(t0 + start + dur);
+                };
+                if (kind === 'bid') tone(880, 0, 0.12, 'triangle', 0.05);
+                if (kind === 'gavel') { tone(140, 0, 0.18, 'square', 0.12); tone(110, 0.22, 0.25, 'square', 0.12); }
+                if (kind === 'unsold') { tone(300, 0, 0.2, 'sawtooth', 0.05); tone(220, 0.2, 0.3, 'sawtooth', 0.05); }
+            } catch (e) { /* audio blocked until user interaction */ }
+        }
 
         /* Helper Utilities */
         const teamById = id => TEAMS.find(t => t.id === id) || TEAMS[0];
@@ -919,12 +964,14 @@
                         throw new Error('This franchise has already been claimed by another participant.');
                     }
 
-                    const allTeamsSnap = await tx.get(roomRef.collection('teams'));
+                    // Transactions can only read single documents, so read each team doc individually
+                    const otherSnaps = await Promise.all(
+                        TEAMS.filter(t => t.id !== id).map(t => tx.get(roomRef.collection('teams').doc(t.id)))
+                    );
                     let previousTeamId = null;
 
-                    allTeamsSnap.forEach((doc) => {
-                        const data = doc.data();
-                        if (data.ownerUid === user.uid && doc.id !== id) {
+                    otherSnaps.forEach((doc) => {
+                        if (doc.exists && doc.data().ownerUid === user.uid) {
                             previousTeamId = doc.id;
                         }
                     });
@@ -1109,9 +1156,26 @@
                 document.getElementById('player-origin-badge').textContent = p.country;
                 document.getElementById('player-set-tag').textContent = p.set || 'AUCTION POOL';
                 document.getElementById('player-base-price').textContent = money(p.base);
+
+                const former = p.formerTeam ? teamById(p.formerTeam) : null;
+                const initials = p.name.split(' ').filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+                const photo = document.getElementById('player-photo');
+                photo.style.setProperty('--tc', former ? former.color : '#F59E0B');
+                document.getElementById('player-initials').textContent = initials;
+                document.getElementById('player-jersey-no').textContent = (p.role || '') + ' · ' + (p.set || 'POOL');
+                document.getElementById('player-flag').textContent = FLAGS[p.country] || '🌍';
+                document.getElementById('player-former-chip').innerHTML = former
+                    ? `<span class="w-2 h-2 rounded-full" style="background:${former.color}"></span> Last season: ${former.id} · RTM eligible`
+                    : 'New to the pool';
             }
 
-            document.getElementById('live-bid-amount').textContent = money(room.currentBid || p?.base || 0);
+            const bidEl = document.getElementById('live-bid-amount');
+            const bidText = money(room.currentBid || p?.base || 0);
+            if (bidEl.textContent !== bidText) {
+                bidEl.textContent = bidText;
+                bidEl.classList.remove('bid-flash'); void bidEl.offsetWidth; bidEl.classList.add('bid-flash');
+                if (room.currentBid) playSound('bid');
+            }
             
             const pill = document.getElementById('highest-bidder-pill');
             const logo = document.getElementById('highest-bidder-logo');
@@ -1170,7 +1234,27 @@
 
             // Log activity
             const logContainer = document.getElementById('auction-bid-history-log');
-            logContainer.innerHTML = (room.log || []).slice(-8).reverse().map(x => `<div class="bg-deepNavy p-2 rounded-lg border border-borderGlow/60">${x}</div>`).join('');
+            logContainer.innerHTML = (room.log || []).slice(-8).reverse().map(x => {
+                const m = String(x).match(/^(CSK|MI|RCB|KKR|DC|PBKS|RR|SRH|GT|LSG)\b/);
+                const dot = m ? `<span class="inline-block w-2 h-2 rounded-full mr-2" style="background:${teamById(m[1]).color}"></span>` : '<i class="fa-solid fa-bullhorn text-amber-600 mr-2 text-[10px]"></i>';
+                return `<div class="bg-deepNavy p-2 rounded-lg border border-borderGlow/60 flex items-center">${dot}<span>${x}</span></div>`;
+            }).join('');
+
+            // SOLD / UNSOLD stamp + gavel
+            const lastLog = (room.log || []).filter(x => /^SOLD!|goes UNSOLD/.test(x)).slice(-1)[0] || null;
+            if (lastResultStamp === undefined) { lastResultStamp = lastLog; }
+            else if (lastLog && lastLog !== lastResultStamp) {
+                lastResultStamp = lastLog;
+                const sold = lastLog.startsWith('SOLD!');
+                const stamp = document.getElementById('auction-stamp');
+                const st = document.getElementById('auction-stamp-text');
+                st.textContent = sold ? 'SOLD' : 'UNSOLD';
+                st.className = `px-6 py-2 border-4 ${sold ? 'border-emerald-500 text-emerald-700' : 'border-red-500 text-red-600'} font-black text-3xl uppercase tracking-widest rounded-xl bg-white/90 backdrop-blur stamp-animation shadow-2xl`;
+                stamp.classList.remove('hidden');
+                playSound(sold ? 'gavel' : 'unsold');
+                if (sold) confetti({ particleCount: 60, spread: 60, origin: { y: 0.5 } });
+                setTimeout(() => stamp.classList.add('hidden'), 2600);
+            }
 
             updateTimerUI();
         }
@@ -1178,7 +1262,24 @@
         function updateTimerUI() {
             if (!room || room.phase !== 'auction') return;
             const left = Math.max(0, room.deadline - Date.now());
-            document.getElementById('auction-timer-num').textContent = `${Math.ceil(left / 1000)}s`;
+            const secs = Math.ceil(left / 1000);
+            document.getElementById('auction-timer-num').textContent = `${secs}s`;
+            const bar = document.getElementById('timer-bar');
+            if (bar) bar.style.width = Math.min(100, (left / 12000) * 100) + '%';
+
+            const call = document.getElementById('auctioneer-call');
+            if (call) {
+                let txt = 'Opening bid', cls = 'text-slate-400';
+                if (room.bidState && room.bidState.startsWith('rtm')) { txt = 'Right to Match in progress'; cls = 'text-amber-300 call-pulse'; }
+                else if (room.currentBid) {
+                    if (secs <= 2) { txt = 'Going thrice…'; cls = 'text-red-400 call-pulse'; }
+                    else if (secs <= 4) { txt = 'Going twice…'; cls = 'text-orange-300 call-pulse'; }
+                    else if (secs <= 6) { txt = 'Going once…'; cls = 'text-amber-300'; }
+                    else { txt = 'Bid is with ' + (room.leaderTeam || ''); cls = 'text-emerald-300'; }
+                }
+                call.textContent = txt;
+                call.className = `relative z-10 text-[11px] font-extrabold uppercase tracking-[0.3em] h-4 ${cls}`;
+            }
         }
 
         async function placeBid() {
