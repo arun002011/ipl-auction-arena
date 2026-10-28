@@ -107,6 +107,23 @@
         @keyframes callpulse { 50% { opacity:.55; } }
         .jersey { position:relative; clip-path: polygon(18% 0, 38% 0, 50% 12%, 62% 0, 82% 0, 100% 22%, 86% 38%, 86% 100%, 14% 100%, 14% 38%, 0 22%); }
         .player-photo { background: linear-gradient(160deg, var(--tc,#F59E0B) 0%, #0F172A 130%); }
+        /* Broadcast look */
+        .stage-dark { background: linear-gradient(145deg,#0B1B3F 0%,#10275A 55%,#1A1240 100%) !important; border:1px solid rgba(251,191,36,.5) !important; position:relative; }
+        .stage-dark::before { content:""; position:absolute; inset:0 auto 0 0; width:9px; background:var(--tc,#F59E0B); z-index:1; }
+        .stage-dark .text-ink { color:#fff !important; } .stage-dark .text-slate-500 { color:#9FB0D0 !important; } .stage-dark .text-slate-600 { color:#C9D5EE !important; }
+        .stage-dark .text-amber-700 { color:#FBBF24 !important; } .stage-dark .text-red-600 { color:#F87171 !important; }
+        .stage-dark .bg-deepNavy { background:rgba(255,255,255,.08) !important; } .stage-dark [class*="border-borderGlow"] { border-color:rgba(255,255,255,.14) !important; }
+        .stage-dark #player-role-badge { color:#67E8F9 !important; border-color:rgba(103,232,249,.45) !important; }
+        .ticker { background:linear-gradient(90deg,#0B1B3F,#173A7A); color:#fff; border-radius:14px; overflow:hidden; display:flex; align-items:center; box-shadow:0 10px 24px -14px rgba(11,27,63,.7); }
+        .ticker-live { background:#EF4444; font-weight:800; font-size:11px; letter-spacing:.2em; padding:.7rem 1rem; flex:none; }
+        .ticker-track { display:inline-block; white-space:nowrap; padding-left:100%; font-size:12px; font-weight:600; animation:tick 32s linear infinite; }
+        @keyframes tick { to { transform:translateX(-100%); } }
+        .fstrip { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:.6rem; }
+        @media (max-width:768px){ .fstrip { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        .fchip { position:relative; display:flex; align-items:center; gap:.6rem; padding:.6rem .7rem; border-radius:14px; background:#fff; border:1px solid #E2E8F0; border-bottom:4px solid var(--tc); transition:all .25s; }
+        .fchip-lead { box-shadow:0 0 0 2px var(--tc), 0 12px 26px -10px var(--tc); transform:translateY(-4px); }
+        .fchip-logo { width:2.5rem; height:2.5rem; border-radius:9999px; background:var(--tc); color:#fff; font-weight:800; font-size:.7rem; display:flex; align-items:center; justify-content:center; flex:none; }
+        .fchip .me { position:absolute; top:-8px; right:8px; background:#0F172A; color:#fff; font-size:8px; font-weight:800; padding:1px 7px; border-radius:9999px; }
         code { background: #F1F5F9; padding: 1px 6px; border-radius: 6px; }
     </style>
 </head>
@@ -179,9 +196,11 @@
 
         <!-- STEP 1: ROOM CREATION & JOINING -->
         <section id="step-1-room" class="space-y-8 max-w-4xl mx-auto">
-            <div class="text-center space-y-3">
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-ink tracking-tight">IPL 2026 Auction Arena</h2>
-                <p class="text-sm text-slate-500 max-w-lg mx-auto">Create a room as Host or join an existing session with live Firebase sync.</p>
+            <div class="relative overflow-hidden rounded-3xl text-center text-white px-6 py-10" style="background:linear-gradient(135deg,#0B1B3F 0%,#173A7A 55%,#3B1D6E 100%);box-shadow:0 24px 50px -24px rgba(11,27,63,.8)">
+                <div class="absolute -top-16 -right-10 w-64 h-64 rounded-full" style="background:radial-gradient(circle,rgba(251,191,36,.35),transparent 65%)"></div>
+                <span class="inline-flex items-center gap-2 text-[11px] font-extrabold tracking-[0.3em] bg-red-500 px-3 py-1 rounded-full"><span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>LIVE AUCTION</span>
+                <h2 class="text-4xl sm:text-5xl font-black tracking-tight mt-4">IPL <span style="color:#FBBF24">2026</span> MEGA AUCTION</h2>
+                <p class="text-sm text-blue-100 max-w-xl mx-auto mt-2">10 franchises · ₹120 Cr purse each · 25-man squads · 8 overseas · 6 RTM cards. Take a paddle and build your champion squad.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -328,6 +347,7 @@
 
         <!-- STEP 4: LIVE AUCTION HUB -->
         <section id="step-4-auction" class="hidden space-y-6">
+            <div class="ticker"><span class="ticker-live"><i class="fa-solid fa-tower-broadcast mr-1.5"></i>LIVE</span><div class="overflow-hidden flex-1"><span id="ticker-text" class="ticker-track">Welcome to the IPL 2026 Mega Auction</span></div></div>
 
             <div class="flex items-center justify-between bg-cardDark/80 p-2 rounded-2xl border border-borderGlow">
                 <div class="flex gap-1">
@@ -357,7 +377,7 @@
 
                 <!-- Current Player Card (5 cols) -->
                 <div class="lg:col-span-5 space-y-4">
-                    <div class="glass-panel border border-borderGlow rounded-3xl p-6 relative overflow-hidden shadow-2xl glow-gold-shadow">
+                    <div id="player-card" class="stage-dark glass-panel border border-borderGlow rounded-3xl p-6 pl-8 relative overflow-hidden shadow-2xl glow-gold-shadow">
                         
                         <div id="auction-stamp" class="hidden absolute top-10 right-6 z-20 pointer-events-none">
                             <div id="auction-stamp-text" class="px-6 py-2 border-4 border-emerald-500 text-emerald-700 font-black text-3xl uppercase tracking-widest rounded-xl bg-deepNavy/90 backdrop-blur stamp-animation shadow-2xl">
@@ -442,7 +462,7 @@
                         <!-- Place Bid Button -->
                         <div id="normal-bid-panel" class="space-y-3">
                             <button id="btn-place-bid" onclick="placeBid()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-black text-base rounded-2xl transition shadow-xl shadow-amber-500/20 disabled:opacity-40 disabled:cursor-not-allowed">
-                                Place Bid (<span id="next-bid-amount-text">₹0.00 Cr</span>)
+                                <i class="fa-solid fa-hand mr-2"></i>RAISE PADDLE · <span id="next-bid-amount-text">₹0.00 Cr</span>
                             </button>
                             <p id="bid-subtext" class="text-center text-[11px] text-slate-500">My Team Purse: <span id="my-purse-display" class="text-amber-700 font-bold">₹0.00 Cr</span></p>
                         </div>
@@ -510,6 +530,10 @@
                 </div>
             </div>
 
+            <div>
+                <p class="text-[10px] font-extrabold uppercase tracking-[0.25em] text-slate-500 mb-2"><i class="fa-solid fa-sack-dollar text-amber-600 mr-1.5"></i>Franchise Purse Board</p>
+                <div id="franchise-strip" class="fstrip"></div>
+            </div>
         </section>
 
         <!-- STEP 5: FINAL LEADERBOARD -->
@@ -629,6 +653,8 @@
         let unsubRoom = null, unsubTeams = null, tick = null, processing = false, lastAiAt = 0;
         let currentStep = 1, viewTeam = 'CSK';
         let lastResultStamp;
+        const SET_NAMES = { M1: 'Marquee Set 1', M2: 'Marquee Set 2', BA: 'Batters', AL: 'All-rounders', WK: 'Wicket-keepers', FA: 'Fast Bowlers' };
+        const ROLE_NAMES = { WK: 'Wicket-keeper', BAT: 'Batter', BOWL: 'Bowler', AR: 'All-rounder' };
         const FLAGS = { 'IN': '🇮🇳', 'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'South Africa': '🇿🇦', 'Australia': '🇦🇺', 'Sri Lanka': '🇱🇰', 'West Indies': '🏝️', 'Afghanistan': '🇦🇫', 'New Zealand': '🇳🇿' };
 
         /* Small synthesized sounds (no audio files needed) */
@@ -895,6 +921,7 @@
 
                 const card = document.createElement('button');
                 card.onclick = () => claimTeam(t.id);
+                card.style.borderTop = `5px solid ${t.color}`;
                 if (owned && !isMine) card.disabled = true;
 
                 card.className = `p-4 rounded-2xl border flex flex-col items-center justify-between gap-3 transition-all ${
@@ -903,7 +930,7 @@
                 }`;
 
                 card.innerHTML = `
-                    <div class="w-12 h-12 rounded-2xl font-black text-sm flex items-center justify-center text-white shadow-md" style="background-color: ${t.color}">
+                    <div class="w-14 h-14 rounded-full ring-4 ring-white font-black text-sm flex items-center justify-center text-white shadow-md" style="background-color: ${t.color}">
                         ${t.id}
                     </div>
                     <div class="text-center">
@@ -1151,10 +1178,11 @@
 
             if (p) {
                 document.getElementById('player-name').textContent = p.name;
-                document.getElementById('player-subinfo').textContent = `${p.role} · ${p.country === 'IN' ? 'India' : p.country}`;
+                document.getElementById('player-subinfo').textContent = `${ROLE_NAMES[p.role] || p.role} · ${p.country === 'IN' ? 'India' : p.country} · Lot ${(room.playerIndex || 0) + 1} of ${(room.playerQueue || []).length || PLAYERS.length}`;
                 document.getElementById('player-role-badge').textContent = p.role;
                 document.getElementById('player-origin-badge').textContent = p.country;
-                document.getElementById('player-set-tag').textContent = p.set || 'AUCTION POOL';
+                document.getElementById('player-set-tag').textContent = SET_NAMES[p.set] || p.set || 'AUCTION POOL';
+                document.getElementById('player-card').style.setProperty('--tc', (p.formerTeam ? teamById(p.formerTeam).color : '#F59E0B'));
                 document.getElementById('player-base-price').textContent = money(p.base);
 
                 const former = p.formerTeam ? teamById(p.formerTeam) : null;
@@ -1195,6 +1223,7 @@
             const btnBid = document.getElementById('btn-place-bid');
             const can = !!(team && p && room.phase === 'auction' && room.bidState === 'live' && room.leaderTeam !== myTeam && team.purse >= nextBid() && team.squad.length < 25 && (isIndian(p.country) || overseasCount(team) < 8));
             btnBid.disabled = !can;
+            if (myTeam) { const c = teamById(myTeam).color; btnBid.style.background = `linear-gradient(135deg, ${c}, ${c}d9)`; btnBid.style.color = '#fff'; }
             document.getElementById('next-bid-amount-text').textContent = money(nextBid());
             document.getElementById('my-purse-display').textContent = money(team?.purse || 0);
 
@@ -1248,15 +1277,33 @@
                 const sold = lastLog.startsWith('SOLD!');
                 const stamp = document.getElementById('auction-stamp');
                 const st = document.getElementById('auction-stamp-text');
-                st.textContent = sold ? 'SOLD' : 'UNSOLD';
+                const sm = lastLog.match(/ to (\w+) for (.+)\.$/);
+                st.innerHTML = sold && sm ? `SOLD<div style="font-size:.85rem;letter-spacing:.12em">TO ${sm[1]} · ${sm[2]}</div>` : (sold ? 'SOLD' : 'UNSOLD');
                 st.className = `px-6 py-2 border-4 ${sold ? 'border-emerald-500 text-emerald-700' : 'border-red-500 text-red-600'} font-black text-3xl uppercase tracking-widest rounded-xl bg-white/90 backdrop-blur stamp-animation shadow-2xl`;
+                if (sold && sm) { st.style.borderColor = teamById(sm[1]).color; st.style.color = teamById(sm[1]).color; } else { st.style.borderColor = ''; st.style.color = ''; }
                 stamp.classList.remove('hidden');
                 playSound(sold ? 'gavel' : 'unsold');
                 if (sold) confetti({ particleCount: 60, spread: 60, origin: { y: 0.5 } });
                 setTimeout(() => stamp.classList.add('hidden'), 2600);
             }
 
+            renderFranchiseStrip();
+            const tk = (room.log || []).slice(-6).join('   ◆   ') || 'Auction in progress';
+            document.getElementById('ticker-text').textContent = tk;
             updateTimerUI();
+        }
+
+        function renderFranchiseStrip() {
+            const el = document.getElementById('franchise-strip');
+            if (!el) return;
+            el.innerHTML = TEAMS.map(t => {
+                const d = teamsState[t.id] || createInitialTeam(0);
+                return `<div class="fchip ${room && room.leaderTeam === t.id ? 'fchip-lead' : ''}" style="--tc:${t.color}">
+                    <div class="fchip-logo">${t.id}</div>
+                    <div class="min-w-0"><p class="font-extrabold text-ink text-sm leading-tight">${money(d.purse)}</p>
+                    <p class="text-[10px] text-slate-500 font-semibold truncate">${d.squad.length}/25 · OS ${overseasCount(d)}/8 · RTM ${d.rtm || 0}</p></div>
+                    ${myTeam === t.id ? '<span class="me">YOU</span>' : ''}</div>`;
+            }).join('');
         }
 
         function updateTimerUI() {
